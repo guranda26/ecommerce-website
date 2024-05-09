@@ -5,8 +5,9 @@ module.exports = {
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:@typescript-eslint/recommended-type-checked",
     ],
     "settings": {
         "react": {
@@ -33,7 +34,8 @@ module.exports = {
         "project": ["./tsconfig.json", "./tsconfig.node.json"],
         "ecmaFeatures": {
             "jsx": true
-        }
+        },
+        "tsconfigRootDir": __dirname,
     },
     "plugins": [
         "@typescript-eslint",
