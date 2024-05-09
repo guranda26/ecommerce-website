@@ -8,6 +8,11 @@ module.exports = {
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "overrides": [
         {
             "env": {
@@ -24,12 +29,17 @@ module.exports = {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": ["./tsconfig.json", "./tsconfig.node.json"],
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "plugins": [
         "@typescript-eslint",
         "react"
     ],
     "rules": {
+        "react/react-in-jsx-scope": 0,
     }
 }
