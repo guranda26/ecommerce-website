@@ -75,4 +75,6 @@ Runs ESLint on the src/ directory. This script checks for linting errors and att
 Runs Prettier on files in the src/ directory. This command will format source files to ensure code consistency and style adherence.
 
 ### `npm run preview`
+
 This command is intended for previewing the build locally and not meant as a production server.
+
