@@ -45,10 +45,16 @@
     "vite": "^5.2.0",
     "vitest": "^1.6.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
   "lint-staged": {
-    "*.{js,css,ts,tsx,jsx}": [
-      "prettier --write",
-      "eslint --fix"
+    "./src/*.{js,jsx,ts,tsx}": [
+      "npm run format",
+      "npm run lint"
     ]
   }
 }
