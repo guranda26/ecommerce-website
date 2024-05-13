@@ -4,8 +4,11 @@ module.exports = {
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime",
+        'eslint:recommended',
+        'plugin:react-hooks/recommended',
+        'plugin:react/recommended',
+        'plugin:react/jsx-runtime',
+        'eslint-config-prettier',
         "plugin:@typescript-eslint/recommended-type-checked",
     ],
     "settings": {
