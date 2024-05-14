@@ -1,0 +1,39 @@
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr 28px;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-link {
+  display: block;
+}
+
+.logo-img {
+  display: block;
+}
+
+.nav{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-btn{
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--brand-color);
+  background-image: url('../../assets/images/icon_profile.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
