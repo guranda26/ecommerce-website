@@ -74,9 +74,10 @@ body {
   display: flex;
   min-width: 320px;
   min-height: 100vh;
+  caret-color: transparent;
 }
 
-.container{
+.container {
   width: 100%;
   max-width: 1400px;
   padding-left: 50px;
@@ -90,15 +91,15 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border: none;;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
-
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -106,11 +107,12 @@ button {
     background-color: #ffffff;
   }
 
-  a:hover {
-    color: #747bff;
+  a:hover,
+  button:hover {
+    color: var(--brand-color);
   }
 
-  button {
-    background-color: #f9f9f9;
+  button{
+    border: none;
   }
 }
