@@ -1,6 +1,6 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Header from '../components/header/Header'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from '../components/header/Header';
 
 function MainPageLayout(): React.JSX.Element {
   return (
@@ -11,7 +11,7 @@ function MainPageLayout(): React.JSX.Element {
       </main>
       <footer></footer>
     </>
-  )
+  );
 }
 
-export default MainPageLayout
+export default MainPageLayout;

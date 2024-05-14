@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 function MainPage(): React.JSX.Element {
   return (
@@ -11,7 +11,7 @@ function MainPage(): React.JSX.Element {
         amet alias ducimus. Repellendus.
       </p>
     </>
-  )
+  );
 }
 
-export default MainPage
+export default MainPage;
