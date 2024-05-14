@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 // import MainPageLayout from './layouts/MainPageLayout'
 import RootLayout from './layouts/RootLayout';
 // import Catalog from './pages/catalog/Catalog'
-// import ErrorPage from './pages/errorPage/ErrorPage'
+import ErrorPage from './pages/errorPage/ErrorPage';
 import Login from './pages/login/Login';
 // import MainPage from './pages/mainPage/MainPage'
 import Register from './pages/register/Register';
@@ -14,7 +14,7 @@ const App: React.FC = () => {
     {
       path: '/',
       element: <RootLayout />,
-      // errorElement: <ErrorPage/>,
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
