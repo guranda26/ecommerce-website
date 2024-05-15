@@ -13,34 +13,36 @@ const App: React.FC = () => {
   const roots = createBrowserRouter([
     {
       path: '/',
-      element: <RootLayout />,
+      element: <MainPageLayout />,
       errorElement: <ErrorPage />,
+      children: [
+        {
+          index: true,
+          element: <MainPage />,
+        },
+        {
+          path: 'catalog',
+          element: <Catalog />,
+        },
+      ],
+    },
+    {
+      path: '/login',
+      element: <RootLayout />,
       children: [
         {
           index: true,
           element: <Login />,
         },
+      ],
+    },
+    {
+      path: '/register',
+      element: <RootLayout />,
+      children: [
         {
-          path: 'register',
+          index: true,
           element: <Register />,
-        },
-        {
-          path: '/login',
-          element: <Login />,
-        },
-        {
-          path: 'main',
-          element: <MainPageLayout />,
-          children: [
-            {
-              index: true,
-              element: <MainPage />,
-            },
-            {
-              path: 'catalog',
-              element: <Catalog />,
-            },
-          ],
         },
       ],
     },

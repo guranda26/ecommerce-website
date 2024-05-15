@@ -8,7 +8,7 @@ import Profile from './Profile';
 function Header(): React.JSX.Element {
   return (
     <header className="header">
-      <NavLink title="Home Page" className="logo-link" to="/main">
+      <NavLink title="Home Page" className="logo-link" to="/">
         <img
           className="logo-img"
           src={logo}

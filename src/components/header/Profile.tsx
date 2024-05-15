@@ -15,18 +15,17 @@ function Profile(): React.JSX.Element {
       !profilePanelRef.current.contains(target) &&
       !profileBtnRef.current!.contains(target)
     ) {
-      close();
+      setOpenPanel(false);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
   }, []);
 
   const open = () => {
-    profilePanelRef.current!.classList.remove('visually-hidden');
     setOpenPanel(true);
     document.addEventListener('mousedown', handleClickOutside);
   };
 
   const close = () => {
-    profilePanelRef.current!.classList.add('visually-hidden');
     setOpenPanel(false);
     document.removeEventListener('mousedown', handleClickOutside);
   };
@@ -48,9 +47,11 @@ function Profile(): React.JSX.Element {
         onClick={handleProfile}
         type="button"
       ></button>
-      <div ref={profilePanelRef} className="profile-panel visually-hidden">
-        <ProfilePanel />
-      </div>
+      {openPanel && (
+        <div ref={profilePanelRef} className="profile-panel">
+          <ProfilePanel />
+        </div>
+      )}
     </>
   );
 }

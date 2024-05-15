@@ -76,3 +76,30 @@
   padding: 0;
   background-color: transparent;
 }
+
+.nav-link {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #fff;
+  color: var(--dark-color);
+}
+
+.nav-link.active {
+  color: var(--brand-color);
+}
+
+.nav-link::after {
+  display: block;
+  content: '';
+  height: 1px;
+  width: 0;
+  align-items: center;
+  background-color: var(--brand-color);
+  transition: width 0.5s ease-out;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}

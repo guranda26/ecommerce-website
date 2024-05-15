@@ -9,7 +9,7 @@ function ErrorPage() {
       <div className="error-container">
         <img src={errorImage} alt="Error page image" width={400} height={400} />
         <h2 className="header-content">PageNotFound</h2>
-        <NavLink className="home-page-btn" to={'./main'}>
+        <NavLink className="home-page-btn" to={'./'}>
           Home Page
         </NavLink>
       </div>
@@ -19,7 +19,7 @@ function ErrorPage() {
     <div className="error-container">
       <img src={planetImage} alt="Error page image" width={400} height={400} />
       <h2 className="header-content">Something went wrong:</h2>
-      <NavLink className="home-page-btn" to={'./main'}>
+      <NavLink className="home-page-btn" to={'./'}>
         Home Page
       </NavLink>
     </div>
