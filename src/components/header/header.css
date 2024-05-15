@@ -1,4 +1,5 @@
 .header {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr 28px;
   align-items: center;
@@ -13,7 +14,7 @@
   display: block;
 }
 
-.nav{
+.nav {
   display: flex;
   justify-content: flex-end;
 }
@@ -26,7 +27,7 @@
   padding: 0;
 }
 
-.profile-btn{
+.profile-btn {
   display: block;
   width: 28px;
   height: 28px;
@@ -36,4 +37,42 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+
+.profile-panel {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  max-width: 100px;
+  width: 100%;
+  padding: 5px 5px 15px 5px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+.profile-header {
+  font-weight: 700;
+  margin: 0;
+  border-bottom: 1px solid var(--brand-color);
+}
+
+.profile-header,
+.profile-link {
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.profile-link {
+  color: var(--dark-color);
+  text-decoration: none;
+}
+
+.profile-button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
 }

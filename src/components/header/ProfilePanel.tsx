@@ -7,19 +7,39 @@ function ProfilePanel(): React.JSX.Element {
 
   const handleLogin = () => {
     setIsLogin(false);
-  }
+  };
 
-  useEffect(() => {
-  }, [isLogin]);
+  useEffect(() => {}, [isLogin]);
 
   return (
     <>
-      {!isLogin && <NavLink to="/login">Login</NavLink>}
-      {!isLogin && <NavLink to="/register">Register</NavLink>}
-      {isLogin && <NavLink to="/profile">Profile</NavLink>}
-      {isLogin && <button type='button' onClick={handleLogin}>Log out</button>}
+      <h3 className="profile-header">Profile</h3>
+      {!isLogin && (
+        <NavLink className="profile-link" to="/login">
+          Login
+        </NavLink>
+      )}
+      {!isLogin && (
+        <NavLink className="profile-link" to="/register">
+          Register
+        </NavLink>
+      )}
+      {isLogin && (
+        <NavLink className="profile-link" to="/profile">
+          My profile
+        </NavLink>
+      )}
+      {isLogin && (
+        <button
+          className="profile-link profile-button"
+          type="button"
+          onClick={handleLogin}
+        >
+          Log out
+        </button>
+      )}
     </>
-  )
+  );
 }
 
-export default ProfilePanel
+export default ProfilePanel;
