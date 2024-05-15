@@ -1,4 +1,5 @@
 import './App.css';
+import Login from './pages/login/Login';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Login />
     </>
   );
 }
