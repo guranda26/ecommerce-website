@@ -1,0 +1,39 @@
+.collection {
+  padding-top: 40px;
+  padding-bottom: 80px;
+  background-color: #fff;
+}
+
+.collection-text {
+  font-size: 20px;
+  margin: 0 0 30px;
+  padding: 0;
+}
+
+.collection-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.collection-link {
+  transition: transform 0.5s ease-in-out;
+}
+
+.collection-link:first-child,
+.collection-link:last-child {
+  transform: translateY(40px);
+}
+
+.collection-link:first-child:hover,
+.collection-link:last-child:hover {
+  transform: translateY(0);
+}
+
+.collection-link:nth-child(2) {
+  transform: translateY(0);
+}
+
+.collection-link:nth-child(2):hover {
+  transform: translateY(40px);
+}

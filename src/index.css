@@ -82,6 +82,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   caret-color: transparent;
+  letter-spacing: 0;
 }
 
 .container {
@@ -119,6 +120,15 @@ h1 {
 
 .button:hover {
   background-color: #fff;
+}
+
+.section-header {
+  margin: 0;
+  padding: 0;
+  color: var(---dark-color);
+  font-weight: 600;
+  font-size: 36px;
+  margin-bottom: 20px;
 }
 
 @media (prefers-color-scheme: light) {
