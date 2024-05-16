@@ -13,6 +13,8 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@commercetools/history-sdk": "^4.3.0",
+    "@commercetools/importapi-sdk": "^5.4.0",
     "@commercetools/platform-sdk": "^4.11.0",
     "@commercetools/sdk-client-v2": "^2.5.0",
     "@types/react": "18.2.7",
