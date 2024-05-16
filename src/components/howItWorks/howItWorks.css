@@ -1,0 +1,40 @@
+.howItWorks-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  list-style: none;
+}
+
+.howItWorks-item::before {
+  content: '';
+  display: block;
+  width: 381px;
+  height: 445px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.howItWorks-item:first-child:before {
+  background-image: url('../../assets/images/Purchase-Securely.png');
+}
+
+.howItWorks-item:nth-child(2):before {
+  background-image: url('../../assets/images/Ships-From-Warehouse.png');
+}
+
+.howItWorks-item:nth-child(3):before {
+  background-image: url('../../assets/images/Style-Your-Room.png');
+}
+
+.howItWorks-header {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+}
+
+.howItWorks-text {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+}
