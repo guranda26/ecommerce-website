@@ -1,0 +1,40 @@
+.beutifyYourSpace {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  background-color: var(--bg-color);
+}
+
+.beutifyYourSpace-content {
+  width: 50%;
+  text-align: left;
+}
+
+.beutifyYourSpace-text {
+  padding: 0;
+  margin: 0 0 40px;
+}
+
+.beutifyYourSpace-image {
+  width: 500px;
+  height: 754px;
+  background-image: url('../../assets/images/girl-with-hat.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.beutifyYourSpace-image::after {
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 200px;
+  content: '';
+  width: 372px;
+  height: 372px;
+  border-radius: 50%;
+  background-color: #09513b;
+  z-index: -1;
+}

@@ -42,8 +42,9 @@
   font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
   line-height: 28px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
+  letter-spacing: 0;
 
   color-scheme: light dark;
   background-color: #f2f5ff;
