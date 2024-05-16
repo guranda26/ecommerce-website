@@ -36,7 +36,7 @@
   background-image: url('../../assets/images/icon_profile.png');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: cover;
 }
 
 .profile-panel {

@@ -49,6 +49,7 @@
   background-color: #f2f5ff;
   --brand-color: #054c73;
   ---dark-color: #333;
+  --content-bg: #dfe9f4;
   color: #666;
 
   font-synthesis: none;
@@ -104,6 +105,19 @@ h1 {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.button {
+  padding: 15px 60px;
+  border-radius: 50px;
+  background-color: var(--brand-color);
+  border: 1px solid var(--brand-color);
+  color: #fff;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #fff;
 }
 
 @media (prefers-color-scheme: light) {
