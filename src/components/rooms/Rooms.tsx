@@ -15,17 +15,17 @@ function Rooms(): React.JSX.Element {
       </p>
       <ul className="rooms-lists">
         <li className="rooms-item">
-          <Link className="rooms-link" to="/catalog">
+          <Link className="rooms-link dining" to="/catalog">
             Dining
           </Link>
         </li>
         <li className="rooms-item">
-          <Link className="rooms-link" to="/catalog">
+          <Link className="rooms-link living" to="/catalog">
             Living
           </Link>
         </li>
         <li className="rooms-item">
-          <Link className="rooms-link" to="/catalog">
+          <Link className="rooms-link bedroom" to="/catalog">
             Bedroom
           </Link>
         </li>

@@ -27,15 +27,15 @@
   margin-bottom: 20px;
 }
 
-.rooms-link:first-child::before {
+.dining::before {
   background-image: url('../../assets/images/dining.png');
 }
 
-.rooms-link:nth-child(2)::before {
+.living::before {
   background-image: url('../../assets/images/living.png');
 }
 
-.rooms-link:nth-child(3)::before {
+.bedroom::before {
   background-image: url('../../assets/images/bedroom.png');
 }
 
