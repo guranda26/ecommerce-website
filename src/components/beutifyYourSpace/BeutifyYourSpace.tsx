@@ -7,7 +7,7 @@ function BeutifyYourSpace(): React.JSX.Element {
     <section className="beutifyYourSpace">
       <div className="beutifyYourSpace-content">
         <h2 className="section-header">Beautify Your Space</h2>
-        <p className="beutifyYourSpace-text">
+        <p className="section-text beutifyYourSpace-text">
           Home is where the heart is, and the heart often desires beauty,
           comfort, and a reflection of personal style. In the realm of home
           decor and furniture, choices are abundant, ranging from

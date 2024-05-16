@@ -110,17 +110,13 @@ h1 {
   width: 1px;
 }
 
-.button {
-  padding: 15px 60px;
-  border-radius: 50px;
-  background-color: var(--brand-color);
-  border: 1px solid var(--brand-color);
-  color: #fff;
-  text-decoration: none;
+.section {
+  padding: 40px;
 }
 
-.button:hover {
-  background-color: #fff;
+.section-text {
+  margin: 0 0 40px;
+  padding: 0;
 }
 
 .section-header {
@@ -130,6 +126,20 @@ h1 {
   font-weight: 600;
   font-size: 36px;
   margin-bottom: 20px;
+}
+
+.button {
+  padding: 15px 60px;
+  border-radius: 50px;
+  background-color: var(--brand-color);
+  border: 1px solid var(--brand-color);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.button:hover {
+  background-color: #fff;
 }
 
 @media (prefers-color-scheme: light) {

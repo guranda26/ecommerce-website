@@ -1,0 +1,44 @@
+.rooms {
+  background-color: #fff;
+  border-bottom: 3px solid var(--bg-color);
+}
+
+.rooms-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  list-style: none;
+}
+
+.rooms-link {
+  color: var(--dark-color);
+  text-decoration: none;
+}
+
+.rooms-link::before {
+  content: '';
+  display: block;
+  width: 381px;
+  height: 480px;
+  background-repeat: no-repeat;
+  background-size: 110%;
+  background-position: center;
+  transition: background-size 0.5s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.rooms-link:first-child::before {
+  background-image: url('../../assets/images/dining.png');
+}
+
+.rooms-link:nth-child(2)::before {
+  background-image: url('../../assets/images/living.png');
+}
+
+.rooms-link:nth-child(3)::before {
+  background-image: url('../../assets/images/bedroom.png');
+}
+
+.rooms-link:hover::before {
+  background-size: 100%;
+}

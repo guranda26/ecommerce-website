@@ -9,7 +9,7 @@ function Collection(): React.JSX.Element {
   return (
     <section className="collection">
       <h2 className="section-header">Inspiration Collection</h2>
-      <p className="collection-text">
+      <p className="section-text collection-text">
         We provide the finest in luxury home décor. You'll find the highest
         quality products available in our showroom. And there is nothing like
         our range for size or details, whether you require lighting, furniture,
