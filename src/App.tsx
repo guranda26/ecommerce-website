@@ -1,16 +1,59 @@
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import MainPageLayout from './layouts/MainPageLayout';
+import RootLayout from './layouts/RootLayout';
+import Catalog from './pages/catalog/Catalog';
+import ErrorPage from './pages/errorPage/ErrorPage';
+import Login from './pages/login/Login';
+import MainPage from './pages/mainPage/MainPage';
+import Register from './pages/register/Register';
 import './App.css';
 import Login from './pages/login/Login';
 
-function App() {
+const App: React.FC = () => {
+  const roots = createBrowserRouter([
+    {
+      path: '/',
+      element: <MainPageLayout />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          index: true,
+          element: <MainPage />,
+        },
+        {
+          path: 'catalog',
+          element: <Catalog />,
+        },
+      ],
+    },
+    {
+      path: '/login',
+      element: <RootLayout />,
+      children: [
+        {
+          index: true,
+          element: <Login />,
+        },
+      ],
+    },
+    {
+      path: '/register',
+      element: <RootLayout />,
+      children: [
+        {
+          index: true,
+          element: <Register />,
+        },
+      ],
+    },
+  ]);
+
   return (
     <>
-      <h1>Vite + React</h1>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Login />
+      <RouterProvider router={roots} />
     </>
   );
-}
+};
 
 export default App;
