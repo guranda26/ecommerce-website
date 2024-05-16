@@ -13,8 +13,8 @@ function Header(): React.JSX.Element {
           className="logo-img"
           src={logo}
           alt="Site logo"
-          width={100}
-          height={69}
+          width={150}
+          height={100}
         />
       </NavLink>
       <Navbar />
