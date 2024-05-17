@@ -10,9 +10,7 @@ function MainPageLayout(): React.JSX.Element {
       <main>
         <Outlet />
       </main>
-      <footer>
-        <Footer />
-      </footer>
+      <Footer />
     </div>
   );
 }

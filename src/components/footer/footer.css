@@ -17,6 +17,8 @@
   list-style: none;
   display: flex;
   flex-direction: column;
+  padding: 0;
+  margin: 0;
   gap: 8px;
   text-align: left;
 }
@@ -36,4 +38,25 @@
 .contributors-header {
   padding: 0;
   margin: 0;
+}
+
+@media screen and (max-width: 968px) {
+  .footer {
+    grid-template-columns: auto;
+    grid-template-areas:
+      'navlist contributors'
+      'footer-left footer-left';
+  }
+
+  .footer-lists {
+    grid-area: navlist;
+  }
+
+  .contributors {
+    grid-area: contributors;
+  }
+
+  .footer-left {
+    grid-area: footer-left;
+  }
 }

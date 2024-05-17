@@ -37,3 +37,18 @@
   background-color: #09513b;
   z-index: -1;
 }
+
+@media screen and (max-width: 968px) {
+  .beutifyYourSpace {
+    flex-direction: column;
+  }
+
+  .beutifyYourSpace-content {
+    width: 100%;
+  }
+
+  .beutifyYourSpace-image {
+    width: 250px;
+    height: 375px;
+  }
+}

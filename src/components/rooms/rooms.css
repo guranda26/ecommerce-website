@@ -42,3 +42,15 @@
 .rooms-link:hover::before {
   background-size: 100%;
 }
+
+@media screen and (max-width: 968px) {
+  .rooms-lists {
+    grid-template-columns: 1fr;
+  }
+
+  .rooms-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

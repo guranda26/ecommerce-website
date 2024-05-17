@@ -35,3 +35,14 @@
 .collection-link:nth-child(2):hover {
   transform: translateY(40px);
 }
+
+@media screen and (max-width: 968px) {
+  .collection-images {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-link:first-child,
+  .collection-link:last-child {
+    display: none;
+  }
+}
