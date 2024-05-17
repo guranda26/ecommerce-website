@@ -81,7 +81,7 @@ const RegistrationForm = () => {
       case 'password':
         if (!isPasswordValid(value as string)) {
           error =
-            'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, and a number';
+            'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number and a special character';
         }
         break;
       case 'firstName':
