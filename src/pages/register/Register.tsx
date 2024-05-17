@@ -55,6 +55,7 @@ const RegistrationForm = () => {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [success, setSuccess] = useState<boolean>(false);
+  const [serverError, setServerError] = useState<string>('');
 
   const updateNestedState = <T extends object, K extends keyof T>(
     obj: T,
@@ -233,6 +234,9 @@ const RegistrationForm = () => {
           ...prev,
           submit: (error as Error).message,
         }));
+        setServerError(
+          'Something went wrong during registration. Please try again later.'
+        );
       });
   };
 
@@ -250,6 +254,7 @@ const RegistrationForm = () => {
   return (
     <section>
       <h1>Sign Up</h1>
+      {serverError && <div className="server-error">{serverError}</div>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name:</label>
@@ -257,6 +262,7 @@ const RegistrationForm = () => {
             type="text"
             id="firstName"
             name="firstName"
+            placeholder="Firstname"
             value={customerData.firstName}
             onChange={handleChange}
           />
@@ -268,6 +274,7 @@ const RegistrationForm = () => {
             type="text"
             id="lastName"
             name="lastName"
+            placeholder="Lastname"
             value={customerData.lastName}
             onChange={handleChange}
           />
@@ -279,6 +286,7 @@ const RegistrationForm = () => {
             type="email"
             id="email"
             name="email"
+            placeholder="Email"
             value={customerData.email}
             onChange={handleChange}
           />
@@ -323,6 +331,7 @@ const RegistrationForm = () => {
             type="text"
             id="billingStreet"
             name="street"
+            placeholder="Street"
             value={customerData.billingAddress.street}
             onChange={(e) => handleAddressChange(e, 'billing')}
           />
@@ -336,6 +345,7 @@ const RegistrationForm = () => {
             type="text"
             id="billingCity"
             name="city"
+            placeholder="City"
             value={customerData.billingAddress.city}
             onChange={(e) => handleAddressChange(e, 'billing')}
           />
@@ -349,6 +359,7 @@ const RegistrationForm = () => {
             type="text"
             id="billingPostalCode"
             name="postalCode"
+            placeholder="Postal Code"
             value={customerData.billingAddress.postalCode}
             onChange={(e) => handleAddressChange(e, 'billing')}
           />
@@ -379,6 +390,7 @@ const RegistrationForm = () => {
                 type="text"
                 id="shippingStreet"
                 name="street"
+                placeholder="Street"
                 value={customerData.shippingAddress.street}
                 onChange={(e) => handleAddressChange(e, 'shipping')}
               />
@@ -392,6 +404,7 @@ const RegistrationForm = () => {
                 type="text"
                 id="shippingCity"
                 name="city"
+                placeholder="City"
                 value={customerData.shippingAddress.city}
                 onChange={(e) => handleAddressChange(e, 'shipping')}
               />
@@ -405,6 +418,7 @@ const RegistrationForm = () => {
                 type="text"
                 id="shippingPostalCode"
                 name="postalCode"
+                placeholder="Postal Code"
                 value={customerData.shippingAddress.postalCode}
                 onChange={(e) => handleAddressChange(e, 'shipping')}
               />
