@@ -8,7 +8,6 @@ import Login from './pages/login/Login';
 import MainPage from './pages/mainPage/MainPage';
 import Register from './pages/register/Register';
 import './App.css';
-import Login from './pages/login/Login';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
