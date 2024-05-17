@@ -42,7 +42,7 @@ const App: React.FC = () => {
       children: [
         {
           index: true,
-          element: <Register />,
+          element: <RegistrationForm />,
         },
       ],
     },
