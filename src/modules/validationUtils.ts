@@ -25,6 +25,10 @@ export const isSimpleTextValid = (text: string): boolean => {
   return text.trim().length > 0;
 };
 
+export const isCityValid = (city: string): boolean => {
+  return /^[a-zA-Z\s]+$/.test(city) && city.trim().length > 0;
+};
+
 export type CountryCode = 'US' | 'CA' | 'GE' | 'DE' | 'FR' | 'GB' | 'UZ' | 'PL';
 
 export const isPostalCodeValid = (

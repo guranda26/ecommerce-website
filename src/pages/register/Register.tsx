@@ -16,6 +16,7 @@ import {
   isPostalCodeValid,
   isCountryValid,
   CountryCode,
+  isCityValid,
 } from '../../modules/validationUtils';
 
 const validCountries: CountryCode[] = [
@@ -54,12 +55,25 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [success, setSuccess] = useState<boolean>(false);
 
+  const updateNestedState = <T extends object, K extends keyof T>(
+    obj: T,
+    key: K,
+    value: Partial<T[K]>
+  ): T => ({
+    ...obj,
+    [key]: {
+      ...obj[key],
+      ...value,
+    },
+  });
+
   const validateField = (
     name: keyof CustomerData | keyof Address,
     value: string | boolean,
     addressType?: 'billing' | 'shipping'
   ): void => {
     let error: string = '';
+
     switch (name) {
       case 'email':
         if (!isEmailValid(value as string)) error = 'Invalid email format';
@@ -82,9 +96,16 @@ const RegistrationForm = () => {
         }
         break;
       case 'street':
-      case 'city':
-        if (!isSimpleTextValid(value as string))
+        if (!isSimpleTextValid(value as string)) {
           error = 'This field cannot be empty';
+        }
+        break;
+      case 'city':
+        if (!isSimpleTextValid(value as string)) {
+          error = 'This field cannot be empty';
+        } else if (!isCityValid(value as string)) {
+          error = 'City cannot contain special characters or numbers';
+        }
         break;
       case 'postalCode':
         if (
@@ -97,19 +118,18 @@ const RegistrationForm = () => {
         }
         break;
       case 'countryCode':
-        if (!isCountryValid(value as string, validCountries))
+        if (!isCountryValid(value as string, validCountries)) {
           error = 'Invalid country';
+        }
         break;
     }
 
-    if (addressType === 'billing' && customerData.useSameAddress) {
-      setCustomerData((prevData) => ({
-        ...prevData,
-        shippingAddress: {
-          ...prevData.billingAddress,
-          [name]: value,
-        },
-      }));
+    if (addressType) {
+      setErrors((prev) =>
+        updateNestedState(prev, `${addressType}Address`, {
+          [name]: error,
+        } as Partial<Address>)
+      );
     } else {
       setErrors((prev) => ({ ...prev, [name]: error }));
     }
@@ -117,14 +137,14 @@ const RegistrationForm = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
+
     setCustomerData({
       ...customerData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: fieldValue,
     });
-    validateField(
-      name as keyof CustomerData | keyof Address,
-      type === 'checkbox' ? checked : value
-    );
+
+    validateField(name as keyof CustomerData | keyof Address, fieldValue);
   };
 
   const handleAddressChange = (
@@ -164,13 +184,13 @@ const RegistrationForm = () => {
           ([addressKey, addressValue]) => {
             validateField(
               addressKey as keyof Address,
-              addressValue as Address[keyof Address],
+              addressValue as string,
               key as 'billing' | 'shipping'
             );
           }
         );
       } else {
-        validateField(key as keyof CustomerData, value as string | boolean); // Type assertion
+        validateField(key as keyof CustomerData, value as string | boolean);
       }
     });
 
@@ -187,7 +207,7 @@ const RegistrationForm = () => {
     return valid;
   };
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
     if (!validateForm()) {
@@ -208,7 +228,7 @@ const RegistrationForm = () => {
           submit: (error as Error).message,
         }));
       });
-  }
+  };
 
   useEffect(() => {
     if (customerData.useSameAddress) {
