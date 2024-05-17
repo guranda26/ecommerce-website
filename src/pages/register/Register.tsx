@@ -18,6 +18,7 @@ import {
   CountryCode,
   isCityValid,
 } from '../../modules/validationUtils';
+import PasswordInput from '../../components/passwordInput/PasswordInput';
 
 const validCountries: CountryCode[] = [
   'US',
@@ -145,6 +146,11 @@ const RegistrationForm = () => {
     });
 
     validateField(name as keyof CustomerData | keyof Address, fieldValue);
+  };
+  const handlePasswordChange = (password: string) => {
+    setCustomerData((prevData) => ({ ...prevData, password }));
+
+    validateField('password', password);
   };
 
   const handleAddressChange = (
@@ -278,17 +284,11 @@ const RegistrationForm = () => {
           />
           {errors.email && <div className="error">{errors.email}</div>}
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={customerData.password}
-            onChange={handleChange}
-          />
-          {errors.password && <div className="error">{errors.password}</div>}
-        </div>
+        <PasswordInput
+          password={customerData.password}
+          onPasswordChange={handlePasswordChange}
+          error={errors.password || ''}
+        />
         <div>
           <label htmlFor="countryCode">Country Code:</label>
           <input
