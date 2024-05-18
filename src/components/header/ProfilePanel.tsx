@@ -1,31 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './header.css';
 
-function ProfilePanel(): React.JSX.Element {
+function ProfilePanel(props: {
+  handleProfile: VoidFunction;
+}): React.JSX.Element {
   const [isLogin, setIsLogin] = useState(true);
 
   const handleLogin = () => {
     setIsLogin(false);
   };
 
-  useEffect(() => {}, [isLogin]);
-
   return (
     <>
       <h3 className="profile-header">Profile</h3>
       {!isLogin && (
-        <NavLink className="profile-link" to="/login">
+        <NavLink
+          className="profile-link"
+          to="/login"
+          onClick={props.handleProfile}
+        >
           Login
         </NavLink>
       )}
       {!isLogin && (
-        <NavLink className="profile-link" to="/register">
+        <NavLink
+          className="profile-link"
+          to="/register"
+          onClick={props.handleProfile}
+        >
           Register
         </NavLink>
       )}
       {isLogin && (
-        <NavLink className="profile-link" to="/profile">
+        <NavLink
+          className="profile-link"
+          to="/profile"
+          onClick={props.handleProfile}
+        >
           My profile
         </NavLink>
       )}

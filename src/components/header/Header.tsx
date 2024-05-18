@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Navbar from './Navbar';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../../assets/images/logo.jpg';
 import './header.css';
 import Profile from './Profile';
@@ -8,15 +8,10 @@ import Profile from './Profile';
 function Header(): React.JSX.Element {
   const [openNav, setOpenNav] = useState(true);
   const headerRef = useRef(null);
-  const param = useParams();
 
   const handleBurgerBtn = () => {
     setOpenNav(!openNav);
   };
-
-  useEffect(() => {
-    setOpenNav(!openNav);
-  }, [param, openNav]);
 
   return (
     <header ref={headerRef} className={openNav ? 'header' : 'header active'}>
@@ -29,7 +24,7 @@ function Header(): React.JSX.Element {
           height={100}
         />
       </NavLink>
-      <Navbar />
+      <Navbar handleBurgerBtn={handleBurgerBtn} />
       <Profile />
       <div className="burger-btn" onClick={handleBurgerBtn}></div>
     </header>
