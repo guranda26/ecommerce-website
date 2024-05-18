@@ -16,7 +16,7 @@ function Header(): React.JSX.Element {
 
   useEffect(() => {
     setOpenNav(!openNav);
-  }, [param]);
+  }, [param, openNav]);
 
   return (
     <header ref={headerRef} className={openNav ? 'header' : 'header active'}>
