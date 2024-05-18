@@ -6,8 +6,8 @@ import Catalog from './pages/catalog/Catalog';
 import ErrorPage from './pages/errorPage/ErrorPage';
 import Login from './pages/login/Login';
 import MainPage from './pages/mainPage/MainPage';
-import Register from './pages/register/Register';
 import './App.css';
+import RegistrationForm from './pages/register/Register';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -42,7 +42,7 @@ const App: React.FC = () => {
       children: [
         {
           index: true,
-          element: <Register />,
+          element: <RegistrationForm />,
         },
       ],
     },
