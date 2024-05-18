@@ -41,7 +41,7 @@ const validCountries: CountryCode[] = [
   'pl',
 ];
 
-// import '../../index.css';
+import '../../index.css';
 import './Register.css';
 const RegistrationForm = () => {
   const [customerData, setCustomerData] = useState<CustomerData>({
@@ -292,106 +292,116 @@ const RegistrationForm = () => {
         <h1>Sign Up</h1>
         {serverError && <div className="server-error">{serverError}</div>}
         <form onSubmit={handleSubmit} className="register-form">
-          <div>
-            <label htmlFor="firstName">First Name:</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="Firstname"
-              value={customerData.firstName}
-              onChange={handleChange}
-            />
-            {errors.firstName && (
-              <div className="error">{errors.firstName}</div>
-            )}
+          <div className="input-row">
+            <div className="input-container">
+              <label htmlFor="firstName">First Name:</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                placeholder="Firstname"
+                value={customerData.firstName}
+                onChange={handleChange}
+              />
+              {errors.firstName && (
+                <div className="error">{errors.firstName}</div>
+              )}
+            </div>
+            <div className="input-container">
+              <label htmlFor="lastName">Last Name:</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                placeholder="Lastname"
+                value={customerData.lastName}
+                onChange={handleChange}
+              />
+              {errors.lastName && (
+                <div className="error">{errors.lastName}</div>
+              )}
+            </div>
           </div>
-          <div>
-            <label htmlFor="lastName">Last Name:</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              placeholder="Lastname"
-              value={customerData.lastName}
-              onChange={handleChange}
+          <div className="input-row">
+            <div className="input-container">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={customerData.email}
+                onChange={handleChange}
+              />
+              {errors.email && <div className="error">{errors.email}</div>}
+            </div>
+            <PasswordInput
+              password={customerData.password}
+              onPasswordChange={handlePasswordChange}
+              error={errors.password || ''}
             />
-            {errors.lastName && <div className="error">{errors.lastName}</div>}
           </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email"
-              value={customerData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <div className="error">{errors.email}</div>}
-          </div>
-          <PasswordInput
-            password={customerData.password}
-            onPasswordChange={handlePasswordChange}
-            error={errors.password || ''}
-          />
-          <div>
-            <label htmlFor="countryCode">Country Code:</label>
-            <input
-              type="text"
-              id="countryCode"
-              name="countryCode"
-              value={customerData.countryCode}
-              onChange={handleChange}
-            />
-            {errors.countryCode && (
-              <div className="error">{errors.countryCode}</div>
-            )}
-          </div>
-          <div>
-            <label htmlFor="dateOfBirth">Date of Birth:</label>
-            <input
-              type="date"
-              id="dateOfBirth"
-              name="dateOfBirth"
-              value={customerData.dateOfBirth}
-              onChange={handleChange}
-            />
-            {errors.dateOfBirth && (
-              <div className="error">{errors.dateOfBirth}</div>
-            )}
+          <div className="input-row">
+            <div className="input-container">
+              <label htmlFor="countryCode">Country Code:</label>
+              <input
+                type="text"
+                id="countryCode"
+                name="countryCode"
+                value={customerData.countryCode}
+                onChange={handleChange}
+              />
+              {errors.countryCode && (
+                <div className="error">{errors.countryCode}</div>
+              )}
+            </div>
+            <div className="input-container">
+              <label htmlFor="dateOfBirth">Date of Birth:</label>
+              <input
+                type="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                value={customerData.dateOfBirth}
+                onChange={handleChange}
+              />
+              {errors.dateOfBirth && (
+                <div className="error">{errors.dateOfBirth}</div>
+              )}
+            </div>
           </div>
 
           <h2>Billing Address</h2>
-          <div>
-            <label htmlFor="billingStreet">Street:</label>
-            <input
-              type="text"
-              id="billingStreet"
-              name="street"
-              placeholder="Street"
-              value={customerData.billingAddress.street}
-              onChange={(e) => handleAddressChange(e, 'billing')}
-            />
-            {errors.billingAddress?.street && (
-              <div className="error">{errors.billingAddress.street}</div>
-            )}
+          <div className="input-row">
+            <div className="input-container">
+              <label htmlFor="billingCity">City:</label>
+              <input
+                type="text"
+                id="billingCity"
+                name="city"
+                placeholder="City"
+                value={customerData.billingAddress.city}
+                onChange={(e) => handleAddressChange(e, 'billing')}
+              />
+              {errors.billingAddress?.city && (
+                <div className="error">{errors.billingAddress.city}</div>
+              )}
+            </div>
+            <div className="input-container">
+              <label htmlFor="billingStreet">Street:</label>
+              <input
+                type="text"
+                id="billingStreet"
+                name="street"
+                placeholder="Street"
+                value={customerData.billingAddress.street}
+                onChange={(e) => handleAddressChange(e, 'billing')}
+              />
+              {errors.billingAddress?.street && (
+                <div className="error">{errors.billingAddress.street}</div>
+              )}
+            </div>
           </div>
-          <div>
-            <label htmlFor="billingCity">City:</label>
-            <input
-              type="text"
-              id="billingCity"
-              name="city"
-              placeholder="City"
-              value={customerData.billingAddress.city}
-              onChange={(e) => handleAddressChange(e, 'billing')}
-            />
-            {errors.billingAddress?.city && (
-              <div className="error">{errors.billingAddress.city}</div>
-            )}
-          </div>
-          <div>
+          <div className="input-container">
             <label htmlFor="billingPostalCode">Postal Code:</label>
             <input
               type="text"
@@ -406,8 +416,8 @@ const RegistrationForm = () => {
             )}
           </div>
 
-          <div>
-            <label htmlFor="useSameAddress">
+          <div className="input-container">
+            <label htmlFor="useSameAddress" className="checkbox-label">
               <input
                 type="checkbox"
                 id="useSameAddress"
@@ -422,35 +432,37 @@ const RegistrationForm = () => {
           {!customerData.useSameAddress && (
             <>
               <h2>Shipping Address</h2>
-              <div>
-                <label htmlFor="shippingStreet">Street:</label>
-                <input
-                  type="text"
-                  id="shippingStreet"
-                  name="street"
-                  placeholder="Street"
-                  value={customerData.shippingAddress.street}
-                  onChange={(e) => handleAddressChange(e, 'shipping')}
-                />
-                {errors.shippingAddress?.street && (
-                  <div className="error">{errors.shippingAddress.street}</div>
-                )}
+              <div className="input-row">
+                <div className="input-container">
+                  <label htmlFor="shippingCity">City:</label>
+                  <input
+                    type="text"
+                    id="shippingCity"
+                    name="city"
+                    placeholder="City"
+                    value={customerData.shippingAddress.city}
+                    onChange={(e) => handleAddressChange(e, 'shipping')}
+                  />
+                  {errors.shippingAddress?.city && (
+                    <div className="error">{errors.shippingAddress.city}</div>
+                  )}
+                </div>
+                <div className="input-container">
+                  <label htmlFor="shippingStreet">Street:</label>
+                  <input
+                    type="text"
+                    id="shippingStreet"
+                    name="street"
+                    placeholder="Street"
+                    value={customerData.shippingAddress.street}
+                    onChange={(e) => handleAddressChange(e, 'shipping')}
+                  />
+                  {errors.shippingAddress?.street && (
+                    <div className="error">{errors.shippingAddress.street}</div>
+                  )}
+                </div>
               </div>
-              <div>
-                <label htmlFor="shippingCity">City:</label>
-                <input
-                  type="text"
-                  id="shippingCity"
-                  name="city"
-                  placeholder="City"
-                  value={customerData.shippingAddress.city}
-                  onChange={(e) => handleAddressChange(e, 'shipping')}
-                />
-                {errors.shippingAddress?.city && (
-                  <div className="error">{errors.shippingAddress.city}</div>
-                )}
-              </div>
-              <div>
+              <div className="input-container">
                 <label htmlFor="shippingPostalCode">Postal Code:</label>
                 <input
                   type="text"
@@ -469,8 +481,8 @@ const RegistrationForm = () => {
             </>
           )}
 
-          <div>
-            <label htmlFor="setAsDefaultAddress">
+          <div className="input-container">
+            <label htmlFor="setAsDefaultAddress" className="checkbox-label">
               <input
                 type="checkbox"
                 id="setAsDefaultAddress"
@@ -481,10 +493,11 @@ const RegistrationForm = () => {
               Set as default address
             </label>
           </div>
-
-          <button type="submit" className="button register">
-            Register
-          </button>
+          <div>
+            <button type="submit" className="button register-btn">
+              Register
+            </button>
+          </div>
           {errors.submit && <div className="error">{errors.submit}</div>}
           {success && <div className="success">Registration successful!</div>}
         </form>

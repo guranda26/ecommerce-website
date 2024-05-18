@@ -4,7 +4,6 @@
   box-sizing: border-box;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-  color: #333;
   line-height: 1.6;
   height: 100vh;
   display: flex;
@@ -14,62 +13,90 @@
 }
 
 .registration-section {
-  background: #fff;
-  padding: 20px;
+  background: var(--content-bg);
+  padding: 15px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
   width: 100%;
   margin: 20px;
   max-height: 90vh;
   overflow-y: auto;
+  width: 50vw;
 }
 
 /* Form elements */
 .register-form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .registration-section h1,
 .registration-section h2 {
   margin-bottom: 20px;
-  color: #444;
+  color: var(--brand-color);
+  font-size: 1.2rem;
 }
 
-label {
+.registration-section h1 {
+  font-size: 1.5rem;
+}
+
+.registration-section label {
   margin-bottom: 5px;
+  color: var(--dark-color);
+  font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  font-size: 0.8rem;
   font-weight: bold;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
-input[type='date'] {
+.register-form input[type='text'],
+.register-form input[type='email'],
+.register-form input[type='password'],
+.register-form input[type='date'] {
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 100%;
-  box-sizing: border-box;
+  color: var(--dark-color);
+  font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  background-color: #fff;
+  min-width: 200px;
+  font-size: 0.6rem;
 }
 
-input[type='checkbox'] {
+.register-form input[type='checkbox'] {
   margin-right: 10px;
 }
 
-button {
-  padding: 10px 20px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+.checkbox-label input {
+  font-size: 1rem;
+  font-weight: normal;
+  background-color: #007bff;
 }
 
-button:hover {
-  background: #0056b3;
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.register-btn {
+  margin-top: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.button {
+  width: auto;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: var(--brand-color);
 }
 
 .error {
@@ -87,6 +114,14 @@ button:hover {
 
 .input-container {
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.input-row {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .icon-container {
