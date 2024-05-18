@@ -78,6 +78,10 @@
   background-color: transparent;
 }
 
+.profile-button:hover {
+  color: var(--brand-color);
+}
+
 .nav-link {
   text-decoration: none;
   font-size: 18px;

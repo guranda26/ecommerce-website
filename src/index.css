@@ -152,8 +152,7 @@ h1 {
     background-color: #ffffff;
   }
 
-  a:hover,
-  button:hover {
+  a:hover {
     color: var(--brand-color);
   }
 
