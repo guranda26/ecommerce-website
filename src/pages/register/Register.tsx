@@ -20,7 +20,7 @@ import {
   isCityValid,
 } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const validCountries: CountryCode[] = [
   'US',
@@ -285,6 +285,9 @@ const RegistrationForm = () => {
 
   return (
     <div className="registerc-container">
+      <p className="navigation-link">
+        Return to <Link to="/">Home</Link>
+      </p>
       <section className="registration-section">
         <h1>Sign Up</h1>
         {serverError && <div className="server-error">{serverError}</div>}
@@ -485,6 +488,11 @@ const RegistrationForm = () => {
           {errors.submit && <div className="error">{errors.submit}</div>}
           {success && <div className="success">Registration successful!</div>}
         </form>
+        <div>
+          <p className="navigation-link">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </section>
     </div>
   );
