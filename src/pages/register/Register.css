@@ -1,0 +1,117 @@
+.register-container {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.registration-section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  margin: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Form elements */
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.registration-section h1,
+.registration-section h2 {
+  margin-bottom: 20px;
+  color: #444;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='date'] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type='checkbox'] {
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.error {
+  color: #d9534f;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.success {
+  color: #5cb85c;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+.input-container {
+  position: relative;
+}
+
+.icon-container {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.visibility-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.navigation-link {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.navigation-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.navigation-link a:hover {
+  text-decoration: underline;
+}

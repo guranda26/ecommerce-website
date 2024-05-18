@@ -88,3 +88,14 @@ export interface CustomerResponse {
   };
   statusCode: number;
 }
+
+export interface PasswordInputProps {
+  password: string;
+  onPasswordChange: (password: string) => void;
+  error?: string;
+}
+export interface CustomError extends Error {
+  response?: {
+    status?: number;
+  };
+}

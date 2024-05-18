@@ -21,6 +21,8 @@ export default defineConfig(({ mode }) => {
         events: 'events/',
         util: 'util/',
         process: 'process/browser',
+        http: 'stream-http',
+        https: 'https-browserify',
       },
     },
     test: {
