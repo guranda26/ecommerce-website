@@ -31,6 +31,14 @@ const validCountries: CountryCode[] = [
   'GB',
   'UZ',
   'PL',
+  'ge',
+  'ca',
+  'us',
+  'de',
+  'fr',
+  'gb',
+  'uz',
+  'pl',
 ];
 
 // import '../../index.css';
