@@ -94,3 +94,8 @@ export interface PasswordInputProps {
   onPasswordChange: (password: string) => void;
   error?: string;
 }
+export interface CustomError extends Error {
+  response?: {
+    status?: number;
+  };
+}
