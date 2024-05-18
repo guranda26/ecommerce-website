@@ -6,6 +6,7 @@
   padding: 60px;
   background-color: var(--brand-color);
   color: #fff;
+  margin-top: auto;
 }
 
 .footer-left {
