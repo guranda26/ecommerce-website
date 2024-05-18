@@ -19,6 +19,7 @@ import {
   isCityValid,
 } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
+import { useNavigate } from 'react-router-dom';
 
 const validCountries: CountryCode[] = [
   'US',
@@ -250,6 +251,15 @@ const RegistrationForm = () => {
       }));
     }
   }, [customerData.useSameAddress]);
+
+  const navigate = useNavigate();
+
+  if (success) {
+    setTimeout(() => {
+      navigate('/');
+      return null;
+    }, 3000);
+  }
 
   return (
     <section>
