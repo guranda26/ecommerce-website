@@ -161,3 +161,9 @@ h1 {
     border: none;
   }
 }
+
+@media screen and (max-width: 1200px) {
+  .section-text {
+    margin-bottom: 20px;
+  }
+}

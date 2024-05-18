@@ -17,8 +17,7 @@
 }
 
 .beutifyYourSpace-image {
-  max-width: 500px;
-  width: 100%;
+  width: 500px;
   height: 754px;
   background-image: url('../../assets/images/girl-with-hat.png');
   background-repeat: no-repeat;
@@ -37,6 +36,17 @@
   border-radius: 50%;
   background-color: #09513b;
   z-index: -1;
+}
+
+@media screen and (max-width: 1200px) {
+  .beutifyYourSpace-content {
+    width: 70%;
+  }
+
+  .beutifyYourSpace-image {
+    width: 250px;
+    height: 375px;
+  }
 }
 
 @media screen and (max-width: 968px) {

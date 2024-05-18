@@ -41,6 +41,16 @@
   letter-spacing: 0;
 }
 
+@media screen and (max-width: 1200px) {
+  .features {
+    padding: 50px;
+  }
+
+  .content {
+    width: 70%;
+  }
+}
+
 @media screen and (max-width: 968px) {
   .features {
     padding: 25px;

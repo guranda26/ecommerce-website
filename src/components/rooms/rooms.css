@@ -45,6 +45,13 @@
   background-size: 100%;
 }
 
+@media screen and (max-width: 1200px) {
+  .rooms-link::before {
+    height: 400px;
+    margin-bottom: 0;
+  }
+}
+
 @media screen and (max-width: 968px) {
   .rooms-lists {
     grid-template-columns: 1fr;
