@@ -41,7 +41,6 @@ const validCountries: CountryCode[] = [
   'pl',
 ];
 
-import '../../index.css';
 import './Register.css';
 const RegistrationForm = () => {
   const [customerData, setCustomerData] = useState<CustomerData>({
@@ -284,7 +283,7 @@ const RegistrationForm = () => {
   }
 
   return (
-    <div className="registerc-container">
+    <div className="register-container">
       <p className="navigation-link">
         Return to <Link to="/">Home</Link>
       </p>
