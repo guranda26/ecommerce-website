@@ -5,7 +5,7 @@ function HowItWorks(): React.JSX.Element {
   return (
     <section className="section howItWorks">
       <h2 className="section-header">How It Works</h2>
-      <p className="section-text">
+      <p className="howItWorks-text-content">
         With Furniture, your furniture can be redistributed to families we serve
         within 72 hours.
       </p>

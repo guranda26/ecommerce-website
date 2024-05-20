@@ -49,7 +49,7 @@ function Profile(): React.JSX.Element {
       ></button>
       {openPanel && (
         <div ref={profilePanelRef} className="profile-panel">
-          <ProfilePanel />
+          <ProfilePanel handleProfile={handleProfile} />
         </div>
       )}
     </>
