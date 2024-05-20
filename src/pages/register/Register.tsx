@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaHome } from 'react-icons/fa';
 import { createCustomer } from '../../../sdk/customerApi';
 import { apiRoot } from '../../../sdk/client';
 import {
@@ -21,6 +22,9 @@ import {
 } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer, TypeOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import Tooltip from '@mui/material/Tooltip';
 
 const validCountries: CountryCode[] = [
   'US',
@@ -67,6 +71,8 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [success, setSuccess] = useState<boolean>(false);
   const [serverError, setServerError] = useState<string>('');
+  const [toastShown, setToastShown] = useState<boolean>(false);
+  const [errorToastShown, setErrorToastShown] = useState(false);
 
   const updateNestedState = <T extends object, K extends keyof T>(
     obj: T,
@@ -93,9 +99,9 @@ const RegistrationForm = () => {
         break;
       case 'password':
         if (!isPasswordValid(value as string)) {
-          error =
-            'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number and a special character (!@#$%^&*.,)';
+          error = 'Invalid password data';
         }
+
         break;
       case 'firstName':
       case 'lastName':
@@ -158,10 +164,30 @@ const RegistrationForm = () => {
     });
 
     validateField(name as keyof CustomerData | keyof Address, fieldValue);
+
+    // let typingTimer: ReturnType<typeof setTimeout>;
+
+    // clearTimeout(typingTimer);
+
+    // // Set a new timer for validation after typing stops
+    // typingTimer = setTimeout(() => {
+    //   validateField(name as keyof CustomerData | keyof Address, fieldValue);
+    // }, 10000); // Adjust the delay as needed
   };
+
+  const [tooltipError, setTooltipError] = useState<string>('');
   const handlePasswordChange = (password: string) => {
     setCustomerData((prevData) => ({ ...prevData, password }));
 
+    const isValidPassword = isPasswordValid(password);
+
+    if (!isValidPassword) {
+      setTooltipError(
+        'Password must be at least 8 characters long and include: an uppercase and a lowercase letter, a number, and a special character (!@#$%^&*.,)'
+      );
+    } else {
+      setTooltipError('');
+    }
     validateField('password', password);
   };
 
@@ -237,6 +263,7 @@ const RegistrationForm = () => {
         console.log('Customer created:', response);
         setErrors({});
         setSuccess(true);
+        setToastShown(false);
       })
       .catch((error: CustomError) => {
         console.error('Failed to create customer:', error);
@@ -251,16 +278,50 @@ const RegistrationForm = () => {
           const errorMessage =
             error instanceof Error ? error.message : 'Unknown error';
           const customError = new Error(errorMessage);
+          if (customError) {
+            showToastMessage(errorMessage, 'error');
+          }
+
           setErrors((prev) => ({
             ...prev,
             submit: customError.message,
           }));
+
           setServerError(
             'Something went wrong during registration. Please try again later.'
           );
         }
+        setErrorToastShown(false);
       });
   };
+
+  const navigate = useNavigate();
+  const showToastMessage = (message: string, type: TypeOptions) => {
+    if (['info', 'success', 'warning', 'error'].includes(type)) {
+      toast[type as 'info' | 'success' | 'warning' | 'error'](message, {
+        position: 'top-center',
+      });
+    } else {
+      console.warn(`Invalid toast type: ${type}`);
+    }
+  };
+
+  useEffect(() => {
+    if (success && !toastShown) {
+      showToastMessage('Registration Successful!', 'success');
+      setToastShown(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 5000);
+    }
+  }, [success, toastShown, navigate]);
+
+  useEffect(() => {
+    if (serverError && !errorToastShown) {
+      showToastMessage(`Registration Failed: ${serverError}`, 'error');
+      setErrorToastShown(true);
+    }
+  }, [serverError, errorToastShown]);
 
   useEffect(() => {
     if (customerData.useSameAddress) {
@@ -273,25 +334,24 @@ const RegistrationForm = () => {
     }
   }, [customerData.useSameAddress]);
 
-  const navigate = useNavigate();
-
-  if (success) {
-    setTimeout(() => {
-      navigate('/');
-      return null;
-    }, 3000);
-  }
-
   return (
     <div className="register-container">
+      <ToastContainer />
       <p className="navigation-link">
-        Return to <Link to="/">Home</Link>
+        Return to
+        <Link to="/">
+          <FaHome className="home-icon" /> Home
+        </Link>
       </p>
       <section className="registration-section">
         <h1>Sign Up</h1>
-        {serverError && <div className="server-error">{serverError}</div>}
+        {serverError && (
+          <div className="server-error">
+            <p>❌ {serverError}</p>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="register-form">
-          <div className="input-row">
+          <div className="form-group">
             <div className="input-container">
               <label htmlFor="firstName">First Name:</label>
               <input
@@ -301,9 +361,13 @@ const RegistrationForm = () => {
                 placeholder="Firstname"
                 value={customerData.firstName}
                 onChange={handleChange}
+                className={errors.firstName ? 'error-input' : 'normal-input'}
+                required
               />
               {errors.firstName && (
-                <div className="error">{errors.firstName}</div>
+                <div className="error">
+                  <span className="error-icon">⚠️</span> {errors.firstName}
+                </div>
               )}
             </div>
             <div className="input-container">
@@ -315,13 +379,17 @@ const RegistrationForm = () => {
                 placeholder="Lastname"
                 value={customerData.lastName}
                 onChange={handleChange}
+                className={errors.lastName ? 'error-input' : 'normal-input'}
+                required
               />
               {errors.lastName && (
-                <div className="error">{errors.lastName}</div>
+                <div className="error">
+                  <span className="error-icon">⚠️</span> {errors.lastName}
+                </div>
               )}
             </div>
           </div>
-          <div className="input-row">
+          <div className="form-group">
             <div className="input-container">
               <label htmlFor="email">Email:</label>
               <input
@@ -331,16 +399,26 @@ const RegistrationForm = () => {
                 placeholder="Email"
                 value={customerData.email}
                 onChange={handleChange}
+                className={errors.email ? 'error-input' : 'normal-input'}
+                required
               />
-              {errors.email && <div className="error">{errors.email}</div>}
+              {errors.email && (
+                <div className="error">
+                  <span className="error-icon">⚠️</span> {errors.email}
+                </div>
+              )}
             </div>
-            <PasswordInput
-              password={customerData.password}
-              onPasswordChange={handlePasswordChange}
-              error={errors.password || ''}
-            />
+            <Tooltip title={tooltipError} arrow>
+              <div className="password-field">
+                <PasswordInput
+                  password={customerData.password}
+                  onPasswordChange={handlePasswordChange}
+                  error={errors.password || ''}
+                />
+              </div>
+            </Tooltip>
           </div>
-          <div className="input-row">
+          <div className="form-group">
             <div className="input-container">
               <label htmlFor="countryCode">Country Code:</label>
               <input
@@ -349,9 +427,12 @@ const RegistrationForm = () => {
                 name="countryCode"
                 value={customerData.countryCode}
                 onChange={handleChange}
+                className={errors.countryCode ? 'error-input' : 'normal-input'}
               />
               {errors.countryCode && (
-                <div className="error">{errors.countryCode}</div>
+                <div className="error">
+                  <span className="error-icon">⚠️</span> {errors.countryCode}
+                </div>
               )}
             </div>
             <div className="input-container">
@@ -362,15 +443,19 @@ const RegistrationForm = () => {
                 name="dateOfBirth"
                 value={customerData.dateOfBirth}
                 onChange={handleChange}
+                className={errors.dateOfBirth ? 'error-input' : 'normal-input'}
+                required
               />
               {errors.dateOfBirth && (
-                <div className="error">{errors.dateOfBirth}</div>
+                <div className="error">
+                  <span className="error-icon">⚠️</span> {errors.dateOfBirth}
+                </div>
               )}
             </div>
           </div>
 
           <h2>Billing Address</h2>
-          <div className="input-row">
+          <div className="form-group">
             <div className="input-container">
               <label htmlFor="billingCity">City:</label>
               <input
@@ -380,9 +465,14 @@ const RegistrationForm = () => {
                 placeholder="City"
                 value={customerData.billingAddress.city}
                 onChange={(e) => handleAddressChange(e, 'billing')}
+                className={errors.billingAddress?.city ? 'error-input' : ''}
+                required
               />
               {errors.billingAddress?.city && (
-                <div className="error">{errors.billingAddress.city}</div>
+                <div className="error">
+                  <span className="error-icon">⚠️</span>{' '}
+                  {errors.billingAddress.city}
+                </div>
               )}
             </div>
             <div className="input-container">
@@ -394,9 +484,14 @@ const RegistrationForm = () => {
                 placeholder="Street"
                 value={customerData.billingAddress.street}
                 onChange={(e) => handleAddressChange(e, 'billing')}
+                className={errors.billingAddress?.street ? 'error-input' : ''}
+                required
               />
               {errors.billingAddress?.street && (
-                <div className="error">{errors.billingAddress.street}</div>
+                <div className="error">
+                  <span className="error-icon">⚠️</span>{' '}
+                  {errors.billingAddress.street}
+                </div>
               )}
             </div>
           </div>
@@ -409,9 +504,14 @@ const RegistrationForm = () => {
               placeholder="Postal Code"
               value={customerData.billingAddress.postalCode}
               onChange={(e) => handleAddressChange(e, 'billing')}
+              className={errors.billingAddress?.postalCode ? 'error-input' : ''}
+              required
             />
             {errors.billingAddress?.postalCode && (
-              <div className="error">{errors.billingAddress.postalCode}</div>
+              <div className="error error-zip">
+                <span className="error-icon">⚠️</span>{' '}
+                {errors.billingAddress.postalCode}
+              </div>
             )}
           </div>
 
@@ -431,7 +531,7 @@ const RegistrationForm = () => {
           {!customerData.useSameAddress && (
             <>
               <h2>Shipping Address</h2>
-              <div className="input-row">
+              <div className="form-group">
                 <div className="input-container">
                   <label htmlFor="shippingCity">City:</label>
                   <input
@@ -441,9 +541,15 @@ const RegistrationForm = () => {
                     placeholder="City"
                     value={customerData.shippingAddress.city}
                     onChange={(e) => handleAddressChange(e, 'shipping')}
+                    className={
+                      errors.shippingAddress?.city ? 'error-input' : ''
+                    }
                   />
                   {errors.shippingAddress?.city && (
-                    <div className="error">{errors.shippingAddress.city}</div>
+                    <div className="error">
+                      <span className="error-icon">⚠️</span>{' '}
+                      {errors.shippingAddress.city}
+                    </div>
                   )}
                 </div>
                 <div className="input-container">
@@ -455,9 +561,15 @@ const RegistrationForm = () => {
                     placeholder="Street"
                     value={customerData.shippingAddress.street}
                     onChange={(e) => handleAddressChange(e, 'shipping')}
+                    className={
+                      errors.shippingAddress?.street ? 'error-input' : ''
+                    }
                   />
                   {errors.shippingAddress?.street && (
-                    <div className="error">{errors.shippingAddress.street}</div>
+                    <div className="error">
+                      <span className="error-icon">⚠️</span>{' '}
+                      {errors.shippingAddress.street}
+                    </div>
                   )}
                 </div>
               </div>
@@ -470,9 +582,13 @@ const RegistrationForm = () => {
                   placeholder="Postal Code"
                   value={customerData.shippingAddress.postalCode}
                   onChange={(e) => handleAddressChange(e, 'shipping')}
+                  className={
+                    errors.shippingAddress?.postalCode ? 'error-input' : ''
+                  }
                 />
                 {errors.shippingAddress?.postalCode && (
-                  <div className="error">
+                  <div className="error error-zip">
+                    <span className="error-icon">⚠️</span>
                     {errors.shippingAddress.postalCode}
                   </div>
                 )}
@@ -497,8 +613,14 @@ const RegistrationForm = () => {
               Register
             </button>
           </div>
-          {errors.submit && <div className="error">{errors.submit}</div>}
-          {success && <div className="success">Registration successful!</div>}
+          {errors.submit && (
+            <div className="error other-error">
+              <p>⚠️ {errors.submit}</p>
+            </div>
+          )}
+          {success && (
+            <div className="success-msg">Registration successful!</div>
+          )}
         </form>
         <div>
           <p className="navigation-link">
