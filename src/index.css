@@ -162,6 +162,11 @@ h1 {
 }
 
 @media screen and (max-width: 1200px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   .section-text {
     margin-bottom: 20px;
   }
