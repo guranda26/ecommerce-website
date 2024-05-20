@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
+import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -33,9 +34,13 @@ const Login: React.FC = () => {
     const { name, value } = event.target;
 
     if (name === 'email') setEmail(value);
-    if (name === 'password') setPassword(value);
 
     validateField(name, value);
+  };
+
+  const handlePasswordChange = (password: string) => {
+    setPassword(password);
+    validateField('password', password);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -79,16 +84,11 @@ const Login: React.FC = () => {
           {errors.email && <div className="error-message">{errors.email}</div>}
         </div>
         <div className="login-form-controls">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            placeholder="Password"
+          <PasswordInput
+            password={password}
+            onPasswordChange={handlePasswordChange}
+            error={errors.password}
           />
-          {errors.password && <div className="error-message">{errors.password}</div>}
         </div>
         <button type="submit" className="button login">Login</button>
         {errors.submit && <div className="error-message">{errors.submit}</div>}
