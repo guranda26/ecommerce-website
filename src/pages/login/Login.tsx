@@ -7,7 +7,11 @@ import './Login.css';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ email?: string; password?: string; submit?: string }>({});
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+    submit?: string;
+  }>({});
   const [generalError, setGeneralError] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -22,7 +26,8 @@ const Login: React.FC = () => {
         break;
       case 'password':
         if (!isPasswordValid(value)) {
-          error = 'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*.,)';
+          error =
+            'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*.,)';
         }
         break;
     }
@@ -68,20 +73,26 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-form-container">
-      <h2>Login</h2>
+      <h1>Login</h1>
       {generalError && <div className="error-message">{generalError}</div>}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="login-form-controls">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          {errors.email && <div className="error-message">{errors.email}</div>}
+          <div class="input-container">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              placeholder="Email"
+            />
+            {errors.email && (
+              <div className="error">
+                <span className="error-icon">⚠️</span>
+                {errors.email}</div>
+              )}
+          </div>
         </div>
         <div className="login-form-controls">
           <PasswordInput
@@ -90,9 +101,17 @@ const Login: React.FC = () => {
             error={errors.password}
           />
         </div>
-        <button type="submit" className="button login">Login</button>
-        {errors.submit && <div className="error-message">{errors.submit}</div>}
-        {success && <div className="success">Login successful! Redirecting...</div>}
+        <div className="login-form-controls">
+          <button type="submit" className="button login">
+            Login
+          </button>
+          {errors.submit && (
+            <div className="error">{errors.submit}</div>
+          )}
+          {success && (
+            <div className="success">Login successful! Redirecting...</div>
+          )}
+        </div>
       </form>
       <div>
         <p className="navigation-link">
