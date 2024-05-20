@@ -77,7 +77,7 @@ const Login: React.FC = () => {
       {generalError && <div className="error-message">{generalError}</div>}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="login-form-controls">
-          <div class="input-container">
+          <div className="input-container">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
