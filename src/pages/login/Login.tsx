@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiRoot } from '../../../sdk/client';
 import './Login.css';
 
 const Login: React.FC = () => {
@@ -48,7 +49,32 @@ const Login: React.FC = () => {
     validateField('password', password);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const authenticateUser = async (email: string, password: string) => {
+    try {
+      const response = await apiRoot.login()
+        .post({
+          body: {
+            email,
+            password,
+          },
+        })
+        .execute();
+
+      if (response.body) {
+        console.log(response.body);
+        return true;
+      } else {
+        setGeneralError('Login failed. Please check your email and password.');
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      setGeneralError('Login failed. Please check your email and password.');
+      return false;
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     validateField('email', email);
@@ -59,22 +85,23 @@ const Login: React.FC = () => {
       return;
     }
 
-    // TODO: Proceed with form submission or authentication
-    console.log('Form submitted:', { email, password });
+    const authSuccess = await authenticateUser(email, password);
 
-    // TODO: Simulating an authentication success
-    setSuccess(true);
-    setGeneralError('');
-
-    setTimeout(() => {
-      navigate('/');
-    }, 3000);
+   if (authSuccess) {
+      setSuccess(true);
+      setGeneralError('');
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    }
   };
 
   return (
     <div className="login-form-container">
       <h1>Login</h1>
-      {generalError && <div className="error-message">{generalError}</div>}
+      {generalError && (
+        <div className="error">{generalError}</div>
+      )}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="login-form-controls">
           <div className="input-container">
@@ -90,8 +117,9 @@ const Login: React.FC = () => {
             {errors.email && (
               <div className="error">
                 <span className="error-icon">⚠️</span>
-                {errors.email}</div>
-              )}
+                {errors.email}
+              </div>
+            )}
           </div>
         </div>
         <div className="login-form-controls">
