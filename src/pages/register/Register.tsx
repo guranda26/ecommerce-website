@@ -164,15 +164,6 @@ const RegistrationForm = () => {
     });
 
     validateField(name as keyof CustomerData | keyof Address, fieldValue);
-
-    // let typingTimer: ReturnType<typeof setTimeout>;
-
-    // clearTimeout(typingTimer);
-
-    // // Set a new timer for validation after typing stops
-    // typingTimer = setTimeout(() => {
-    //   validateField(name as keyof CustomerData | keyof Address, fieldValue);
-    // }, 10000); // Adjust the delay as needed
   };
 
   const [tooltipError, setTooltipError] = useState<string>('');
