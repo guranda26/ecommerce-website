@@ -51,7 +51,7 @@
   --brand-color: #054c73;
   ---dark-color: #333;
   --content-bg: #dfe9f4;
-  --br-color: #f2f5ff;
+  --bg-color: #f2f5ff;
   color: #666;
 
   font-synthesis: none;
@@ -80,6 +80,7 @@ img {
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
   caret-color: transparent;
@@ -87,17 +88,24 @@ body {
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 1400px;
   padding-left: 50px;
   padding-right: 50px;
   margin-left: auto;
   margin-right: auto;
+  height: 100vh;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+input {
+  caret-color: var(---dark-color);
 }
 
 .visually-hidden {
@@ -148,12 +156,22 @@ h1 {
     background-color: #ffffff;
   }
 
-  a:hover,
-  button:hover {
+  a:hover {
     color: var(--brand-color);
   }
 
   button {
     border: none;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .section-text {
+    margin-bottom: 20px;
   }
 }

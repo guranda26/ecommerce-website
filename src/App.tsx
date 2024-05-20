@@ -8,6 +8,8 @@ import Login from './pages/login/Login';
 import MainPage from './pages/mainPage/MainPage';
 import './App.css';
 import RegistrationForm from './pages/register/Register';
+import Products from './pages/products/Products';
+import About from './pages/about/About';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -23,6 +25,14 @@ const App: React.FC = () => {
         {
           path: 'catalog',
           element: <Catalog />,
+        },
+        {
+          path: 'products',
+          element: <Products />,
+        },
+        {
+          path: 'about',
+          element: <About />,
         },
       ],
     },

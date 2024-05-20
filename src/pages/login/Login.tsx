@@ -96,7 +96,7 @@ const Login: React.FC = () => {
       </form>
       <div>
         <p className="navigation-link">
-          Don't have an account? <Link to="/register">Sign Up</Link>
+          Do not have an account? <Link to="/register">Sign Up</Link>
         </p>
       </div>
     </div>

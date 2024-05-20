@@ -10,8 +10,11 @@ export default defineConfig(({ mode }) => {
     define: {
       'process.env': JSON.stringify(env),
       global: 'globalThis',
-      'process.platform': null,
-      'process.version': null,
+      process: {
+        env: {},
+        platform: 'browser',
+        version: '0.0.0',
+      },
     },
     plugins: [react(), nodePolyfills({ include: ['process'] })],
     resolve: {
