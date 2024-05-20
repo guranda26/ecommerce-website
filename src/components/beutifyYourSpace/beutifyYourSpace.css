@@ -63,3 +63,13 @@
     height: 375px;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .beutifyYourSpace {
+    padding: 10px;
+  }
+
+  .beutifyYourSpace-image::after {
+    display: none;
+  }
+}

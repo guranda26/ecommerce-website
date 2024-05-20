@@ -61,3 +61,10 @@
     grid-area: footer-left;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .footer {
+    gap: 20px;
+    padding: 20px;
+  }
+}

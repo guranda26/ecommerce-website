@@ -62,3 +62,10 @@
     align-items: center;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .howItWorks-item::before {
+    width: 200px;
+    height: 250px;
+  }
+}
