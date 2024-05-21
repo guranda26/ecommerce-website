@@ -5,10 +5,12 @@ import './header.css';
 function ProfilePanel(props: {
   handleProfile: VoidFunction;
 }): React.JSX.Element {
-  const [isLogin, setIsLogin] = useState(true);
+  const token: string | null = localStorage.getItem('token');
+  const [isLogin, setIsLogin] = useState(!!token);
 
-  const handleLogin = () => {
+  const logOut = () => {
     setIsLogin(false);
+    localStorage.removeItem('token');
   };
 
   return (
@@ -45,7 +47,7 @@ function ProfilePanel(props: {
         <button
           className="profile-link profile-button"
           type="button"
-          onClick={handleLogin}
+          onClick={logOut}
         >
           Log out
         </button>
