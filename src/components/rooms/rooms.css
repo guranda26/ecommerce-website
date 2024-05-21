@@ -6,6 +6,7 @@
 .rooms-lists {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  padding: 0;
   gap: 20px;
   list-style: none;
 }
@@ -18,7 +19,8 @@
 .rooms-link::before {
   content: '';
   display: block;
-  width: 381px;
+  max-width: 381px;
+  width: 100%;
   height: 480px;
   background-repeat: no-repeat;
   background-size: 110%;
@@ -41,4 +43,34 @@
 
 .rooms-link:hover::before {
   background-size: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+  .rooms-link::before {
+    height: 400px;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .rooms-lists {
+    grid-template-columns: 1fr;
+  }
+
+  .rooms-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rooms-link::before {
+    width: 381px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .rooms-link::before {
+    width: 200px;
+    height: 250px;
+  }
 }
