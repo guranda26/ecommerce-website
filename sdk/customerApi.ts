@@ -30,11 +30,11 @@ export const getCustomerByKey = (key: string) => {
 };
 
 type CustomerPostRequest<T extends CustomerDraft> = {
-  body: T;
+  customers: T;
   execute(): Promise<CustomerResponse>;
 };
 
-type CustomersAPI = {
+export type CustomersAPI = {
   post<T extends CustomerDraft>(
     request: CustomerPostRequest<T>
   ): CustomerPostRequest<T>;
@@ -93,7 +93,7 @@ export const createCustomer = async (
   }
 
   const request: CustomerPostRequest<CustomerDraft> = {
-    body: customerDraft,
+    customers: customerDraft,
     execute: async () => await apiRoot.customers().post(request).execute(),
   };
 
