@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiRoot } from '../../../sdk/client';
+// import { apiRoot,   } from '../../../sdk/client';
 import './Login.css';
+import { getApiRoot, projectKey } from '../../sdk';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -51,7 +52,8 @@ const Login: React.FC = () => {
 
   const authenticateUser = async (email: string, password: string) => {
     try {
-      const response = await apiRoot
+      const response = await getApiRoot()
+        .withProjectKey({ projectKey })
         .login()
         .post({
           body: {
