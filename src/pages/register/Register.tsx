@@ -7,7 +7,6 @@ import {
   CustomerData,
   Address,
   FormErrors,
-  // CustomerResponse,
   CustomError,
 } from '../../Interfaces/CustomerInterface';
 import {
@@ -47,7 +46,6 @@ const validCountries: CountryCode[] = [
 ];
 
 import './Register.css';
-// import { projectKey } from '../../../sdk/ClientBuilder';
 const RegistrationForm = () => {
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
