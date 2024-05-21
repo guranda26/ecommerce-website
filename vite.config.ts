@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [react(), nodePolyfills({ include: ['process'] })],
+    base: './',
     resolve: {
       alias: {
         buffer: 'buffer/',
