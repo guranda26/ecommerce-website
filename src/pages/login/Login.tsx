@@ -93,9 +93,7 @@ const Login: React.FC = () => {
     if (authSuccess) {
       setSuccess(true);
       setGeneralError('');
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
+      navigate('/');
     }
   };
 
