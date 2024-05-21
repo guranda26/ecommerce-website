@@ -27,18 +27,6 @@ export interface Address {
   postalCode: string;
 }
 
-// export interface CustomerDraft {
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   password: string;
-//   key: string;
-//   dateOfBirth: string;
-//   addresses: Address[];
-//   defaultShippingAddress?: number;
-//   defaultBillingAddress?: number;
-// }
-
 export interface AddressErrors {
   streetName?: string;
   city?: string;
