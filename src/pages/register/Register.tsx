@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { createCustomer } from '../../../sdk/customerApi';
-import { apiRoot } from '../../../sdk/client';
+import { CustomerSignInResult } from '@commercetools/platform-sdk';
+
 import {
   CustomerData,
   Address,
   FormErrors,
-  CustomerResponse,
+  // CustomerResponse,
   CustomError,
 } from '../../Interfaces/CustomerInterface';
 import {
@@ -46,6 +47,7 @@ const validCountries: CountryCode[] = [
 ];
 
 import './Register.css';
+// import { projectKey } from '../../../sdk/ClientBuilder';
 const RegistrationForm = () => {
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
@@ -55,12 +57,12 @@ const RegistrationForm = () => {
     countryCode: 'GE',
     dateOfBirth: '',
     billingAddress: {
-      street: '',
+      streetName: '',
       city: '',
       postalCode: '',
     },
     shippingAddress: {
-      street: '',
+      streetName: '',
       city: '',
       postalCode: '',
     },
@@ -114,7 +116,7 @@ const RegistrationForm = () => {
           error = 'User must be at least 13 years old';
         }
         break;
-      case 'street':
+      case 'streetName':
         if (!isSimpleTextValid(value as string)) {
           error = 'This field cannot be empty';
         }
@@ -249,8 +251,25 @@ const RegistrationForm = () => {
       return;
     }
 
-    createCustomer(apiRoot, customerData)
-      .then((response: CustomerResponse) => {
+    //   const createCustomers = async () => {
+    //     try {
+    //       await apiRoot
+    //         .withProjectKey({
+    //           projectKey: projectKey,
+    //         })
+    //         .customers()
+    //         .post({
+    //           body: customerDraft,
+    //         })
+    //         .execute();
+    //     } catch (error) {
+    //       throw new Error(`Failed to create customer: ${error.message}`);
+    //     }
+    //   };
+    // };
+
+    createCustomer(customerData)
+      .then((response: CustomerSignInResult) => {
         console.log('Customer created:', response);
         setErrors({});
         setSuccess(true);
@@ -471,17 +490,19 @@ const RegistrationForm = () => {
               <input
                 type="text"
                 id="billingStreet"
-                name="street"
+                name="streetName"
                 placeholder="Street"
-                value={customerData.billingAddress.street}
+                value={customerData.billingAddress.streetName}
                 onChange={(e) => handleAddressChange(e, 'billing')}
-                className={errors.billingAddress?.street ? 'error-input' : ''}
+                className={
+                  errors.billingAddress?.streetName ? 'error-input' : ''
+                }
                 required
               />
-              {errors.billingAddress?.street && (
+              {errors.billingAddress?.streetName && (
                 <div className="error">
                   <span className="error-icon">⚠️</span>{' '}
-                  {errors.billingAddress.street}
+                  {errors.billingAddress.streetName}
                 </div>
               )}
             </div>
@@ -548,18 +569,18 @@ const RegistrationForm = () => {
                   <input
                     type="text"
                     id="shippingStreet"
-                    name="street"
+                    name="streetName"
                     placeholder="Street"
-                    value={customerData.shippingAddress.street}
+                    value={customerData.shippingAddress.streetName}
                     onChange={(e) => handleAddressChange(e, 'shipping')}
                     className={
-                      errors.shippingAddress?.street ? 'error-input' : ''
+                      errors.shippingAddress?.streetName ? 'error-input' : ''
                     }
                   />
-                  {errors.shippingAddress?.street && (
+                  {errors.shippingAddress?.streetName && (
                     <div className="error">
                       <span className="error-icon">⚠️</span>{' '}
-                      {errors.shippingAddress.street}
+                      {errors.shippingAddress.streetName}
                     </div>
                   )}
                 </div>

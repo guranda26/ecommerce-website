@@ -12,32 +12,35 @@ export interface CustomerData {
   password: string;
   countryCode: string;
   dateOfBirth: string;
+  addresses?: Address[];
   billingAddress: Address;
   shippingAddress: Address;
   useSameAddress: boolean;
   setAsDefaultAddress: boolean;
-}
-
-export interface Address {
-  street: string;
-  city: string;
-  postalCode: string;
-}
-
-export interface CustomerDraft {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  key: string;
-  dateOfBirth: string;
-  addresses: Address[];
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
 }
 
+export interface Address {
+  streetName: string;
+  city: string;
+  postalCode: string;
+}
+
+// export interface CustomerDraft {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   password: string;
+//   key: string;
+//   dateOfBirth: string;
+//   addresses: Address[];
+//   defaultShippingAddress?: number;
+//   defaultBillingAddress?: number;
+// }
+
 export interface AddressErrors {
-  street?: string;
+  streetName?: string;
   city?: string;
   postalCode?: string;
 }
@@ -86,7 +89,7 @@ export interface CustomerResponse {
   body: {
     customer: Customer;
   };
-  statusCode: number;
+  // statusCode: number;
 }
 
 export interface PasswordInputProps {

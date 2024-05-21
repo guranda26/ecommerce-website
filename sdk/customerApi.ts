@@ -1,59 +1,18 @@
-import {
-  CustomerData,
-  CustomerResponse,
-  ICustomer,
-} from '../src/Interfaces/CustomerInterface';
+import { CustomerSignInResult } from '@commercetools/platform-sdk';
+import { CustomerData } from '../src/Interfaces/CustomerInterface';
 import { apiRoot } from '../sdk/client';
 import { CustomerDraft } from '@commercetools/platform-sdk';
 
-export const getCustomerById = async (
-  customerId: string
-): Promise<ICustomer> => {
-  const response = await apiRoot
-    .customers()
-    .withId({ ID: customerId })
-    .get()
-    .execute();
-  const customer = response.body as ICustomer;
-  if (
-    customer.firstName === undefined ||
-    customer.lastName === undefined ||
-    customer.email === undefined
-  ) {
-    throw new Error('Customer data is incomplete');
-  }
-  return customer;
-};
-
-export const getCustomerByKey = (key: string) => {
-  return apiRoot.customers().withKey({ key: key }).get().execute();
-};
-
-type CustomerPostRequest<T extends CustomerDraft> = {
-  customers: T;
-  execute(): Promise<CustomerResponse>;
-};
-
-export type CustomersAPI = {
-  post<T extends CustomerDraft>(
-    request: CustomerPostRequest<T>
-  ): CustomerPostRequest<T>;
-};
-
-export type ApiRoot = {
-  customers(): CustomersAPI;
-};
-
 export const createCustomer = async (
-  apiRoot: ApiRoot,
   customerData: CustomerData
-): Promise<CustomerResponse> => {
+): Promise<CustomerSignInResult> => {
   const {
     firstName,
     lastName,
     email,
     password,
     countryCode,
+    dateOfBirth,
     billingAddress,
     shippingAddress,
     setAsDefaultAddress,
@@ -62,7 +21,7 @@ export const createCustomer = async (
 
   const billingAddr = {
     country: countryCode,
-    streetName: billingAddress.street,
+    streetName: billingAddress.streetName,
     city: billingAddress.city,
     postalCode: billingAddress.postalCode,
   };
@@ -71,7 +30,7 @@ export const createCustomer = async (
     ? billingAddr
     : {
         country: countryCode,
-        streetName: shippingAddress.street,
+        streetName: shippingAddress.streetName,
         city: shippingAddress.city,
         postalCode: shippingAddress.postalCode,
       };
@@ -81,6 +40,7 @@ export const createCustomer = async (
     lastName,
     email,
     password,
+    dateOfBirth,
     addresses: [billingAddr, shippingAddr],
   };
 
@@ -92,10 +52,23 @@ export const createCustomer = async (
     };
   }
 
-  const request: CustomerPostRequest<CustomerDraft> = {
-    customers: customerDraft,
-    execute: async () => await apiRoot.customers().post(request).execute(),
-  };
+  const projectKey: string = import.meta.env.VITE_CTP_PROJECT_KEY as string;
 
-  return await request.execute();
+  try {
+    const response = await apiRoot()
+      .withProjectKey({ projectKey })
+      .customers()
+      .post({
+        body: customerDraft,
+      })
+      .execute();
+
+    return response.body;
+  } catch (error) {
+    let errorMessage = 'Unknown error';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    throw new Error(`Failed to create customer: ${errorMessage}`);
+  }
 };
