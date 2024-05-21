@@ -10,15 +10,16 @@ import {
   ApiRoot,
 } from '@commercetools/platform-sdk';
 
-export const projectKey = import.meta.env.VITE_CTP_PROJECT_KEY || '';
+export const projectKey =
+  (import.meta.env.VITE_CTP_PROJECT_KEY as string) || '';
 const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: 'https://auth.europe-west1.gcp.commercetools.com',
   projectKey,
   credentials: {
     // clientId: process.env.CTP_CLIENT_ID || '',
     // clientSecret: process.env.CTP_CLIENT_SECRET || '',
-    clientId: import.meta.env.VITE_CTP_CLIENT_ID || '',
-    clientSecret: import.meta.env.VITE_CTP_CLIENT_SECRET || '',
+    clientId: (import.meta.env.VITE_CTP_CLIENT_ID as string) || '',
+    clientSecret: (import.meta.env.VITE_CTP_CLIENT_SECRET as string) || '',
   },
   scopes: [`manage_project:${projectKey}`],
   fetch,
