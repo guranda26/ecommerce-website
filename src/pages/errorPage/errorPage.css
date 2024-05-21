@@ -1,0 +1,25 @@
+.error-container {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.error-img {
+  animation: moveImage 2s linear;
+  /* animation-play-state: running; */
+  animation-iteration-count: 10;
+}
+
+@keyframes moveImage {
+  0% {
+    transform: translateY(50%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

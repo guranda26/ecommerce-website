@@ -1,6 +1,7 @@
 .features {
   padding: 100px 50px;
   background-image: url('../../assets/images/feature-bg.jpg');
+  background-size: auto;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -39,4 +40,40 @@
   font-size: 18px;
   line-height: 39px;
   letter-spacing: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .features {
+    padding: 50px;
+  }
+
+  .content {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .features {
+    padding: 25px;
+  }
+
+  .content {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .features {
+    background-size: cover;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .content-text__bold {
+    font-size: 34px;
+    line-height: 40px;
+  }
 }
