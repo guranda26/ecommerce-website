@@ -51,7 +51,8 @@ const Login: React.FC = () => {
 
   const authenticateUser = async (email: string, password: string) => {
     try {
-      const response = await apiRoot.login()
+      const response = await apiRoot
+        .login()
         .post({
           body: {
             email,
@@ -87,7 +88,7 @@ const Login: React.FC = () => {
 
     const authSuccess = await authenticateUser(email, password);
 
-   if (authSuccess) {
+    if (authSuccess) {
       setSuccess(true);
       setGeneralError('');
       setTimeout(() => {
@@ -99,9 +100,7 @@ const Login: React.FC = () => {
   return (
     <div className="login-form-container">
       <h1>Login</h1>
-      {generalError && (
-        <div className="error">{generalError}</div>
-      )}
+      {generalError && <div className="error">{generalError}</div>}
       <form onSubmit={handleSubmit} className="login-form">
         <div className="login-form-controls">
           <div className="input-container">
@@ -133,9 +132,7 @@ const Login: React.FC = () => {
           <button type="submit" className="button login">
             Login
           </button>
-          {errors.submit && (
-            <div className="error">{errors.submit}</div>
-          )}
+          {errors.submit && <div className="error">{errors.submit}</div>}
           {success && (
             <div className="success">Login successful! Redirecting...</div>
           )}

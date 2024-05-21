@@ -18,7 +18,8 @@
 .login-form label {
   margin-bottom: 5px;
   color: var(--dark-color);
-  font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
   font-size: 0.8rem;
   font-weight: bold;
 }
@@ -27,7 +28,8 @@
   margin-bottom: 10px;
   border-radius: 5px;
   color: var(--dark-color);
-  font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
   background-color: #fff;
   min-width: 300px;
   font-size: 0.6rem;
@@ -47,4 +49,3 @@
   margin-top: 10px;
   font-size: 1rem;
 }
-
