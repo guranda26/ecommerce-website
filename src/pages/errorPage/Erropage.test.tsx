@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
@@ -6,6 +7,7 @@ import { expect, vi, it, describe } from 'vitest';
 vi.mock('../../assets/images/planet.png', () => ({
   default: 'mocked-planet.png',
 }));
+
 describe('ErrorPage', () => {
   it('renders generic error page for other errors', () => {
     vi.mock('react-router-dom', async () => {
@@ -18,6 +20,7 @@ describe('ErrorPage', () => {
         useRouteError: vi.fn().mockImplementation(() => ({ status: 500 })), // Mock implementation
       };
     });
+
     render(
       <MemoryRouter>
         <ErrorPage />
