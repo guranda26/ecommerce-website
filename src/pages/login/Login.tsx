@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
-// import { apiRoot,   } from '../../../sdk/client';
+import { apiRoot } from '../../../sdk/client';
 import './Login.css';
-import { getApiRoot, projectKey } from '../../sdk';
+import { projectKey } from '../../../sdk/ClientBuilder';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
 
   const authenticateUser = async (email: string, password: string) => {
     try {
-      const response = await getApiRoot()
+      const response = await apiRoot()
         .withProjectKey({ projectKey })
         .login()
         .post({
@@ -64,7 +64,8 @@ const Login: React.FC = () => {
         .execute();
 
       if (response.body) {
-        console.log(response.body);
+        await localStorage.setItem('userId', response.body.customer.id);
+        console.log('response:', response.body);
         return true;
       } else {
         setGeneralError('Login failed. Please check your email and password.');
@@ -79,20 +80,26 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const message =
+      'User is already logged in. Do you want to log out and then log in again?';
+    const userId = localStorage.getItem('userId');
+    if (!userId || window.confirm(message) == true) {
+      validateField('email', email);
+      validateField('password', password);
 
-    validateField('email', email);
-    validateField('password', password);
+      if (errors.email || errors.password) {
+        console.log('Form validation failed:', errors);
+        return;
+      }
 
-    if (errors.email || errors.password) {
-      console.log('Form validation failed:', errors);
-      return;
-    }
+      const authSuccess = await authenticateUser(email, password);
 
-    const authSuccess = await authenticateUser(email, password);
-
-    if (authSuccess) {
-      setSuccess(true);
-      setGeneralError('');
+      if (authSuccess) {
+        setSuccess(true);
+        setGeneralError('');
+        navigate('/');
+      }
+    } else {
       navigate('/');
     }
   };
