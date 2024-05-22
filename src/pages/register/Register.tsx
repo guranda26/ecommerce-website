@@ -27,22 +27,14 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Tooltip from '@mui/material/Tooltip';
 
 const validCountries: CountryCode[] = [
-  'US',
-  'CA',
-  'GE',
-  'DE',
-  'FR',
-  'GB',
-  'UZ',
-  'PL',
-  'ge',
-  'ca',
-  'us',
-  'de',
-  'fr',
-  'gb',
-  'uz',
-  'pl',
+  'Canada',
+  'France',
+  'Georgia',
+  'Germany',
+  'USA',
+  'Poland',
+  'USA',
+  'Uzbekistan',
 ];
 
 import './Register.css';
@@ -52,7 +44,7 @@ const RegistrationForm = () => {
     lastName: '',
     email: '',
     password: '',
-    countryCode: 'GE',
+    countryCode: '',
     dateOfBirth: '',
     billingAddress: {
       streetName: '',
@@ -140,6 +132,10 @@ const RegistrationForm = () => {
         if (!isCountryValid(value as string, validCountries)) {
           error = 'Invalid country';
         }
+        if (name === 'countryCode' && value === '') {
+          error = 'Please select a country';
+        }
+
         break;
     }
 
@@ -420,22 +416,6 @@ const RegistrationForm = () => {
           </div>
           <div className="form-group">
             <div className="input-container">
-              <label htmlFor="countryCode">Country Code:</label>
-              <input
-                type="text"
-                id="countryCode"
-                name="countryCode"
-                value={customerData.countryCode}
-                onChange={handleChange}
-                className={errors.countryCode ? 'error-input' : 'normal-input'}
-              />
-              {errors.countryCode && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span> {errors.countryCode}
-                </div>
-              )}
-            </div>
-            <div className="input-container">
               <label htmlFor="dateOfBirth">Date of Birth:</label>
               <input
                 type="date"
@@ -449,6 +429,26 @@ const RegistrationForm = () => {
               {errors.dateOfBirth && (
                 <div className="error">
                   <span className="error-icon">⚠️</span> {errors.dateOfBirth}
+                </div>
+              )}
+            </div>
+            <div className="input-container">
+              <label htmlFor="countryCode">Country:</label>
+              <select
+                name="countryCode"
+                id="countryCode"
+                value={customerData.countryCode}
+              >
+                <option value="">Select a country</option>
+                {validCountries.map((countryCode) => (
+                  <option key={countryCode} value={countryCode}>
+                    {countryCode}
+                  </option>
+                ))}
+              </select>
+              {errors.countryCode && (
+                <div className="error">
+                  <span className="error-icon">⚠️</span> {errors.countryCode}
                 </div>
               )}
             </div>
