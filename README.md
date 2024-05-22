@@ -53,13 +53,13 @@ The fourth sprint will focus on improving the Detailed Product page, building th
 
 ## Available Scripts
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode using webpack. Open http://localhost:3000 to view it in your browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
-### `npm test`
+### `npm run test`
 
-Launches the test runner in the interactive watch mode using Jest.
+Launches test runner in the interactive watch mode using Jest.
 
 ## Running Tests
 
@@ -69,7 +69,7 @@ Launches the test runner in the interactive watch mode using Jest.
 
 ### `npm run build`
 
-Builds the app for production using webpack. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified, and the filenames include the hashes.
+Builds the app for production using Vite. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified, and the filenames include the hashes.
 
 ### `npm run eject`
 
@@ -85,6 +85,6 @@ Runs ESLint on the src/ directory. This script checks for linting errors and att
 
 Runs Prettier on files in the src/ directory. This command will format source files to ensure code consistency and style adherence.
 
-### `npm run prettier`
+### `npm run preview`
 
-Runs Prettier on all files across your entire project, excluding files listed in .prettierignore
+This command is intended for previewing the build locally and not meant as a production server.
