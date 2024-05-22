@@ -79,7 +79,6 @@ export interface CustomerResponse {
   body: {
     customer: Customer;
   };
-  // statusCode: number;
 }
 
 export interface PasswordInputProps {
