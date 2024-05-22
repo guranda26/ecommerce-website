@@ -31,35 +31,36 @@ export const isCityValid = (city: string): boolean => {
   return /^[a-zA-Z\s]+$/.test(city) && city.trim().length > 0;
 };
 
-export type CountryCode =
-  | 'Canada'
-  | 'France'
-  | 'Georgia'
-  | 'Germany'
-  | 'Poland'
-  | 'USA'
-  | 'Uzbekistan';
+export type CountryCode = 'CA' | 'FR' | 'GE' | 'DE' | 'PL' | 'US' | 'UZ';
 
 export const isPostalCodeValid = (
   postalCode: string,
   country: CountryCode
 ): boolean => {
   const patterns: { [key in CountryCode]: RegExp } = {
-    Georgia: /^\d{4}$/,
-    Germany: /^\d{5}$/,
-    Poland: /^\d{2}-\d{3}$/,
-    USA: /^\d{5}$/,
-    Uzbekistan: /^\d{6}$/,
-    Canada: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
-    France: /^\d{5}$/,
+    CA: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
+    FR: /^\d{5}$/,
+    GE: /^\d{4}$/,
+    DE: /^\d{5}$/,
+    PL: /^\d{2}-\d{3}$/,
+    US: /^\d{5}$/,
+    UZ: /^\d{6}$/,
   };
   const pattern = patterns[country];
   return pattern ? pattern.test(postalCode) : false;
 };
 
 export const isCountryValid = (
-  country: string,
-  validCountries: string[]
+  country: CountryCode,
+  validCountries: CountryCode[] = [
+    'CA', // Canada
+    'FR', // France
+    'GE', // Georgia
+    'DE', // Germany
+    'PL', // Poland
+    'US', // USA
+    'UZ', // Uzbekistan
+  ]
 ): boolean => {
   return validCountries.includes(country);
 };

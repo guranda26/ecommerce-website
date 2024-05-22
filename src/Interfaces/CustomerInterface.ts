@@ -1,3 +1,5 @@
+import { CountryCode } from 'src/modules/validationUtils';
+
 export interface ICustomer {
   id: string;
   firstName?: string;
@@ -10,7 +12,7 @@ export interface CustomerData {
   lastName: string;
   email: string;
   password: string;
-  countryCode: string;
+  countryCode: CountryCode;
   dateOfBirth: string;
   addresses?: Address[];
   billingAddress: Address;
@@ -39,7 +41,7 @@ export interface FormErrors {
   email?: string;
   password?: string;
   dateOfBirth?: string;
-  countryCode?: string;
+  countryCode?: CountryCode;
   billingAddress?: AddressErrors;
   shippingAddress?: AddressErrors;
   submit?: string;
