@@ -243,64 +243,56 @@ const RegistrationForm = () => {
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    const message =
+      'User is already logged in. Do you want to log out and then register again?';
+    const userId = localStorage.getItem('userId');
+    if (!userId || window.confirm(message) == true) {
+      if (!validateForm()) {
+        console.log('Form validation failed:', errors);
+        return;
+      }
 
-    if (!validateForm()) {
-      console.log('Form validation failed:', errors);
-      return;
-    }
-
-    //   const createCustomers = async () => {
-    //     try {
-    //       await apiRoot
-    //         .withProjectKey({
-    //           projectKey: projectKey,
-    //         })
-    //         .customers()
-    //         .post({
-    //           body: customerDraft,
-    //         })
-    //         .execute();
-    //     } catch (error) {
-    //       throw new Error(`Failed to create customer: ${error.message}`);
-    //     }
-    //   };
-    // };
-
-    createCustomer(customerData)
-      .then((response: CustomerSignInResult) => {
-        console.log('Customer created:', response);
-        setErrors({});
-        setSuccess(true);
-        setToastShown(false);
-      })
-      .catch((error: CustomError) => {
-        console.error('Failed to create customer:', error);
-
-        if (
-          error instanceof Error &&
-          error.response &&
-          error.response.status === 400
-        ) {
-          setErrors({ email: 'Email already exists' });
-        } else {
-          const errorMessage =
-            error instanceof Error ? error.message : 'Unknown error';
-          const customError = new Error(errorMessage);
-          if (customError) {
-            showToastMessage(errorMessage, 'error');
+      createCustomer(customerData)
+        .then((response: CustomerSignInResult) => {
+          console.log('Customer created:', response);
+          if (response.customer) {
+            localStorage.setItem('userId', response.customer.id);
           }
+          setErrors({});
+          setSuccess(true);
+          setToastShown(false);
+        })
+        .catch((error: CustomError) => {
+          console.error('Failed to create customer:', error);
 
-          setErrors((prev) => ({
-            ...prev,
-            submit: customError.message,
-          }));
+          if (
+            error instanceof Error &&
+            error.response &&
+            error.response.status === 400
+          ) {
+            setErrors({ email: 'Email already exists' });
+          } else {
+            const errorMessage =
+              error instanceof Error ? error.message : 'Unknown error';
+            const customError = new Error(errorMessage);
+            if (customError) {
+              showToastMessage(errorMessage, 'error');
+            }
 
-          setServerError(
-            'Something went wrong during registration. Please try again later.'
-          );
-        }
-        setErrorToastShown(false);
-      });
+            setErrors((prev) => ({
+              ...prev,
+              submit: customError.message,
+            }));
+
+            setServerError(
+              'Something went wrong during registration. Please try again later.'
+            );
+          }
+          setErrorToastShown(false);
+        });
+    } else {
+      navigate('/');
+    }
   };
 
   const navigate = useNavigate();

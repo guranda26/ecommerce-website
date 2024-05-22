@@ -81,7 +81,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const message =
-      'You are already logged in. Do you want to log out and then log in again?';
+      'User is already logged in. Do you want to log out and then log in again?';
     const userId = localStorage.getItem('userId');
     if (!userId || window.confirm(message) == true) {
       validateField('email', email);
