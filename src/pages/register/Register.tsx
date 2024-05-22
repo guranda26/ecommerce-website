@@ -16,7 +16,7 @@ import {
   isDateOfBirthValid,
   isSimpleTextValid,
   isPostalCodeValid,
-  isCountryValid,
+  // isCountryValid,
   CountryCode,
   isCityValid,
 } from '../../modules/validationUtils';
@@ -27,23 +27,24 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Tooltip from '@mui/material/Tooltip';
 
 const validCountries: CountryCode[] = [
-  'US',
   'CA',
+  'FR',
   'GE',
   'DE',
-  'FR',
-  'GB',
-  'UZ',
+  'US',
   'PL',
-  'ge',
-  'ca',
-  'us',
-  'de',
-  'fr',
-  'gb',
-  'uz',
-  'pl',
+  'UZ',
 ];
+
+const countryNames: { [key in CountryCode]: string } = {
+  CA: 'Canada',
+  FR: 'France',
+  GE: 'Georgia',
+  DE: 'Germany',
+  US: 'United States',
+  PL: 'Poland',
+  UZ: 'Uzbekistan',
+};
 
 import './Register.css';
 const RegistrationForm = () => {
@@ -52,7 +53,7 @@ const RegistrationForm = () => {
     lastName: '',
     email: '',
     password: '',
-    countryCode: 'GE',
+    countryCode: '' as CountryCode,
     dateOfBirth: '',
     billingAddress: {
       streetName: '',
@@ -127,19 +128,18 @@ const RegistrationForm = () => {
         }
         break;
       case 'postalCode':
-        if (
-          !isPostalCodeValid(
-            value as string,
-            customerData.countryCode as CountryCode
-          )
-        ) {
+        if (!isPostalCodeValid(value as string, customerData.countryCode)) {
           error = 'Invalid postal code for the country';
         }
         break;
       case 'countryCode':
-        if (!isCountryValid(value as string, validCountries)) {
-          error = 'Invalid country';
+        if (!validCountries.includes(value as CountryCode))
+          error = 'Invalid country selected';
+
+        if (name === 'countryCode' && value === '') {
+          error = 'Please select a country';
         }
+
         break;
     }
 
@@ -154,16 +154,23 @@ const RegistrationForm = () => {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = event.target;
-    const fieldValue = type === 'checkbox' ? checked : value;
+  type FormEvent =
+    | React.ChangeEvent<HTMLInputElement>
+    | React.ChangeEvent<HTMLSelectElement>;
+
+  const handleChange = (event: FormEvent) => {
+    const { name, type } = event.target as HTMLInputElement;
+    const value =
+      type === 'checkbox'
+        ? (event.target as HTMLInputElement).checked
+        : (event.target as HTMLInputElement).value;
 
     setCustomerData({
       ...customerData,
-      [name]: fieldValue,
+      [name]: value,
     });
 
-    validateField(name as keyof CustomerData | keyof Address, fieldValue);
+    validateField(name as keyof CustomerData | keyof Address, value);
   };
 
   const [tooltipError, setTooltipError] = useState<string>('');
@@ -420,15 +427,20 @@ const RegistrationForm = () => {
           </div>
           <div className="form-group">
             <div className="input-container">
-              <label htmlFor="countryCode">Country Code:</label>
-              <input
-                type="text"
-                id="countryCode"
+              <label htmlFor="countryCode">Country:</label>
+              <select
                 name="countryCode"
+                id="countryCode"
                 value={customerData.countryCode}
                 onChange={handleChange}
-                className={errors.countryCode ? 'error-input' : 'normal-input'}
-              />
+              >
+                <option value="">Select a country</option>
+                {validCountries.map((countryCode) => (
+                  <option key={countryCode} value={countryCode}>
+                    {countryNames[countryCode]}
+                  </option>
+                ))}
+              </select>
               {errors.countryCode && (
                 <div className="error">
                   <span className="error-icon">⚠️</span> {errors.countryCode}

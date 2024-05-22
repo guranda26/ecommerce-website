@@ -63,7 +63,8 @@
 .register-form input[type='text'],
 .register-form input[type='email'],
 .register-form input[type='password'],
-.register-form input[type='date'] {
+.register-form input[type='date'],
+.register-form select {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -73,6 +74,10 @@
   background-color: #fff;
   min-width: 300px;
   font-size: 0.6rem;
+}
+
+.register-form select {
+  border-width: 2px;
 }
 
 .register-form input[type='checkbox'] {

@@ -104,7 +104,8 @@ h1 {
   line-height: 1.1;
 }
 
-input {
+input,
+select {
   caret-color: var(---dark-color);
 }
 

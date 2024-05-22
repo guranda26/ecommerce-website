@@ -31,53 +31,36 @@ export const isCityValid = (city: string): boolean => {
   return /^[a-zA-Z\s]+$/.test(city) && city.trim().length > 0;
 };
 
-export type CountryCode =
-  | 'US'
-  | 'CA'
-  | 'GE'
-  | 'DE'
-  | 'FR'
-  | 'GB'
-  | 'UZ'
-  | 'PL'
-  | 'ge'
-  | 'ca'
-  | 'us'
-  | 'de'
-  | 'fr'
-  | 'gb'
-  | 'uz'
-  | 'pl';
+export type CountryCode = 'CA' | 'FR' | 'GE' | 'DE' | 'PL' | 'US' | 'UZ';
 
 export const isPostalCodeValid = (
   postalCode: string,
   country: CountryCode
 ): boolean => {
   const patterns: { [key in CountryCode]: RegExp } = {
-    US: /^\d{5}$/,
     CA: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
-    GE: /^\d{4}$/, // Example pattern for Georgia
-    DE: /^\d{5}$/, // Example pattern for Germany
-    FR: /^\d{5}$/, // Example pattern for France
-    GB: /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/, // Example pattern for Great Britain
-    UZ: /^\d{6}$/, // Pattern for Uzbekistan
-    PL: /^\d{2}-\d{3}$/, // Pattern for Poland
-    ge: /^\d{4}$/i, // Example pattern for Georgia (case insensitive)
-    ca: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/,
-    us: /^\d{5}$/,
-    de: /^\d{5}$/,
-    fr: /^\d{5}$/,
-    gb: /^[A-Z]{1,2}\d{1,2}[A-Z]?\s?\d[A-Z]{2}$/,
-    uz: /^\d{6}$/,
-    pl: /^\d{2}-\d{3}$/,
+    FR: /^\d{5}$/,
+    GE: /^\d{4}$/,
+    DE: /^\d{5}$/,
+    PL: /^\d{2}-\d{3}$/,
+    US: /^\d{5}$/,
+    UZ: /^\d{6}$/,
   };
   const pattern = patterns[country];
   return pattern ? pattern.test(postalCode) : false;
 };
 
 export const isCountryValid = (
-  country: string,
-  validCountries: string[]
+  country: CountryCode,
+  validCountries: CountryCode[] = [
+    'CA', // Canada
+    'FR', // France
+    'GE', // Georgia
+    'DE', // Germany
+    'PL', // Poland
+    'US', // USA
+    'UZ', // Uzbekistan
+  ]
 ): boolean => {
   return validCountries.includes(country);
 };
