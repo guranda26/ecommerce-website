@@ -5,12 +5,12 @@ import './header.css';
 function ProfilePanel(props: {
   handleProfile: VoidFunction;
 }): React.JSX.Element {
-  const token: string | null = localStorage.getItem('token');
-  const [isLogin, setIsLogin] = useState(!!token);
+  const userId: string | null = localStorage.getItem('userId');
+  const [isLogin, setIsLogin] = useState(!!userId);
 
   const logOut = () => {
     setIsLogin(false);
-    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   };
 
   return (
