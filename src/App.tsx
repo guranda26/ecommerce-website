@@ -10,6 +10,7 @@ import './App.css';
 import RegistrationForm from './pages/register/Register';
 import Products from './pages/products/Products';
 import About from './pages/about/About';
+import AuthCheck from './components/authCheck/AuthCheck';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -42,7 +43,11 @@ const App: React.FC = () => {
       children: [
         {
           index: true,
-          element: <Login />,
+          element: (
+            <AuthCheck>
+              <Login />
+            </AuthCheck>
+          ),
         },
       ],
     },

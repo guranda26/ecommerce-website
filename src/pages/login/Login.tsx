@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,6 +18,13 @@ const Login: React.FC = () => {
   const [success, setSuccess] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      navigate('/?message=You are already logged in');
+    }
+  }, [navigate]);
 
   const validateField = (name: string, value: string): void => {
     let error: string = '';
@@ -64,7 +71,7 @@ const Login: React.FC = () => {
         .execute();
 
       if (response.body) {
-        await localStorage.setItem('userId', response.body.customer.id);
+        localStorage.setItem('userId', response.body.customer.id);
         console.log('response:', response.body);
         return true;
       } else {
@@ -100,16 +107,20 @@ const Login: React.FC = () => {
         navigate('/', { replace: true });
       }
     } else {
-      // navigate('/');
       navigate('/', { replace: true });
     }
+  };
+
+  // Wrapping handleSubmit in a non-async function to satisfy the linter
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(event);
   };
 
   return (
     <div className="login-form-container">
       <h1>Login</h1>
       {generalError && <div className="error">{generalError}</div>}
-      <form onSubmit={handleSubmit} className="login-form">
+      <form onSubmit={handleFormSubmit} className="login-form">
         <div className="login-form-controls">
           <div className="input-container">
             <label htmlFor="email">Email:</label>
