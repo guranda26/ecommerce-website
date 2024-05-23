@@ -97,10 +97,11 @@ const Login: React.FC = () => {
       if (authSuccess) {
         setSuccess(true);
         setGeneralError('');
-        navigate('/');
+        navigate('/', { replace: true });
       }
     } else {
-      navigate('/');
+      // navigate('/');
+      navigate('/', { replace: true });
     }
   };
 
