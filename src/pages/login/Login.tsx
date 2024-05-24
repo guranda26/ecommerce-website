@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { apiRoot } from '../../../sdk/client';
 import './Login.css';
 import { projectKey } from '../../../sdk/ClientBuilder';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +24,14 @@ const Login: React.FC = () => {
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      navigate('/?message=You are already logged in');
+      const message = 'You are already logged in';
+      toast.info(message, { autoClose: 3000 });
+      setTimeout(() => {
+        navigate({
+          pathname: '/',
+          search: `?message=${encodeURIComponent(message)}`
+        });
+      }, 3000);
     }
   }, [navigate]);
 
@@ -118,6 +127,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-form-container">
+      <ToastContainer />
       <h1>Login</h1>
       {generalError && <div className="error">{generalError}</div>}
       <form onSubmit={handleFormSubmit} className="login-form">
