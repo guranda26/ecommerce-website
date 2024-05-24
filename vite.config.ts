@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [react(), nodePolyfills({ include: ['process'] })],
+    build: { chunkSizeWarningLimit: 1600, },
     base: './',
     resolve: {
       alias: {
