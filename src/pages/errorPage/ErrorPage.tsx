@@ -1,5 +1,5 @@
 import { ErrorResponse, NavLink, useRouteError } from 'react-router-dom';
-import errorImage from '../../assets/images/404-error.png';
+import errorImage from '../../assets/images/404.png';
 import planetImage from '../../assets/images/planet.png';
 import './errorPage.css';
 
