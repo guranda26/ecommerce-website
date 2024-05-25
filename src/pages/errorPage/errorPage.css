@@ -16,7 +16,7 @@
 
 @keyframes moveImage {
   0% {
-    transform: translateY(50%);
+    transform: translateY(25%);
   }
 
   100% {
