@@ -150,6 +150,12 @@ select {
 .button:hover {
   background-color: #fff;
 }
+.alert-msg {
+  color: #5cb85c;
+  font-size: 1em;
+  font-weight: 800;
+  margin: 10px 0 20px;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
