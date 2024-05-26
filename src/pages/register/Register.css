@@ -6,7 +6,6 @@
   font-family: Arial, sans-serif;
   line-height: 1.6;
   height: 100vh;
-  overflow-y: hidden;
   font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
 }
@@ -25,10 +24,6 @@
   border-radius: 10px;
   box-shadow: 0 0 10px #0000001a;
   margin: 20px;
-  max-height: 100vh;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
   width: 65vw;
 }
 
@@ -291,7 +286,8 @@ input[type='date'] {
   .register-form input[type='text'],
   .register-form input[type='email'],
   .register-form input[type='password'],
-  .register-form input[type='date'] {
+  .register-form input[type='date'],
+  .register-form select {
     min-width: 90%;
   }
 
