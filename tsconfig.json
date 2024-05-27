@@ -2,14 +2,11 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "allowJs": false,
+    "baseUrl": ".",
     "esModuleInterop": false,
     "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true,
@@ -23,14 +20,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    ".eslintrc.cjs",
-    "src"
-  ],
-  "types": [
-    "vitest/globals",
-    "@testing-library/jest-dom"
-  ],
+  "include": [".eslintrc.cjs", "src"],
+  "types": ["vitest/globals", "@testing-library/jest-dom", "jest"],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -1,0 +1,75 @@
+.services {
+  padding: 40px;
+  background-color: var(--bg-color);
+}
+
+.services-lists {
+  display: grid;
+  padding: 0;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  list-style: none;
+}
+
+.services-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  align-items: center;
+  gap: 15px;
+}
+
+.services-item::before {
+  display: block;
+  content: '';
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  width: 80px;
+  height: 50px;
+}
+
+.services-item:first-child::before {
+  background-image: url('../../assets/images/truc.svg');
+}
+
+.services-item:nth-child(2)::before {
+  background-image: url('../../assets/images/support.svg');
+}
+
+.services-item:nth-child(3)::before {
+  background-image: url('../../assets/images/authentic.svg');
+}
+
+.services-header,
+.services-text {
+  margin: 0;
+  padding: 0;
+}
+
+.services-content {
+  text-align: left;
+}
+
+.services-header {
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0;
+  color: var(--dark-color);
+}
+
+.services-text {
+  font-size: 16px;
+}
+
+@media screen and (max-width: 1200px) {
+  .services {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .services-lists {
+    padding-left: 10px;
+    grid-template-columns: 1fr;
+  }
+}
