@@ -1,0 +1,71 @@
+.howItWorks-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+}
+
+.howItWorks-item::before {
+  content: '';
+  display: block;
+  max-width: 381px;
+  width: 100%;
+  height: 445px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.howItWorks-item:first-child:before {
+  background-image: url('../../assets/images/Purchase-Securely.png');
+}
+
+.howItWorks-item:nth-child(2):before {
+  background-image: url('../../assets/images/Ships-From-Warehouse.png');
+}
+
+.howItWorks-item:nth-child(3):before {
+  background-image: url('../../assets/images/Style-Your-Room.png');
+}
+
+.howItWorks-text-content {
+  margin: 0 0 20px;
+}
+
+.howItWorks-header {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+}
+
+.howItWorks-text {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 1200px) {
+  .howItWorks-item::before {
+    height: 345px;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .howItWorks-lists {
+    grid-template-columns: 1fr;
+  }
+
+  .howItWorks-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .howItWorks-item::before {
+    width: 200px;
+    height: 250px;
+  }
+}
