@@ -9,6 +9,7 @@ function Catalog(): React.JSX.Element {
         perferendis, eos quaerat blanditiis doloremque, commodi ea voluptatibus
         molestiae quisquam dolor consectetur, eum minus dicta corrupti inventore
         amet alias ducimus. Repellendus.
+        Catalog
       </p>
     </>
   );
