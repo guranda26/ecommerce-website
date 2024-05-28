@@ -91,3 +91,11 @@ export interface CustomError extends Error {
     status?: number;
   };
 }
+
+export type Product = {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl?: string;
+  images?: string[];
+};

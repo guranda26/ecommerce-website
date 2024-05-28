@@ -38,6 +38,7 @@
     "react-toastify": "^10.0.5",
     "sort-by": "^0.0.2",
     "stream-browserify": "^3.0.0",
+    "swiper": "^11.1.3",
     "util": "^0.12.5"
   },
   "devDependencies": {
