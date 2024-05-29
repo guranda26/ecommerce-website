@@ -10,14 +10,17 @@ export const getProductDetails = async () => {
       .get()
       .execute();
     const products = response.body.results.map((product) => {
-      const { name, masterVariant, metaDescription } =
-        product.masterData.current;
+      const {
+        name,
+        masterVariant,
+        description = {},
+      } = product.masterData.current;
       console.log(masterVariant);
 
       return {
         id: product.id,
-        name: name['en-US'] || 'No name available',
-        description: metaDescription?.en || '',
+        name: name['en-US'] || name['en-GB'] || 'No name available',
+        description: description['en-US'] || description['en-US'] || '',
         imageUrl:
           masterVariant?.images?.[0]?.url || 'https://via.placeholder.com/1400',
         images: masterVariant?.images?.map((img) => img.url) || [],
@@ -35,7 +38,7 @@ export const getProductDetails = async () => {
 //   masterData: {
 //     current: {
 //       name?: { en?: string };
-//       metaDescription?: { en?: string };
+//       description?: { en?: string };
 //       masterVariant?: {
 //         images?: { url?: string }[];
 //       };
@@ -57,9 +60,11 @@ export const getProductById = async (id: string): Promise<Product> => {
     const product: Product = {
       id: responseData.id,
       name:
-        responseData.masterData.current.name['en-US'] || 'No name available',
+        responseData.masterData.current.name['en-US'] ||
+        responseData.masterData.current.name['en-GB'] ||
+        'No name available',
       description:
-        responseData.masterData.current.metaDescription?.en ||
+        responseData.masterData.current?.description['en-US'] ||
         'No description available',
       imageUrl:
         responseData.masterData.current.masterVariant?.images?.[0]?.url ||
