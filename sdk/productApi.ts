@@ -16,7 +16,7 @@ export const getProductDetails = async () => {
 
       return {
         id: product.id,
-        name: name?.en || 'No name available',
+        name: name['en-US'] || 'No name available',
         description: metaDescription?.en || '',
         imageUrl:
           masterVariant?.images?.[0]?.url || 'https://via.placeholder.com/1400',
@@ -56,7 +56,8 @@ export const getProductById = async (id: string): Promise<Product> => {
     console.log('Response Data:', responseData);
     const product: Product = {
       id: responseData.id,
-      name: responseData.masterData.current.name?.en || 'No name available',
+      name:
+        responseData.masterData.current.name['en-US'] || 'No name available',
       description:
         responseData.masterData.current.metaDescription?.en ||
         'No description available',
