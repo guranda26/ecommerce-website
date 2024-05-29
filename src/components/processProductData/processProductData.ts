@@ -8,9 +8,10 @@ const processProductData = (productData: ProductData, id: string): Product => {
 
   const { name = {}, description = {}, masterVariant } = productData;
 
-  const imageUrl: string =
-    masterVariant?.images?.[0]?.url || 'https://via.placeholder.com/1400';
-  const images: string[] = masterVariant?.images?.map((img) => img.url) || [];
+  const images = masterVariant?.images?.map((img) => img.url) || [];
+
+  const imageUrl =
+    images.length > 0 ? images[0] : 'https://via.placeholder.com/1400';
 
   return {
     id: id,

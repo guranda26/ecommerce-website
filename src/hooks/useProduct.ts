@@ -36,7 +36,7 @@ const useProducts = (id: string | null) => {
     const fetchDataAsync = async () => {
       if (id) {
         await fetchData<Product>(
-          () => getProductById(id),
+          () => getProductById(id || ''),
           setProduct,
           'Error fetching product details.'
         );

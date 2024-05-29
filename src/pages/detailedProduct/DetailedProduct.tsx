@@ -1,9 +1,11 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Scrollbar, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import useProducts from '../../hooks/useProduct';
+import './DetailedProduct.css';
 
 function DetailedProduct(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
@@ -37,28 +39,26 @@ function DetailedProduct(): React.JSX.Element {
       <p>Product ID: {product.id}</p>
       <p>Product Name: {product.name}</p>
       <p>Product Description: {product.description}</p>
-      {product.images && product.images.length > 0 ? (
-        <Swiper
-          navigation
-          pagination={{ clickable: true }}
-          className="mySwiper"
-          spaceBetween={50}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          {product.images.map((image, index) => (
-            <SwiperSlide key={index}>
-              <img src={image} alt={`${product.name} image ${index + 1}`} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      ) : (
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          style={{ width: '200px', height: '200px' }}
-        />
-      )}
+
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, EffectFade]}
+        effect="fade"
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        className="mySwiper"
+        spaceBetween={50}
+        slidesPerView={1}
+        onSlideChange={() => console.log('slide change')}
+      >
+        {product.images?.map((image, index) => (
+          <SwiperSlide key={index}>
+            <img src={image} alt={`Image ${index + 1}`} />
+          </SwiperSlide>
+
+          // <img src={image} alt={`Image ${index}`} />
+        ))}
+      </Swiper>
     </section>
   );
 }
