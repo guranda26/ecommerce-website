@@ -53,6 +53,7 @@ export const getProductById = async (id: string): Promise<Product> => {
       .execute();
 
     const responseData = response.body;
+    console.log('Response Data:', responseData);
     const product: Product = {
       id: responseData.id,
       name: responseData.masterData.current.name?.en || 'No name available',
