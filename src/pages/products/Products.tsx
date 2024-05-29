@@ -1,63 +1,54 @@
-import { useState, useEffect } from 'react';
-import { getProductDetails } from '../../../sdk/productApi';
 import { useNavigate } from 'react-router-dom';
-import { Product } from 'src/Interfaces/CustomerInterface';
 import './Product.css';
+import useProducts from '../../hooks/useProduct';
+import { ProductsProps } from 'src/Interfaces/CustomerInterface';
 
-function Products(): React.JSX.Element {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+function Products({ productId }: ProductsProps): React.JSX.Element {
+  const { product, products, loading, error } = useProducts(productId || null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const productList = await getProductDetails();
-        setProducts(productList);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setError('Error fetching products');
-        setLoading(false);
-      }
-    }
-
-    void fetchProducts();
-  }, []);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   const handleProductClick = (productId: string): void => {
     navigate(`/products/${productId}`);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
     <div className="products-container">
       <h2>Products Example Page</h2>
+      {product && (
+        <div>
+          <h3>Product Details</h3>
+          <div className="product-item">
+            <h4>{product.name}</h4>
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              style={{ width: '100px', height: '100px' }}
+              className="product-image"
+            />
+            <p>{product.description}</p>
+          </div>
+        </div>
+      )}
       <div>
         <h3>Product List</h3>
         <ul>
-          {products.map((product) => (
+          {products.map((prod) => (
             <li
-              key={product.id}
+              key={prod.id}
               className="product-item"
-              onClick={() => handleProductClick(product.id)}
+              onClick={() => handleProductClick(prod.id)}
             >
-              <h4>{product.name}</h4>
+              <h4>{prod.name}</h4>
               <img
-                src={product.imageUrl}
-                alt={product.name}
+                src={prod.imageUrl}
+                alt={prod.name}
                 style={{ width: '100px', height: '100px' }}
                 className="product-image"
               />
-              <p>{product.description}</p>
+              <p>{prod.description}</p>
             </li>
           ))}
         </ul>
