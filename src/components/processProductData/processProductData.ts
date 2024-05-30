@@ -13,6 +13,18 @@ const processProductData = (productData: ProductData, id: string): Product => {
   const imageUrl =
     images.length > 0 ? images[0] : 'https://via.placeholder.com/1400';
 
+  const priceObject = masterVariant?.prices?.[0];
+  const centAmount = priceObject?.value?.centAmount;
+
+  const price =
+    priceObject && centAmount !== undefined
+      ? new Intl.NumberFormat('de-DE', {
+          style: 'currency',
+          currency: priceObject.value.currencyCode,
+        }).format(centAmount / 100)
+      : undefined;
+  console.log(`price:`, price);
+
   return {
     id: id,
     name: name['en-US'] || name['en-GB'] || 'No name available',
@@ -22,6 +34,8 @@ const processProductData = (productData: ProductData, id: string): Product => {
       'No description available',
     imageUrl: imageUrl,
     images: images,
+    price: price,
+    discountPrice: 'undefined',
   };
 };
 

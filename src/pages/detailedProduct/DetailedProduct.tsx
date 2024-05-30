@@ -39,6 +39,7 @@ function DetailedProduct(): React.JSX.Element {
       <p>Product ID: {product.id}</p>
       <p>Product Name: {product.name}</p>
       <p>Product Description: {product.description}</p>
+      <p>Product Price: {product.price}</p>
 
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, EffectFade]}
@@ -55,8 +56,6 @@ function DetailedProduct(): React.JSX.Element {
           <SwiperSlide key={index}>
             <img src={image} alt={`Image ${index + 1}`} />
           </SwiperSlide>
-
-          // <img src={image} alt={`Image ${index}`} />
         ))}
       </Swiper>
     </section>
