@@ -1,16 +1,65 @@
-import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Scrollbar, EffectFade } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import useProducts from '../../hooks/useProduct';
+import './DetailedProduct.css';
 
 function DetailedProduct(): React.JSX.Element {
+  const { id } = useParams<{ id: string }>();
+  const { product, loading, error } = useProducts(id || null);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/products');
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!product) {
+    return <div>No product found</div>;
+  }
+
   return (
-    <>
-      <h2>DetailedProduct Example page</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-        perferendis, eos quaerat blanditiis doloremque, commodi ea voluptatibus
-        molestiae quisquam dolor consectetur, eum minus dicta corrupti inventore
-        amet alias ducimus. Repellendus.
-      </p>
-    </>
+    <section>
+      <div>
+        <button type="submit" onClick={handleClick}>
+          Return Back
+        </button>
+      </div>
+      <h2>Product Details</h2>
+      <p>Product ID: {product.id}</p>
+      <p>Product Name: {product.name}</p>
+      <p>Product Description: {product.description}</p>
+
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, EffectFade]}
+        effect="fade"
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        className="mySwiper"
+        spaceBetween={50}
+        slidesPerView={1}
+        onSlideChange={() => console.log('slide change')}
+      >
+        {product.images?.map((image, index) => (
+          <SwiperSlide key={index}>
+            <img src={image} alt={`Image ${index + 1}`} />
+          </SwiperSlide>
+
+          // <img src={image} alt={`Image ${index}`} />
+        ))}
+      </Swiper>
+    </section>
   );
 }
 

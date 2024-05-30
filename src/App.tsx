@@ -11,6 +11,7 @@ import RegistrationForm from './pages/register/Register';
 import Products from './pages/products/Products';
 import About from './pages/about/About';
 import AuthCheck from './components/authCheck/AuthCheck';
+import DetailedProduct from './pages/detailedProduct/DetailedProduct';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -34,6 +35,10 @@ const App: React.FC = () => {
         {
           path: 'about',
           element: <About />,
+        },
+        {
+          path: 'products/:id',
+          element: <DetailedProduct />,
         },
       ],
     },
