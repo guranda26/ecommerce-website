@@ -1,5 +1,6 @@
 import { ProductData } from '@commercetools/platform-sdk';
 import { Product } from 'src/Interfaces/CustomerInterface';
+import priceFunction from '../priceFunction/priceFunction';
 
 const processProductData = (productData: ProductData, id: string): Product => {
   if (!productData) {
@@ -15,15 +16,13 @@ const processProductData = (productData: ProductData, id: string): Product => {
 
   const priceObject = masterVariant?.prices?.[0];
   const centAmount = priceObject?.value?.centAmount;
+  const currencyCode = priceObject?.value?.currencyCode;
 
-  const price =
-    priceObject && centAmount !== undefined
-      ? new Intl.NumberFormat('de-DE', {
-          style: 'currency',
-          currency: priceObject.value.currencyCode,
-        }).format(centAmount / 100)
-      : undefined;
-  console.log(`price:`, price);
+  const discounted = priceObject?.discounted?.value?.centAmount;
+
+  const price = priceFunction(centAmount, currencyCode);
+
+  const discountPrice = priceFunction(discounted, currencyCode);
 
   return {
     id: id,
@@ -35,7 +34,7 @@ const processProductData = (productData: ProductData, id: string): Product => {
     imageUrl: imageUrl,
     images: images,
     price: price,
-    discountPrice: 'undefined',
+    discountPrice: discountPrice,
   };
 };
 

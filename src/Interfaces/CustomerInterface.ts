@@ -99,7 +99,7 @@ export type Product = {
   imageUrl?: string;
   images?: string[];
   price?: string;
-  discountPrice: string;
+  discountPrice?: string;
 };
 
 export interface ProductsProps {

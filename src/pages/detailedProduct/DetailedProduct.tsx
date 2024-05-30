@@ -39,7 +39,19 @@ function DetailedProduct(): React.JSX.Element {
       <p>Product ID: {product.id}</p>
       <p>Product Name: {product.name}</p>
       <p>Product Description: {product.description}</p>
-      <p>Product Price: {product.price}</p>
+      <p>
+        Product Price:{' '}
+        {product.discountPrice ? (
+          <>
+            <span style={{ textDecoration: 'line-through' }}>
+              {product.price}
+            </span>
+            <span>{product.discountPrice}</span>
+          </>
+        ) : (
+          product.price
+        )}
+      </p>
 
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, EffectFade]}
