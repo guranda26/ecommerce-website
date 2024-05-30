@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, EffectFade } from 'swiper/modules';
@@ -6,14 +7,24 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import useProducts from '../../hooks/useProduct';
 import './DetailedProduct.css';
+import ImageModal from '../../modules/modal/modal';
 
 function DetailedProduct(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
   const { product, loading, error } = useProducts(id || null);
   const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleClick = () => {
     navigate('/products');
+  };
+
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
   };
 
   if (loading) {
@@ -31,7 +42,7 @@ function DetailedProduct(): React.JSX.Element {
   return (
     <section>
       <div>
-        <button type="submit" onClick={handleClick}>
+        <button type="button" onClick={handleClick}>
           Return Back
         </button>
       </div>
@@ -66,10 +77,19 @@ function DetailedProduct(): React.JSX.Element {
       >
         {product.images?.map((image, index) => (
           <SwiperSlide key={index}>
-            <img src={image} alt={`Image ${index + 1}`} />
+            <img
+              src={image}
+              alt={`Image ${index + 1}`}
+              onClick={() => handleImageClick(image)}
+              style={{ cursor: 'pointer' }}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {selectedImage && (
+        <ImageModal imageUrl={selectedImage} onClose={handleCloseModal} />
+      )}
     </section>
   );
 }
