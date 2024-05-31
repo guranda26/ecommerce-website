@@ -11,7 +11,7 @@ function Products({ productId }: ProductsProps): React.JSX.Element {
   if (error) return <div>{error}</div>;
 
   const handleProductClick = (productId: string): void => {
-    navigate(`/products/${productId}`);
+    navigate(`/catalog/${productId}`);
   };
 
   return (

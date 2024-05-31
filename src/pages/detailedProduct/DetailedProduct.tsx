@@ -16,7 +16,7 @@ function DetailedProduct(): React.JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleClick = () => {
-    navigate('/products');
+    navigate('/catalog');
   };
 
   const handleImageClick = () => {
