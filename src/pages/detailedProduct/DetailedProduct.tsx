@@ -13,18 +13,18 @@ function DetailedProduct(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
   const { product, loading, error } = useProducts(id || null);
   const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleClick = () => {
     navigate('/products');
   };
 
-  const handleImageClick = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
+  const handleImageClick = () => {
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setSelectedImage(null);
+    setIsModalOpen(false);
   };
 
   if (loading) {
@@ -80,15 +80,15 @@ function DetailedProduct(): React.JSX.Element {
             <img
               src={image}
               alt={`Image ${index + 1}`}
-              onClick={() => handleImageClick(image)}
+              onClick={handleImageClick}
               style={{ cursor: 'pointer' }}
             />
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {selectedImage && (
-        <ImageModal imageUrl={selectedImage} onClose={handleCloseModal} />
+      {isModalOpen && product.images && (
+        <ImageModal imageUrls={product.images} onClose={handleCloseModal} />
       )}
     </section>
   );
