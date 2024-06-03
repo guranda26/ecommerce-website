@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, EffectFade } from 'swiper/modules';
@@ -6,14 +7,24 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import useProducts from '../../hooks/useProduct';
 import './DetailedProduct.css';
+import ImageModal from '../../modules/modal/modal';
 
 function DetailedProduct(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
   const { product, loading, error } = useProducts(id || null);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleClick = () => {
-    navigate('/products');
+    navigate('/catalog');
+  };
+
+  const handleImageClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   if (loading) {
@@ -31,7 +42,7 @@ function DetailedProduct(): React.JSX.Element {
   return (
     <section>
       <div>
-        <button type="submit" onClick={handleClick}>
+        <button type="button" onClick={handleClick}>
           Return Back
         </button>
       </div>
@@ -39,6 +50,19 @@ function DetailedProduct(): React.JSX.Element {
       <p>Product ID: {product.id}</p>
       <p>Product Name: {product.name}</p>
       <p>Product Description: {product.description}</p>
+      <p>
+        Product Price:{' '}
+        {product.discountPrice ? (
+          <>
+            <span style={{ textDecoration: 'line-through' }}>
+              {product.price}
+            </span>
+            <span>{product.discountPrice}</span>
+          </>
+        ) : (
+          product.price
+        )}
+      </p>
 
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, EffectFade]}
@@ -53,12 +77,19 @@ function DetailedProduct(): React.JSX.Element {
       >
         {product.images?.map((image, index) => (
           <SwiperSlide key={index}>
-            <img src={image} alt={`Image ${index + 1}`} />
+            <img
+              src={image}
+              alt={`Image ${index + 1}`}
+              onClick={handleImageClick}
+              style={{ cursor: 'pointer' }}
+            />
           </SwiperSlide>
-
-          // <img src={image} alt={`Image ${index}`} />
         ))}
       </Swiper>
+
+      {isModalOpen && product.images && (
+        <ImageModal imageUrls={product.images} onClose={handleCloseModal} />
+      )}
     </section>
   );
 }
