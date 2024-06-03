@@ -6,13 +6,13 @@ import {
 
 export const projectKey: string = import.meta.env
   .VITE_CTP_PROJECT_KEY as string;
-const clientId: string = import.meta.env.VITE_CTP_CLIENT_ID as string;
-const clientSecret: string = import.meta.env.VITE_CTP_CLIENT_SECRET as string;
-const authUrl: string = import.meta.env.VITE_CTP_AUTH_URL as string;
-const apiUrl: string = import.meta.env.VITE_CTP_API_URL as string;
-const scopes: string[] = (import.meta.env.VITE_CTP_SCOPES as string).split(',');
+export const clientId: string = import.meta.env.VITE_CTP_CLIENT_ID as string;
+export const clientSecret: string = import.meta.env.VITE_CTP_CLIENT_SECRET as string;
+export const authUrl: string = import.meta.env.VITE_CTP_AUTH_URL as string;
+export const apiUrl: string = import.meta.env.VITE_CTP_API_URL as string;
+export const scopes: string[] = (import.meta.env.VITE_CTP_SCOPES as string).split(',');
 
-const authMiddlewareOptions: AuthMiddlewareOptions = {
+export const authMiddlewareOptions: AuthMiddlewareOptions = {
   host: authUrl,
   projectKey: projectKey,
   credentials: {
@@ -23,7 +23,7 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
   fetch,
 };
 
-const httpMiddlewareOptions: HttpMiddlewareOptions = {
+export const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: apiUrl,
   fetch,
 };

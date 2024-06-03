@@ -12,8 +12,12 @@ import Products from './pages/products/Products';
 import About from './pages/about/About';
 import AuthCheck from './components/authCheck/AuthCheck';
 import DetailedProduct from './pages/detailedProduct/DetailedProduct';
+import { UserContext } from './context/userContext';
+import { clientMaker } from '../sdk/createClient';
+import { getToken } from '../sdk/myToken';
 
 const App: React.FC = () => {
+  const apiRoot = clientMaker();
   const roots = createBrowserRouter([
     {
       path: '/',
@@ -68,10 +72,12 @@ const App: React.FC = () => {
     },
   ]);
 
+  const myCache = getToken();
+
   return (
-    <>
+    <UserContext.Provider value={{ apiRoot, myCache }}>
       <RouterProvider router={roots} />
-    </>
+    </UserContext.Provider>
   );
 };
 
