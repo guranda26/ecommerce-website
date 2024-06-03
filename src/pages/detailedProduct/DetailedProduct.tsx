@@ -52,7 +52,6 @@ function DetailedProduct(): React.JSX.Element {
             className="mySwiper"
             spaceBetween={50}
             slidesPerView={1}
-            onSlideChange={() => console.log('slide change')}
           >
             {product.images?.map((image, index) => (
               <SwiperSlide key={index}>
@@ -75,7 +74,12 @@ function DetailedProduct(): React.JSX.Element {
           <p className="product-price">
             {product.discountPrice ? (
               <>
-                <span style={{ textDecoration: 'line-through' }}>
+                <span
+                  style={{
+                    textDecoration: 'line-through',
+                    textDecorationColor: '#3333338f',
+                  }}
+                >
                   {product.price}
                 </span>
                 <span>{product.discountPrice}</span>
