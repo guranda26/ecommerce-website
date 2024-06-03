@@ -9,7 +9,6 @@ import { UserContext } from '../../context/userContext';
 import { getMyToken } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
 
-
 const Login: React.FC = () => {
   const userContext = useContext(UserContext);
   const [email, setEmail] = useState('');
