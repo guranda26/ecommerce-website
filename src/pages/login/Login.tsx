@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiRoot } from '../../../sdk/client';
 import './Login.css';
-import { projectKey } from '../../../sdk/ClientBuilder';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../../context/userContext';
+import { getMyToken } from '../../../sdk/myToken';
+import { clientWithPassword } from '../../../sdk/createClient';
+
 
 const Login: React.FC = () => {
+  const userContext = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{
@@ -68,8 +71,8 @@ const Login: React.FC = () => {
 
   const authenticateUser = async (email: string, password: string) => {
     try {
-      const response = await apiRoot()
-        .withProjectKey({ projectKey })
+      const response = await userContext.apiRoot
+        .me()
         .login()
         .post({
           body: {
@@ -78,10 +81,10 @@ const Login: React.FC = () => {
           },
         })
         .execute();
-
       if (response.body) {
-        localStorage.setItem('userId', response.body.customer.id);
-        console.log('response:', response.body);
+        userContext.apiRoot = clientWithPassword(email, password);
+        await userContext.apiRoot.me().get().execute();
+        await getMyToken();
         return true;
       } else {
         setGeneralError('Login failed. Please check your email and password.');

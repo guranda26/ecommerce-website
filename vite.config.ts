@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => {
         process: 'process/browser',
         http: 'stream-http',
         https: 'https-browserify',
+        'node-fetch':'isomorphic-fetch'
       },
     },
     test: {
