@@ -54,7 +54,7 @@ function DetailedProduct(): React.JSX.Element {
             slidesPerView={1}
           >
             {product.images?.map((image, index) => (
-              <SwiperSlide key={index}>
+              <SwiperSlide key={index} className="swiper-img">
                 <img
                   src={image}
                   alt={`Image ${index + 1}`}
