@@ -180,5 +180,6 @@
 
   .header.header.active .nav {
     display: flex;
+    z-index: 100;
   }
 }
