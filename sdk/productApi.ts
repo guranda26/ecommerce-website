@@ -10,6 +10,7 @@ export const getProductDetails = async () => {
       .products()
       .get()
       .execute();
+
     const products = response.body.results.map((product) => {
       return processProductData(product.masterData.current, product.id);
     });
@@ -30,7 +31,6 @@ export const getProductById = async (id: string): Promise<Product> => {
       .execute();
 
     const responseData = response.body;
-    console.log('Response Data:', responseData);
     return processProductData(responseData.masterData.current, responseData.id);
   } catch (error) {
     console.error('Error fetching product by ID:', error);

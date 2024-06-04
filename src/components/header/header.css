@@ -27,6 +27,11 @@
   padding: 0;
 }
 
+.nav-link .svg-inline--fa {
+  width: 15px;
+  margin-right: 5px;
+}
+
 .profile-btn {
   display: block;
   width: 34px;
