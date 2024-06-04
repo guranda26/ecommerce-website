@@ -51,7 +51,6 @@ import { UserContext } from '../../context/userContext';
 import { getMyToken } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
 
-
 const RegistrationForm = () => {
   const userContext = useContext(UserContext);
   const [customerData, setCustomerData] = useState<CustomerData>({
@@ -203,7 +202,7 @@ const RegistrationForm = () => {
       ...prevData,
       [addressType === 'billing' ? 'billingAddress' : 'shippingAddress']: {
         ...prevData[
-        addressType === 'billing' ? 'billingAddress' : 'shippingAddress'
+          addressType === 'billing' ? 'billingAddress' : 'shippingAddress'
         ],
         [name]: value,
       },
@@ -266,18 +265,21 @@ const RegistrationForm = () => {
       createCustomer(customerData)
         .then((response: CustomerSignInResult) => {
           console.log('Customer created:', response);
-          userContext.apiRoot = clientWithPassword(customerData.email, customerData.password);
+          userContext.apiRoot = clientWithPassword(
+            customerData.email,
+            customerData.password
+          );
           userContext.apiRoot
-          .me()
-          .get()
-          .execute()
-          .then((res) => {
-            const bodyInit = {
-              username: res.body.email,
-              password:res.body.password
-            };
-            getMyToken(bodyInit);
-          });
+            .me()
+            .get()
+            .execute()
+            .then((res) => {
+              const bodyInit = {
+                username: res.body.email,
+                password: res.body.password,
+              };
+              getMyToken(bodyInit);
+            });
           setErrors({});
           setSuccess(true);
           setToastShown(false);

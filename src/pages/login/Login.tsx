@@ -24,7 +24,6 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (isExist()) {
       const message = 'You are already logged in';
       toast.info(message, { autoClose: 3000 });
@@ -83,14 +82,11 @@ const Login: React.FC = () => {
 
       if (response.body) {
         userContext.apiRoot = clientWithPassword(email, password);
-        const res = await userContext.apiRoot
-          .me()
-          .get()
-          .execute();
-        console.log("Res:", res.body);
+        const res = await userContext.apiRoot.me().get().execute();
+        console.log('Res:', res.body);
         const bodyInit = {
           username: email,
-          password: password
+          password: password,
         };
         await getMyToken(bodyInit);
         return true;
