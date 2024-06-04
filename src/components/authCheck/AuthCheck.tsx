@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Toast from '../Toast/Toast';
+import { isExist } from '../../../sdk/myToken';
 
 interface AuthCheckProps {
   children: React.ReactNode;
@@ -11,10 +12,10 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
   const location = useLocation();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const userId = localStorage.getItem('userId');
+  const isUserExist = isExist();
 
   useEffect(() => {
-    if (userId) {
+    if (isUserExist) {
       if (location.pathname === '/login') {
         setToastMessage('You are already logged in.');
         navigate('/', { replace: true });
@@ -23,7 +24,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
     } else {
       setIsAuthChecked(true);
     }
-  }, [navigate, userId, location.pathname]);
+  }, [navigate, isUserExist, location.pathname]);
 
   const handleCloseToast = () => {
     setToastMessage('');
@@ -38,7 +39,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
       {toastMessage && (
         <Toast message={toastMessage} onClose={handleCloseToast} />
       )}
-      {children}
+      {!isUserExist && children}
     </>
   );
 };
