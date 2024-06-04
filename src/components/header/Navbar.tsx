@@ -1,6 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './header.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faBook,
+  faHouse,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
 
 function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
   return (
@@ -13,6 +19,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
             to="/"
             onClick={props.handleBurgerBtn}
           >
+            <FontAwesomeIcon icon={faHouse} />
             Home
           </NavLink>
         </li>
@@ -23,7 +30,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
             to="/catalog"
             onClick={props.handleBurgerBtn}
           >
-            Catalog
+            <FontAwesomeIcon icon={faBook} /> Catalog
           </NavLink>
         </li>
         <li className="nav-item">
@@ -43,6 +50,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
             to="/about"
             onClick={props.handleBurgerBtn}
           >
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
             About us
           </NavLink>
         </li>
