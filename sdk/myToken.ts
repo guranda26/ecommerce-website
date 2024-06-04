@@ -31,7 +31,7 @@ export const getMyToken = async (bodyInit?: { username: string; password?: strin
         .then((result) => {
             Object.assign(myCache, result);
 
-            if (!clientId) {
+            if (!bodyInit) {
                 localStorage.setItem('anonymCache', JSON.stringify(myCache));
                 localStorage.removeItem('myCache');
             }

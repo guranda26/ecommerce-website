@@ -82,8 +82,8 @@ const Login: React.FC = () => {
 
       if (response.body) {
         userContext.apiRoot = clientWithPassword(email, password);
-        const res = await userContext.apiRoot.me().get().execute();
-        console.log('Res:', res.body);
+        // const res = await userContext.apiRoot.me().get().execute();
+        // console.log('Res:', res.body);
         const bodyInit = {
           username: email,
           password: password,

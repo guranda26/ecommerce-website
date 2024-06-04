@@ -14,8 +14,8 @@ function ProfilePanel(props: {
   const logOut = () => {
     setIsLogin(false);
     localStorage.removeItem('myCache');
-    getMyToken(true);
     userContext.apiRoot = clientMaker();
+    getMyToken();
   };
 
   return (

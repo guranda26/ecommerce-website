@@ -269,17 +269,12 @@ const RegistrationForm = () => {
             customerData.email,
             customerData.password
           );
-          userContext.apiRoot
-            .me()
-            .get()
-            .execute()
-            .then((res) => {
-              const bodyInit = {
-                username: res.body.email,
-                password: res.body.password,
-              };
-              getMyToken(bodyInit);
-            });
+
+          const bodyInit = {
+            username: customerData.email,
+            password: customerData.password,
+          };
+          getMyToken(bodyInit);
           setErrors({});
           setSuccess(true);
           setToastShown(false);
