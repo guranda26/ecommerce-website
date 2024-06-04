@@ -1,20 +1,26 @@
 import { authUrl, clientId, clientSecret } from "./createClient";
+import { projectKey } from "./createClient";
 
 
-export const getMyToken = async (clientid?: string) => {
+export const getMyToken = async (bodyInit?: { username: string; password?: string }) => {
     const myCache = {
         access_token: "",
         expires_in: 0,
         scope: "manage_project:furniture",
         token_type: "Bearer"
     }
-    console.log(clientid);
-    const userId = clientid || clientId;
-    console.log(userId);
+
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Basic ${Buffer.from(`${userId}:${clientSecret}`).toString('base64')}`);
-    const raw = "";
-    await fetch(`${authUrl}/oauth/token?grant_type=client_credentials`,
+    let raw: string | BodyInit = "";
+    let grant_type = 'client_credentials';
+    let projectkey = '';
+    myHeaders.append("Authorization", `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`);
+    if (bodyInit) {
+        raw = JSON.stringify(bodyInit);
+        grant_type = `password&username=${bodyInit.username}&password=${bodyInit.password}`
+        projectkey = `/${projectKey}/customers`;
+    }
+    await fetch(`${authUrl}/oauth${projectkey}/token?grant_type=${grant_type}`,
         {
             method: "POST",
             headers: myHeaders,
