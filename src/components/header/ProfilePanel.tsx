@@ -16,7 +16,6 @@ function ProfilePanel(props: {
     localStorage.removeItem('myCache');
     getMyToken(true);
     userContext.apiRoot = clientMaker();
-    
   };
 
   return (
