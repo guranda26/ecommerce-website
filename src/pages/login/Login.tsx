@@ -24,7 +24,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    
+
     if (isExist()) {
       const message = 'You are already logged in';
       toast.info(message, { autoClose: 3000 });
@@ -87,9 +87,10 @@ const Login: React.FC = () => {
           .me()
           .get()
           .execute();
+        console.log("Res:", res.body);
         const bodyInit = {
-          email: res.body.email,
-          password:res.body.password
+          username: email,
+          password: password
         };
         await getMyToken(bodyInit);
         return true;
@@ -108,7 +109,7 @@ const Login: React.FC = () => {
     event.preventDefault();
     const message =
       'User is already logged in. Do you want to log out and then log in again?';
-    
+
     if (!isExist() || window.confirm(message) == true) {
       validateField('email', email);
       validateField('password', password);
