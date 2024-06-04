@@ -6,6 +6,7 @@ export const createCustomer = async (
   customerData: CustomerData
 ): Promise<CustomerSignInResult> => {
   const apiRoot = clientMaker();
+  
   const {
     firstName,
     lastName,
