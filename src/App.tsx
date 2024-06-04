@@ -12,6 +12,7 @@ import Products from './pages/products/Products';
 import About from './pages/about/About';
 import AuthCheck from './components/authCheck/AuthCheck';
 import DetailedProduct from './pages/detailedProduct/DetailedProduct';
+import Profile from './pages/profile/Profile';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -39,6 +40,14 @@ const App: React.FC = () => {
         {
           path: 'products/:id',
           element: <DetailedProduct />,
+        },
+        {
+          path: 'profile',
+          element: (
+            <AuthCheck>
+              <Profile />
+            </AuthCheck>
+          ),
         },
       ],
     },
