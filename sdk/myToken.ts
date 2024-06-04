@@ -2,6 +2,13 @@ import { TokenInfo } from "@commercetools/sdk-client-v2";
 import { authUrl, clientId, clientSecret } from "./createClient";
 import { projectKey } from "./createClient";
 
+export type CacheType = {
+    access_token: string;
+    expires_in: number;
+    scope: string;
+    token_type: string;
+}
+
 
 export const getMyToken = (bodyInit?: { username: string; password?: string }) => {
     const changeToken = async () => {
@@ -22,7 +29,8 @@ export const getMyToken = (bodyInit?: { username: string; password?: string }) =
             grant_type = `password&username=${bodyInit.username}&password=${bodyInit.password}`
             projectkey = `/${projectKey}/customers`;
         }
-        const responseToken: TokenInfo | void = await fetch(`${authUrl}/oauth${projectkey}/token?grant_type=${grant_type}`,
+
+        const isAccessToken: boolean = await fetch(`${authUrl}/oauth${projectkey}/token?grant_type=${grant_type}`,
             {
                 method: "POST",
                 headers: myHeaders,
@@ -31,26 +39,30 @@ export const getMyToken = (bodyInit?: { username: string; password?: string }) =
             }
         )
             .then((response) => response.json())
-            .then((result: TokenInfo) => result)
+            .then((result: CacheType) => {
+                Object.assign(myCache, result);
+                return true;
+            })
             .catch((error) => {
-                console.error(error)
+                console.error(error);
+                return false;
             });
 
-        if (responseToken) {
-            Object.assign(myCache, responseToken);
+        if (isAccessToken) {
 
             if (!bodyInit) {
                 localStorage.setItem('anonymCache', JSON.stringify(myCache));
                 localStorage.removeItem('myCache');
             }
+
             else {
                 localStorage.setItem('myCache', JSON.stringify(myCache));
                 localStorage.removeItem('anonymCache');
             }
         }
-        return myCache;
     };
-    console.log(changeToken());
+
+    void changeToken();
 }
 
 export function getToken() {
