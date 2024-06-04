@@ -6,7 +6,7 @@ import './Login.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/userContext';
-import { getMyToken } from '../../../sdk/myToken';
+import { getMyToken, isExist } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
 
 const Login: React.FC = () => {
@@ -24,8 +24,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
+    
+    if (isExist()) {
       const message = 'You are already logged in';
       toast.info(message, { autoClose: 3000 });
       setTimeout(() => {
@@ -80,10 +80,18 @@ const Login: React.FC = () => {
           },
         })
         .execute();
+
       if (response.body) {
         userContext.apiRoot = clientWithPassword(email, password);
-        await userContext.apiRoot.me().get().execute();
-        await getMyToken();
+        const res = await userContext.apiRoot
+          .me()
+          .get()
+          .execute();
+        const bodyInit = {
+          email: res.body.email,
+          password:res.body.password
+        };
+        await getMyToken(bodyInit);
         return true;
       } else {
         setGeneralError('Login failed. Please check your email and password.');
@@ -100,8 +108,8 @@ const Login: React.FC = () => {
     event.preventDefault();
     const message =
       'User is already logged in. Do you want to log out and then log in again?';
-    const userId = localStorage.getItem('userId');
-    if (!userId || window.confirm(message) == true) {
+    
+    if (!isExist() || window.confirm(message) == true) {
       validateField('email', email);
       validateField('password', password);
 

@@ -55,8 +55,7 @@ export const createCustomer = async (
   const projectKey: string = import.meta.env.VITE_CTP_PROJECT_KEY as string;
 
   try {
-    const response = await apiRoot()
-      .withProjectKey({ projectKey })
+    const response = await apiRoot
       .customers()
       .post({
         body: customerDraft,

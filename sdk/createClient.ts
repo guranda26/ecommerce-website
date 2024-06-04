@@ -57,8 +57,6 @@ const createOption = (user?: UserAuthOptions) => {
 }
 
 export const clientWithPassword = (email: string, password: string) => {
-    console.log("Passwordflow:");
-
     const passwordOptions = createOption({ username: email, password: password });
     const client = new ClientBuilder()
         .withProjectKey(projectKey)
@@ -78,7 +76,7 @@ export const clientMaker = () => {
     let client: Client;
 
     if (!isExist()) {
-        console.log("Anonym:");
+        console.log("Clientmaker if");
         client = new ClientBuilder()
             .withProjectKey(projectKey)
             .withClientCredentialsFlow(authMiddlewareOptions)
@@ -87,7 +85,7 @@ export const clientMaker = () => {
             .build();
     }
     else {
-        console.log("With token :");
+        console.log("clientMaker else")
         const authorization: string = `Bearer ${getToken()}`;
         const existTokenOptions: ExistingTokenMiddlewareOptions = {
             force: true,
