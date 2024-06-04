@@ -28,6 +28,12 @@ const App: React.FC = () => {
         {
           path: 'catalog',
           element: <Catalog />,
+          // children: [
+          //   {
+          //     path: ':id',
+          //     element: <DetailedProduct />,
+          //   }
+          // ]
         },
         {
           path: 'about',

@@ -1,13 +1,12 @@
-// import { ProductData } from '@commercetools/platform-sdk';
 import { Product } from '../src/Interfaces/CustomerInterface';
-import { apiRoot } from './client';
-import { projectKey } from './ClientBuilder';
 import processProductData from '../src/components/processProductData/processProductData';
+import { clientMaker } from './createClient';
 
 export const getProductDetails = async () => {
+  const apiRoot = clientMaker();
+
   try {
-    const response = await apiRoot()
-      .withProjectKey({ projectKey })
+    const response = await apiRoot
       .products()
       .get()
       .execute();
@@ -23,9 +22,9 @@ export const getProductDetails = async () => {
 };
 
 export const getProductById = async (id: string): Promise<Product> => {
+  const apiRoot = clientMaker();
   try {
-    const response = await apiRoot()
-      .withProjectKey({ projectKey })
+    const response = await apiRoot
       .products()
       .withId({ ID: id })
       .get()
