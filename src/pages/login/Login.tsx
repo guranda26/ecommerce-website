@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiRoot } from '../../../sdk/client';
 import './Login.css';
-import { projectKey } from '../../../sdk/ClientBuilder';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../../context/userContext';
+import { getMyToken, isExist } from '../../../sdk/myToken';
+import { clientWithPassword } from '../../../sdk/createClient';
 
 const Login: React.FC = () => {
+  const userContext = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{
@@ -22,8 +24,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
+    if (isExist()) {
       const message = 'You are already logged in';
       toast.info(message, { autoClose: 3000 });
       setTimeout(() => {
@@ -68,8 +69,8 @@ const Login: React.FC = () => {
 
   const authenticateUser = async (email: string, password: string) => {
     try {
-      const response = await apiRoot()
-        .withProjectKey({ projectKey })
+      const response = await userContext.apiRoot
+        .me()
         .login()
         .post({
           body: {
@@ -80,8 +81,12 @@ const Login: React.FC = () => {
         .execute();
 
       if (response.body) {
-        localStorage.setItem('userId', response.body.customer.id);
-        console.log('response:', response.body);
+        userContext.apiRoot = clientWithPassword(email, password);
+        const bodyInit = {
+          username: email,
+          password: password,
+        };
+        getMyToken(bodyInit);
         return true;
       } else {
         setGeneralError('Login failed. Please check your email and password.');
@@ -98,8 +103,8 @@ const Login: React.FC = () => {
     event.preventDefault();
     const message =
       'User is already logged in. Do you want to log out and then log in again?';
-    const userId = localStorage.getItem('userId');
-    if (!userId || window.confirm(message) == true) {
+
+    if (!isExist() || window.confirm(message) == true) {
       validateField('email', email);
       validateField('password', password);
 

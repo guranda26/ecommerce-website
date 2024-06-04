@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { isExist } from 'sdk/myToken';
 
 interface AuthCheckProps {
   children: React.ReactNode;
@@ -7,16 +8,15 @@ interface AuthCheckProps {
 
 const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId');
-
+  const isLogin = isExist();
   React.useEffect(() => {
-    if (userId) {
+    if (isLogin) {
       alert('You are already logged in.');
       navigate('/');
     }
-  }, [navigate, userId]);
+  }, [navigate, isLogin]);
 
-  return <>{!userId && children}</>;
+  return <>{!isLogin && children}</>;
 };
 
 export default AuthCheck;

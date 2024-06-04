@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { createCustomer } from '../../../sdk/customerApi';
 import { CustomerSignInResult } from '@commercetools/platform-sdk';
@@ -16,7 +16,6 @@ import {
   isDateOfBirthValid,
   isSimpleTextValid,
   isPostalCodeValid,
-  // isCountryValid,
   CountryCode,
   isCityValid,
 } from '../../modules/validationUtils';
@@ -47,7 +46,13 @@ const countryNames: { [key in CountryCode]: string } = {
 };
 
 import './Register.css';
+import { isExist } from '../../../sdk/myToken';
+import { UserContext } from '../../context/userContext';
+import { getMyToken } from '../../../sdk/myToken';
+import { clientWithPassword } from '../../../sdk/createClient';
+
 const RegistrationForm = () => {
+  const userContext = useContext(UserContext);
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -74,6 +79,17 @@ const RegistrationForm = () => {
   const [serverError, setServerError] = useState<string>('');
   const [toastShown, setToastShown] = useState<boolean>(false);
   const [errorToastShown, setErrorToastShown] = useState(false);
+  const navigate = useNavigate();
+
+  const showToastMessage = (message: string, type: TypeOptions) => {
+    if (['info', 'success', 'warning', 'error'].includes(type)) {
+      toast[type as 'info' | 'success' | 'warning' | 'error'](message, {
+        position: 'top-center',
+      });
+    } else {
+      console.warn(`Invalid toast type: ${type}`);
+    }
+  };
 
   const updateNestedState = <T extends object, K extends keyof T>(
     obj: T,
@@ -252,8 +268,7 @@ const RegistrationForm = () => {
     event.preventDefault();
     const message =
       'User is already logged in. Do you want to log out and then register again?';
-    const userId = localStorage.getItem('userId');
-    if (!userId || window.confirm(message) == true) {
+    if (!isExist() || window.confirm(message) == true) {
       if (!validateForm()) {
         console.log('Form validation failed:', errors);
         return;
@@ -262,9 +277,15 @@ const RegistrationForm = () => {
       createCustomer(customerData)
         .then((response: CustomerSignInResult) => {
           console.log('Customer created:', response);
-          if (response.customer) {
-            localStorage.setItem('userId', response.customer.id);
-          }
+          userContext.apiRoot = clientWithPassword(
+            customerData.email,
+            customerData.password
+          );
+          const bodyInit = {
+            username: customerData.email,
+            password: customerData.password,
+          };
+          getMyToken(bodyInit);
           setErrors({});
           setSuccess(true);
           setToastShown(false);
@@ -299,17 +320,6 @@ const RegistrationForm = () => {
         });
     } else {
       navigate('/');
-    }
-  };
-
-  const navigate = useNavigate();
-  const showToastMessage = (message: string, type: TypeOptions) => {
-    if (['info', 'success', 'warning', 'error'].includes(type)) {
-      toast[type as 'info' | 'success' | 'warning' | 'error'](message, {
-        position: 'top-center',
-      });
-    } else {
-      console.warn(`Invalid toast type: ${type}`);
     }
   };
 

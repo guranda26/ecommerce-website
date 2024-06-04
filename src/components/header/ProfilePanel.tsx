@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './header.css';
+import { getMyToken, isExist } from '../../../sdk/myToken';
+import { UserContext } from '../../context/userContext';
+import { clientMaker } from '../../../sdk/createClient';
 
 function ProfilePanel(props: {
   handleProfile: VoidFunction;
 }): React.JSX.Element {
-  const userId: string | null = localStorage.getItem('userId');
-  const [isLogin, setIsLogin] = useState(!!userId);
+  const [isLogin, setIsLogin] = useState(isExist());
+  const userContext = useContext(UserContext);
 
   const logOut = () => {
     setIsLogin(false);
-    localStorage.removeItem('userId');
+    localStorage.removeItem('myCache');
+    userContext.apiRoot = clientMaker();
+    getMyToken();
   };
 
   return (

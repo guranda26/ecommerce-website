@@ -1,11 +1,12 @@
-import { CustomerSignInResult } from '@commercetools/platform-sdk';
+import { CustomerSignInResult, MyCustomerDraft } from '@commercetools/platform-sdk';
 import { CustomerData } from '../src/Interfaces/CustomerInterface';
-import { apiRoot } from '../sdk/client';
-import { CustomerDraft } from '@commercetools/platform-sdk';
+import { clientMaker } from './createClient';
 
 export const createCustomer = async (
   customerData: CustomerData
 ): Promise<CustomerSignInResult> => {
+  const apiRoot = clientMaker();
+  
   const {
     firstName,
     lastName,
@@ -29,13 +30,13 @@ export const createCustomer = async (
   const shippingAddr = useSameAddress
     ? billingAddr
     : {
-        country: countryCode,
-        streetName: shippingAddress.streetName,
-        city: shippingAddress.city,
-        postalCode: shippingAddress.postalCode,
-      };
+      country: countryCode,
+      streetName: shippingAddress.streetName,
+      city: shippingAddress.city,
+      postalCode: shippingAddress.postalCode,
+    };
 
-  let customerDraft: CustomerDraft = {
+  let customerDraft: MyCustomerDraft = {
     firstName,
     lastName,
     email,
@@ -52,12 +53,11 @@ export const createCustomer = async (
     };
   }
 
-  const projectKey: string = import.meta.env.VITE_CTP_PROJECT_KEY as string;
 
   try {
-    const response = await apiRoot()
-      .withProjectKey({ projectKey })
-      .customers()
+    const response = await apiRoot
+      .me()
+      .signup()
       .post({
         body: customerDraft,
       })
