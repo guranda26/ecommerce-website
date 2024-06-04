@@ -82,13 +82,11 @@ const Login: React.FC = () => {
 
       if (response.body) {
         userContext.apiRoot = clientWithPassword(email, password);
-        // const res = await userContext.apiRoot.me().get().execute();
-        // console.log('Res:', res.body);
         const bodyInit = {
           username: email,
           password: password,
         };
-        await getMyToken(bodyInit);
+        getMyToken(bodyInit);
         return true;
       } else {
         setGeneralError('Login failed. Please check your email and password.');
