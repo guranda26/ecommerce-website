@@ -34,7 +34,7 @@ const App: React.FC = () => {
           element: <About />,
         },
         {
-          path: 'products/:id',
+          path: 'catalog/:id',
           element: <DetailedProduct />,
         },
       ],

@@ -98,6 +98,8 @@ export type Product = {
   description: string;
   imageUrl?: string;
   images?: string[];
+  price?: string;
+  discountPrice?: string;
 };
 
 export interface ProductsProps {
