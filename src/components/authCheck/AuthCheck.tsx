@@ -35,11 +35,12 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
 
   return (
     <>
-      {toastMessage && <Toast message={toastMessage} onClose={handleCloseToast} />}
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={handleCloseToast} />
+      )}
       {children}
     </>
   );
-
 };
 
 export default AuthCheck;

@@ -15,7 +15,7 @@ function ProfilePanel(props: {
     navigate('/');
   };
 
-return (
+  return (
     <>
       <h3 className="profile-header">Profile</h3>
       {!isLogin && (
