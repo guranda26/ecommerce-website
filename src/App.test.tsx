@@ -42,7 +42,7 @@ describe('App Routing', () => {
     render(<App />);
 
     // // Catalog Example Page
-    expect(screen.getByText('Catalog Example page')).toBeInTheDocument();
+    expect(screen.getByText('Our catalog')).toBeInTheDocument();
   });
 
   it('renders Login for /login route', () => {
@@ -51,7 +51,7 @@ describe('App Routing', () => {
     render(<App />);
 
     // Login Example Page
-    expect(screen.getByText('Login Example page')).toBeInTheDocument();
+    expect(screen.getByText('Do not have an account?')).toBeInTheDocument();
   });
 
   it('renders RegistrationForm for /register route', () => {
