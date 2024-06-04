@@ -79,6 +79,18 @@ const RegistrationForm = () => {
   const [serverError, setServerError] = useState<string>('');
   const [toastShown, setToastShown] = useState<boolean>(false);
   const [errorToastShown, setErrorToastShown] = useState(false);
+  const navigate = useNavigate();
+
+  const showToastMessage = (message: string, type: TypeOptions) => {
+    if (['info', 'success', 'warning', 'error'].includes(type)) {
+      toast[type as 'info' | 'success' | 'warning' | 'error'](message, {
+        position: 'top-center',
+      });
+    } else {
+      console.warn(`Invalid toast type: ${type}`);
+    }
+  };
+
   const updateNestedState = <T extends object, K extends keyof T>(
     obj: T,
     key: K,
@@ -269,7 +281,6 @@ const RegistrationForm = () => {
             customerData.email,
             customerData.password
           );
-
           const bodyInit = {
             username: customerData.email,
             password: customerData.password,
@@ -309,17 +320,6 @@ const RegistrationForm = () => {
         });
     } else {
       navigate('/');
-    }
-  };
-
-  const navigate = useNavigate();
-  const showToastMessage = (message: string, type: TypeOptions) => {
-    if (['info', 'success', 'warning', 'error'].includes(type)) {
-      toast[type as 'info' | 'success' | 'warning' | 'error'](message, {
-        position: 'top-center',
-      });
-    } else {
-      console.warn(`Invalid toast type: ${type}`);
     }
   };
 

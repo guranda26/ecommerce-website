@@ -76,7 +76,6 @@ export const clientMaker = () => {
     let client: Client;
 
     if (!isExist()) {
-        console.log("Clientmaker if");
         client = new ClientBuilder()
             .withProjectKey(projectKey)
             .withClientCredentialsFlow(authMiddlewareOptions)
@@ -85,7 +84,6 @@ export const clientMaker = () => {
             .build();
     }
     else {
-        console.log("clientMaker else")
         const authorization: string = `Bearer ${getToken()}`;
         const existTokenOptions: ExistingTokenMiddlewareOptions = {
             force: true,

@@ -29,11 +29,11 @@ export const createCustomer = async (
   const shippingAddr = useSameAddress
     ? billingAddr
     : {
-        country: countryCode,
-        streetName: shippingAddress.streetName,
-        city: shippingAddress.city,
-        postalCode: shippingAddress.postalCode,
-      };
+      country: countryCode,
+      streetName: shippingAddress.streetName,
+      city: shippingAddress.city,
+      postalCode: shippingAddress.postalCode,
+    };
 
   let customerDraft: MyCustomerDraft = {
     firstName,
