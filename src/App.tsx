@@ -14,6 +14,7 @@ import DetailedProduct from './pages/detailedProduct/DetailedProduct';
 import Profile from './pages/profile/Profile';
 import { UserContext } from './context/userContext';
 import { clientMaker } from '../sdk/createClient';
+import Profile from './pages/profile/Profile';
 
 const App: React.FC = () => {
   const apiRoot = clientMaker();

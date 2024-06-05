@@ -3,7 +3,10 @@ import './filterSection.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-import { getProductsByName, sortProductByPrice } from '../../../sdk/productsApi';
+import {
+    getProductsByName,
+    sortProductByPrice,
+} from '../../../sdk/productsApi';
 import { ProductProjection } from '@commercetools/platform-sdk';
 
 function FilterSection(props: {
@@ -26,10 +29,10 @@ function FilterSection(props: {
         void (async () => {
             setLoading(true);
             products = await sortProductByPrice(type);
-            props.setProducts(products?.body.results!);
+            props.setProducts(products?.body.results || []);
             setLoading(false);
         })();
-    }
+    };
 
     return (
         <>
@@ -42,10 +45,15 @@ function FilterSection(props: {
                         type="text"
                         name="name"
                         id="product-name"
-                        autoComplete='on'
+                        autoComplete="on"
                     />
                 </label>
-                <select onChange={(event) => handleSortByPrice(event.target.value)} className="select-price" name="price" id="price">
+                <select
+                    onChange={(event) => handleSortByPrice(event.target.value)}
+                    className="select-price"
+                    name="price"
+                    id="price"
+                >
                     <option style={{ display: 'none' }} defaultValue={''}>
                         Select Price By
                     </option>
