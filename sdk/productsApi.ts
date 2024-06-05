@@ -26,3 +26,26 @@ export const getProductsByName = async (str: string) => {
         throw error;
     }
 }
+
+
+export const getProductsByAscendingPrice = async (type: string) => {
+    const apiRoot = clientMaker();
+    try {
+        const response = await apiRoot
+            .productProjections()
+            .search()
+            .get({
+                queryArgs: {
+                    sort: `discountedPrice.value.centAmount ${type}`,
+                    priceCurrency: 'EUR'
+                }
+            })
+            .execute();
+        if (response.body) {
+            return response;
+        }
+    } catch (error) {
+        console.error('Error fetching product :', error);
+        throw error;
+    }
+}

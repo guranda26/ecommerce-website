@@ -13,7 +13,6 @@ function FilterSection(props: {
 
   const handleSearchName = (text: string) => {
     let products;
-    console.log(text);
     void (async () => {
       setLoading(true);
       products = await getProductsByName(text);
