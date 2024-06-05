@@ -1,0 +1,33 @@
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.select-price,
+.filter-name {
+  max-width: 200px;
+  width: 100%;
+  font-size: 18px;
+  border: 1px solid var(--dark-color);
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.name-label {
+  position: relative;
+}
+
+.filter-name {
+  padding-left: 30px;
+}
+
+.search-img {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+}

@@ -1,7 +1,7 @@
 import priceFunction from './priceFunction';
-import { ProductData } from '@commercetools/platform-sdk';
+import { ProductProjection } from '@commercetools/platform-sdk';
 
-export const getPrice = (productData: ProductData) => {
+export const getPrice = (productData: ProductProjection) => {
   const { masterVariant } = productData;
   const priceObject = masterVariant?.prices?.[0];
   const centAmount = priceObject?.value?.centAmount;

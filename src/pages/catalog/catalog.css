@@ -1,3 +1,7 @@
+.catalog {
+  padding-bottom: 40px;
+}
+
 .products-list {
   display: flex;
   align-items: center;
@@ -93,4 +97,20 @@
 
 .discount {
   color: var(--accent-color);
+}
+
+.more-btn {
+  padding: 5px;
+  background-color: transparent;
+  color: var(--accent-color);
+  font-size: 24px;
+}
+
+.more-btn:hover {
+  color: var(--brand-color);
+}
+
+.nothing-text {
+  font-size: 24px;
+  color: var(--brand-color);
 }

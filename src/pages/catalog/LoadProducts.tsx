@@ -1,22 +1,30 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ProductsList from './ProductsList';
-import { Product } from '@commercetools/platform-sdk';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import { clientMaker } from '../../../sdk/createClient';
+import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function LoadProducts(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
 
-  const [response, setResponse] = useState<Product[]>([]);
+  const [response, setResponse] = useState<ProductProjection[]>([]);
 
   const fetchData = useCallback(async () => {
     const apiRoot = clientMaker();
     const getProducts = async (page: number) => {
       try {
-        console.log(page);
-        const response = await apiRoot.products().get().execute();
+        const response = await apiRoot
+          .productProjections()
+          .get({
+            queryArgs: {
+              limit: page * 20,
+            },
+          })
+          .execute();
         return response;
       } catch (error) {
         let errorMessage = 'Unknown error';
@@ -55,6 +63,7 @@ function LoadProducts(): React.JSX.Element {
     setPage((page) => page + 1);
   };
 
+  console.log('LoadProductsL', response);
   return (
     <>
       {loading && <div className="loading-text">Loading...</div>}
@@ -65,7 +74,10 @@ function LoadProducts(): React.JSX.Element {
       )}
       <ProductsList products={response} />
       {total && total > response.length ? (
-        <button onClick={loadMore}> More...</button>
+        <button className="more-btn" onClick={loadMore}>
+          {' '}
+          <FontAwesomeIcon icon={faRotateLeft} />
+        </button>
       ) : (
         <></>
       )}
