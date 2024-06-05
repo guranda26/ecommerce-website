@@ -11,7 +11,6 @@ import RegistrationForm from './pages/register/Register';
 import About from './pages/about/About';
 import AuthCheck from './components/authCheck/AuthCheck';
 import DetailedProduct from './pages/detailedProduct/DetailedProduct';
-import Profile from './pages/profile/Profile';
 import { UserContext } from './context/userContext';
 import { clientMaker } from '../sdk/createClient';
 import Profile from './pages/profile/Profile';
