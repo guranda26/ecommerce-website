@@ -63,7 +63,7 @@ function LoadProducts(): React.JSX.Element {
       {loading && <div className="loading-text">Loading...</div>}
       {errorMessage && (
         <div>
-          <p className='error-message'>{errorMessage}</p>
+          <p className="error-message">{errorMessage}</p>
         </div>
       )}
       <ProductsList products={response} />
