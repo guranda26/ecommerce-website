@@ -4,7 +4,6 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import { clientMaker } from '../../../sdk/createClient';
 import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 function LoadProducts(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -55,10 +54,6 @@ function LoadProducts(): React.JSX.Element {
     void fetchData();
   }, [fetchData]);
 
-  const handleTryAgainButton = () => {
-    setErrorMessage(null);
-  };
-
   const loadMore = () => {
     setPage((page) => page + 1);
   };
@@ -68,7 +63,7 @@ function LoadProducts(): React.JSX.Element {
       {loading && <div className="loading-text">Loading...</div>}
       {errorMessage && (
         <div>
-          <button onClick={handleTryAgainButton}>Try again</button>
+          <p className='error-message'>{errorMessage}</p>
         </div>
       )}
       <ProductsList products={response} />
