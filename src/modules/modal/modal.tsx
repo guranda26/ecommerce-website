@@ -17,11 +17,15 @@ const style = {
   width: 'auto',
   maxWidth: '90%',
   maxHeight: '90vh',
-  height: '80vh',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 2,
+  breakpoints: {
+    768: {
+      top: 0,
+    },
+  },
 };
 
 interface ImageModalProps {
@@ -67,7 +71,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ imageUrls, onClose }) => {
                 sx={{
                   width: '100%',
                   height: 'auto',
-                  maxHeight: '80vh',
+                  maxHeight: '60vh',
                   objectFit: 'contain',
                 }}
               />
