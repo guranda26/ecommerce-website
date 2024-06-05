@@ -42,7 +42,7 @@ const App: React.FC = () => {
         {
           path: 'profile',
           element: (
-            <AuthCheck>
+            <AuthCheck restricted>
               <Profile />
             </AuthCheck>
           ),
