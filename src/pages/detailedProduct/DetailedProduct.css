@@ -2,10 +2,18 @@
   --dark-color: #333;
 }
 .swiper {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
+
+.swiper-slide img {
+  width: 100%;
+}
+
 .detailed-product {
   background-color: #fff;
+  max-width: 100%;
 }
 
 .product-info {
@@ -17,6 +25,7 @@
 }
 .product-content {
   display: flex;
+  /* flex-wrap: wrap; */
   justify-content: space-between;
   align-items: center;
 }
@@ -38,8 +47,7 @@
 }
 
 .swiper-img img {
-  width: auto;
-  max-height: 600px;
+  width: 100%;
 }
 
 .swiper-wrapper {
@@ -58,7 +66,6 @@
 .description-heading {
   display: block;
   text-align: left;
-  margin-left: 40px;
   margin-bottom: 20px;
   border-bottom: 1px solid var(--brand-color);
   width: 45%;
@@ -68,11 +75,12 @@
   color: var(--brand-color);
   font-size: 14px;
   font-weight: 500;
-  width: 50%;
+  width: 45%;
   text-align: left;
-  padding-left: 40px;
   line-height: 1.2;
   margin-bottom: 20px;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
 }
 .delivery-return-info tr th {
   font-size: 16px;
@@ -92,6 +100,7 @@
   border: 1px solid #ddd;
   margin-top: 20px;
   background-color: #dfe9f4;
+  overflow-wrap: break-word;
 }
 
 .delivery-return-info th,
@@ -118,4 +127,54 @@
 
 .return-btn .button {
   font-size: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  .swiper {
+    max-width: 100%;
+  }
+
+  .product-img {
+    flex-shrink: 2;
+    flex-basis: 200px;
+  }
+
+  .product-content {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+
+  .product-info {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .description-heading,
+  .product-description,
+  .delivery-return-info {
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0;
+    overflow-x: hidden;
+  }
+
+  .delivery-return-info {
+    margin: 0;
+    padding: 0;
+  }
+
+  .product-description {
+    width: auto;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .product-name,
+  .product-price {
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
 }

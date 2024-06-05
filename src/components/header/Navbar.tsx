@@ -35,16 +35,6 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
         </li>
         <li className="nav-item">
           <NavLink
-            title="Products"
-            className="nav-link"
-            to="/products"
-            onClick={props.handleBurgerBtn}
-          >
-            Products
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
             title="About us"
             className="nav-link"
             to="/about"

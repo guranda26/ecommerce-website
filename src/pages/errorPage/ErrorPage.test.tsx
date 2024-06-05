@@ -3,8 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
 import { expect, vi, it, describe } from 'vitest';
 
-vi.mock('../../assets/images/404-error.png', () => ({
-  default: 'mocked-404-error.png',
+vi.mock('../../assets/images/404.png', () => ({
+  default: 'mocked-404.png',
 }));
 
 describe('ErrorPage', () => {
@@ -27,7 +27,7 @@ describe('ErrorPage', () => {
 
     expect(screen.getByAltText('Error page image')).toHaveAttribute(
       'src',
-      'mocked-404-error.png'
+      'mocked-404.png'
     );
     expect(screen.getByText('PageNotFound')).toBeInTheDocument();
     expect(screen.getByText('Home Page')).toBeInTheDocument();
