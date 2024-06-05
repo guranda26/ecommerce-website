@@ -28,7 +28,7 @@ export const getProductsByName = async (str: string) => {
 }
 
 
-export const getProductsByAscendingPrice = async (type: string) => {
+export const sortProductByPrice = async (type: string) => {
     const apiRoot = clientMaker();
     try {
         const response = await apiRoot
@@ -36,7 +36,8 @@ export const getProductsByAscendingPrice = async (type: string) => {
             .search()
             .get({
                 queryArgs: {
-                    sort: `discountedPrice.value.centAmount ${type}`,
+                    limit: 200,
+                    sort: `price ${type}`,
                     priceCurrency: 'EUR'
                 }
             })
