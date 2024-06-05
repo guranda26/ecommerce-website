@@ -38,7 +38,7 @@ function LoadProducts(): React.JSX.Element {
     try {
       const res = await getProducts(page);
       if (res.statusCode === 200) {
-        setResponse((response) => [...response, ...res.body.results]);
+        setResponse(() => [...res.body.results]);
         setTotal(() => res.body.total || 0);
       }
     } catch (error: unknown) {
@@ -63,7 +63,6 @@ function LoadProducts(): React.JSX.Element {
     setPage((page) => page + 1);
   };
 
-  console.log('LoadProductsL', response);
   return (
     <>
       {loading && <div className="loading-text">Loading...</div>}
