@@ -8,7 +8,10 @@ interface AuthCheckProps {
   restricted?: boolean;
 }
 
-const AuthCheck: React.FC<AuthCheckProps> = ({ children, restricted = false }) => {
+const AuthCheck: React.FC<AuthCheckProps> = ({
+  children,
+  restricted = false,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -19,13 +22,13 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children, restricted = false }) =
       setIsAuthChecked(true);
     } else {
       setIsAuthChecked(true);
-      if (restricted) {
+      if (restricted && location.pathname !== '/login') {
         const toastMessage = 'You need to be logged in to access this page.';
         toast.info(toastMessage, { autoClose: 3000 });
-        navigate('/', { replace: true });
+        navigate('/login', { replace: true });
       }
     }
-  }, [navigate, isUserExist, restricted]);
+  }, [navigate, isUserExist, restricted, location.pathname]);
 
   useEffect(() => {
     if (isUserExist && location.pathname === '/login') {
@@ -41,11 +44,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children, restricted = false }) =
     return null;
   }
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default AuthCheck;
