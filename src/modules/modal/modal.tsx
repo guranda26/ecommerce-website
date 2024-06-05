@@ -23,7 +23,7 @@ const style = {
   p: 2,
   breakpoints: {
     768: {
-      top: '0',
+      top: 0,
     },
   },
 };

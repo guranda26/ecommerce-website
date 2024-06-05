@@ -108,7 +108,7 @@ function DetailedProduct(): React.JSX.Element {
           </table>
         </div>
       </article>
-      <table>
+      <table className="description-table">
         <tbody>
           <tr>
             <th className="description-heading">Description of the product:</th>

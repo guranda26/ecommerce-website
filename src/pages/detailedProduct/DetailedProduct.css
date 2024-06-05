@@ -1,6 +1,8 @@
 :root {
   --dark-color: #333;
+  box-sizing: border-box;
 }
+
 .swiper {
   width: 100%;
   max-width: 600px;
@@ -13,7 +15,8 @@
 
 .detailed-product {
   background-color: #fff;
-  max-width: 100%;
+  max-width: 100vw;
+  /* max-height: 100vh; */
 }
 
 .product-info {
@@ -70,6 +73,7 @@
   border-bottom: 1px solid var(--brand-color);
   width: 45%;
 }
+
 .product-description {
   display: block;
   color: var(--brand-color);
@@ -79,7 +83,7 @@
   text-align: left;
   line-height: 1.2;
   margin-bottom: 20px;
-  overflow-wrap: break-word;
+  /* overflow-wrap: break-word; */
   overflow-x: hidden;
 }
 .delivery-return-info tr th {
@@ -100,7 +104,7 @@
   border: 1px solid #ddd;
   margin-top: 20px;
   background-color: #dfe9f4;
-  overflow-wrap: break-word;
+  /* overflow-wrap: break-word; */
 }
 
 .delivery-return-info th,
@@ -127,6 +131,14 @@
 
 .return-btn .button {
   font-size: 16px;
+}
+
+.detailed-product {
+  overflow-y: hidden;
+}
+
+.detailed-product::-webkit-scrollbar {
+  display: none;
 }
 
 @media only screen and (max-width: 768px) {
