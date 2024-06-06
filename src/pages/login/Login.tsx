@@ -20,7 +20,6 @@ const Login: React.FC = () => {
   }>({});
   const [generalError, setGeneralError] = useState<string>('');
   const [success, setSuccess] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
