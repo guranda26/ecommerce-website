@@ -1,3 +1,4 @@
+
 import { clientMaker } from './createClient';
 
 
@@ -50,3 +51,38 @@ export const sortProductByPrice = async (type: string) => {
         throw error;
     }
 }
+
+type Filter = {
+    color: string | undefined,
+    discount: boolean | undefined
+};
+
+export const multipleFilterProducts = async (filterValue: Filter) => {
+    let filterColor = '';
+    if (filterValue.color) filterColor = `variants.attributes.color-filter.key:"${filterValue.color}"` || '';
+    const discountted = filterValue.discount ? 'variants.prices.discounted:exists' : '';
+    const apiRoot = clientMaker();
+    try {
+        const response = await apiRoot
+            .productProjections()
+            .search()
+            .get(
+                {
+                    queryArgs: {
+                        limit: 200,
+                        filter: [filterColor, discountted],
+                    },
+
+                }
+            )
+            .execute();
+        if (response.body) {
+            return response;
+        }
+    } catch (error) {
+        console.error('Error fetching product :', error);
+        throw error;
+    }
+}
+
+

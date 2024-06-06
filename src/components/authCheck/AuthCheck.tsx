@@ -8,7 +8,10 @@ interface AuthCheckProps {
   restricted?: boolean;
 }
 
-const AuthCheck: React.FC<AuthCheckProps> = ({ children, restricted = false }) => {
+const AuthCheck: React.FC<AuthCheckProps> = ({
+  children,
+  restricted = false,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
@@ -41,11 +44,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({ children, restricted = false }) =
     return null;
   }
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default AuthCheck;
