@@ -59,7 +59,7 @@ type Filter = {
 
 export const multipleFilterProducts = async (filterValue: Filter) => {
     let filterColor = '';
-    if (filterValue.color) filterColor = `variants.attributes.color-filter.key:"${filterValue.color}"` || '';
+    filterColor = `variants.attributes.color-filter.key:"${filterValue.color}"`;
     const discountted = filterValue.discount ? 'variants.prices.discounted:exists' : '';
     const apiRoot = clientMaker();
     try {
@@ -70,7 +70,7 @@ export const multipleFilterProducts = async (filterValue: Filter) => {
                 {
                     queryArgs: {
                         limit: 200,
-                        filter: filterColor === 'Choose color' ? [filterColor, discountted] : [discountted],
+                        filter: filterValue.color === 'Choose color' ? [discountted] : [filterColor, discountted],
                     },
 
                 }
