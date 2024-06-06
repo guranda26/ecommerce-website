@@ -1,0 +1,75 @@
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.select-price,
+.filter-name {
+  max-width: 200px;
+  width: 100%;
+  font-size: 18px;
+  border: 1px solid var(--dark-color);
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.select-price {
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.name-label {
+  position: relative;
+}
+
+.filter-name {
+  padding-left: 30px;
+}
+
+.search-img {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.filter-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-radius: 5px;
+}
+
+.button.filter-btn {
+  padding: 5px 10px;
+}
+
+.discount-label {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-color);
+}
+
+.price-wrapper {
+  padding: 5px;
+  border: 1px solid var(--brand-color);
+  display: flex;
+  gap: 5px;
+}
+
+@media screen and (max-width: 530px) {
+  .name-label {
+    width: 100%;
+  }
+
+  .select-price,
+  .filter-name {
+    max-width: none;
+  }
+}
