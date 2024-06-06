@@ -1,8 +1,36 @@
 .profile {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 16px;
-  overflow: auto;
-  padding: 16px;
+  padding-bottom: 30px;
+}
+
+.profile-form {
+  display: grid;
+  gap: 10px;
+}
+
+.input-wrapper {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 10px;
+}
+
+.field {
+  font-size: 16px;
+}
+
+.edit-btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.edit-img {
+  object-fit: cover;
+}
+
+.profile-label {
+  text-align: right;
+  color: var(--brand-color);
+  font-weight: 600;
 }
