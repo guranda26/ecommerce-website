@@ -1,4 +1,3 @@
-
 import { NavLink } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
 import './header.css';
@@ -9,7 +8,6 @@ import { clientMaker } from '../../../sdk/createClient';
 function ProfilePanel(props: {
   handleProfile: VoidFunction;
 }): React.JSX.Element {
-
   const [isLogin, setIsLogin] = useState(isExist());
   const userContext = useContext(UserContext);
 
