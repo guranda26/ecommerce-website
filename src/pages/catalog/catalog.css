@@ -1,5 +1,23 @@
+.catalog-wrapper {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 15px;
+}
+
 .catalog {
   padding-bottom: 40px;
+}
+
+.sidebar {
+  padding: 20px;
+  background-color: var(--bg-color);
+}
+
+.categories-list {
+  font-size: 16px;
+  text-align: left;
+  padding: 0;
+  list-style: none;
 }
 
 .products-list {
@@ -120,4 +138,14 @@
 
 .error-message {
   color: var(--accent-color);
+}
+
+@media screen and (max-width: 540px) {
+  .catalog-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
 }
