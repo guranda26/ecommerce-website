@@ -88,6 +88,11 @@
   line-height: 1.2;
 }
 
+.total {
+  font-size: 14px;
+  text-align: left;
+}
+
 .price-content {
   display: grid;
   grid-template-columns: auto auto;
