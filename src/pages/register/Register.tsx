@@ -35,7 +35,7 @@ const validCountries: CountryCode[] = [
   'UZ',
 ];
 
-const countryNames: { [key in CountryCode]: string } = {
+export const countryNames: { [key in CountryCode]: string } = {
   CA: 'Canada',
   FR: 'France',
   GE: 'Georgia',

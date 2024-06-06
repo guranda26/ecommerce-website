@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
 import {
@@ -6,6 +6,8 @@ import {
   Address as CommercetoolsAddress,
 } from '@commercetools/platform-sdk';
 import './Profile.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 interface Address extends CommercetoolsAddress {
   id: string;
@@ -20,6 +22,7 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const apiRoot = userContext.apiRoot;
 
   const fetchUser = useCallback(async () => {
     try {
@@ -55,40 +58,124 @@ const Profile: React.FC = () => {
   return (
     <section className="profile">
       <h2 className="section-header">Profile</h2>
-      <div className="profile_personal-information">
-        <h3>Personal Information</h3>
-        <p>
-          <strong>First Name:</strong> {user.firstName}
-        </p>
-        <p>
-          <strong>Last Name:</strong> {user.lastName}
-        </p>
-        <p>
-          <strong>Date of Birth:</strong> {user.dateOfBirth}
-        </p>
-      </div>
-      <div className="profile_addresses">
-        <h3>Addresses</h3>
-        {addresses.map((address) => (
-          <div key={address.id} className="address">
-            <p>{address.streetName}</p>
-            <p>
-              {address.city}, {address.state} {address.postalCode}
-            </p>
-            <p>{address.country}</p>
-            {address.isDefaultBillingAddress && (
-              <p>
-                <strong>Default Billing Address</strong>
-              </p>
-            )}
-            {address.isDefaultShippingAddress && (
-              <p>
-                <strong>Default Shipping Address</strong>
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
+      <form className="profile-form">
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="first-name">
+            Firstname:
+          </label>
+          <input
+            className="field"
+            id={'first-name'}
+            type="text"
+            value={user!.firstName}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="last-name">
+            Lastname:
+          </label>
+          <input
+            className="field"
+            type="text"
+            id="last-name"
+            value={user!.lastName}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="first-name">
+            Email:
+          </label>
+          <input className="field" type="email" value={user!.email} readOnly />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="password">
+            Password:
+          </label>
+          <input
+            className="field"
+            type="password"
+            id="password"
+            value={user!.password}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="dateOfBirth">
+            Date of Birth:
+          </label>
+          <input
+            className="field"
+            type="date"
+            id="dateOfBirth"
+            value={user!.dateOfBirth}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="country">
+            Country Code:
+          </label>
+          <input
+            className="field"
+            type="text"
+            id="country"
+            value={user!.addresses[0].country}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="city">
+            City:
+          </label>
+          <input
+            className="field"
+            type="text"
+            id="city"
+            value={user!.addresses[0].city}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon icon={faEdit} />
+          </button>
+        </div>
+        <div className="input-wrapper">
+          <label className="profile-label" htmlFor="postal">
+            Postal Code:
+          </label>
+          <input
+            className="field"
+            type="text"
+            id="postal"
+            value={user!.addresses[0].postalCode}
+            readOnly
+          />
+          <button className="edit-btn">
+            <FontAwesomeIcon className="edit-img" icon={faEdit} />
+          </button>
+        </div>
+      </form>
     </section>
   );
 };
