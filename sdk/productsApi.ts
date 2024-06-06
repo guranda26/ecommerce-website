@@ -70,7 +70,7 @@ export const multipleFilterProducts = async (filterValue: Filter) => {
                 {
                     queryArgs: {
                         limit: 200,
-                        filter: [filterColor, discountted],
+                        filter: filterColor === 'Choose color' ? [filterColor, discountted] : [discountted],
                     },
 
                 }
