@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
-import { Customer, Address as CommercetoolsAddress } from '@commercetools/platform-sdk';
+import {
+  Customer,
+  Address as CommercetoolsAddress,
+} from '@commercetools/platform-sdk';
 import './Profile.css';
 
 interface Address extends CommercetoolsAddress {
@@ -37,7 +40,7 @@ const Profile: React.FC = () => {
     }
   }, [navigate, userContext.apiRoot]);
 
-   useEffect(() => {
+  useEffect(() => {
     void fetchUser();
   }, [fetchUser]);
 
@@ -54,19 +57,35 @@ const Profile: React.FC = () => {
       <h2 className="section-header">Profile</h2>
       <div className="profile_personal-information">
         <h3>Personal Information</h3>
-        <p><strong>First Name:</strong> {user.firstName}</p>
-        <p><strong>Last Name:</strong> {user.lastName}</p>
-        <p><strong>Date of Birth:</strong> {user.dateOfBirth}</p>
+        <p>
+          <strong>First Name:</strong> {user.firstName}
+        </p>
+        <p>
+          <strong>Last Name:</strong> {user.lastName}
+        </p>
+        <p>
+          <strong>Date of Birth:</strong> {user.dateOfBirth}
+        </p>
       </div>
       <div className="profile_addresses">
         <h3>Addresses</h3>
         {addresses.map((address) => (
           <div key={address.id} className="address">
             <p>{address.streetName}</p>
-            <p>{address.city}, {address.state} {address.postalCode}</p>
+            <p>
+              {address.city}, {address.state} {address.postalCode}
+            </p>
             <p>{address.country}</p>
-            {address.isDefaultBillingAddress && <p><strong>Default Billing Address</strong></p>}
-            {address.isDefaultShippingAddress && <p><strong>Default Shipping Address</strong></p>}
+            {address.isDefaultBillingAddress && (
+              <p>
+                <strong>Default Billing Address</strong>
+              </p>
+            )}
+            {address.isDefaultShippingAddress && (
+              <p>
+                <strong>Default Shipping Address</strong>
+              </p>
+            )}
           </div>
         ))}
       </div>

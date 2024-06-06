@@ -129,7 +129,10 @@ const Login: React.FC = () => {
       <ToastContainer />
       <h1>Login</h1>
       {generalError && <div className="error">{generalError}</div>}
-      <form onSubmit={(event) => void handleSubmit(event)} className="login-form">
+      <form
+        onSubmit={(event) => void handleSubmit(event)}
+        className="login-form"
+      >
         <div className="login-form-controls">
           <div className="input-container">
             <label htmlFor="email">Email:</label>
