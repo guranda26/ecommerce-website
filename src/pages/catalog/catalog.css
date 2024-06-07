@@ -29,6 +29,13 @@
   font-size: 16px;
   color: var(--brand-color);
   cursor: pointer;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.category-item.active {
+  background-color: var(--brand-color);
+  color: #fff;
 }
 
 .category-item:hover {
