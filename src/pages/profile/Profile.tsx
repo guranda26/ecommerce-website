@@ -18,12 +18,10 @@ interface Address extends CommercetoolsAddress {
 const Profile: React.FC = () => {
   const userContext = useContext(UserContext);
   const [user, setUser] = useState<Customer | null>(null);
-  const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const apiRoot = userContext.apiRoot;
-
+ 
   const fetchUser = useCallback(async () => {
     try {
       const apiRoot = userContext.apiRoot;
@@ -31,9 +29,6 @@ const Profile: React.FC = () => {
       const response = await apiRoot.me().get().execute();
       const data: Customer = response.body;
       setUser(data);
-
-      const userAddresses = data.addresses || [];
-      setAddresses(userAddresses as Address[]);
     } catch (error) {
       console.error('Error fetching user data:', error);
       setError('Error fetching user data');
