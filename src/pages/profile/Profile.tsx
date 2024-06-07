@@ -2,8 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
 import {
-  Customer,
-  Address as CommercetoolsAddress,
+  Customer
 } from '@commercetools/platform-sdk';
 import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
