@@ -1,14 +1,24 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
+import {
+  Customer,
+  Address as CommercetoolsAddress,
+} from '@commercetools/platform-sdk';
 import './Profile.css';
-import { Customer } from '@commercetools/platform-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+
+interface Address extends CommercetoolsAddress {
+  id: string;
+  isDefaultBillingAddress?: boolean;
+  isDefaultShippingAddress?: boolean;
+}
 
 const Profile: React.FC = () => {
   const userContext = useContext(UserContext);
   const [user, setUser] = useState<Customer | null>(null);
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -16,9 +26,14 @@ const Profile: React.FC = () => {
 
   const fetchUser = useCallback(async () => {
     try {
+      const apiRoot = userContext.apiRoot;
+
       const response = await apiRoot.me().get().execute();
-      const data = response.body;
+      const data: Customer = response.body;
       setUser(data);
+
+      const userAddresses = data.addresses || [];
+      setAddresses(userAddresses as Address[]);
     } catch (error) {
       console.error('Error fetching user data:', error);
       setError('Error fetching user data');
@@ -26,7 +41,7 @@ const Profile: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [apiRoot, navigate]);
+  }, [navigate, userContext.apiRoot]);
 
   useEffect(() => {
     void fetchUser();

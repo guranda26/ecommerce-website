@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import React, { useContext, useState } from 'react';
 import './header.css';
 import { getMyToken, isExist } from '../../../sdk/myToken';
@@ -9,13 +9,16 @@ function ProfilePanel(props: {
   handleProfile: VoidFunction;
 }): React.JSX.Element {
   const [isLogin, setIsLogin] = useState(isExist());
-  const userContext = useContext(UserContext);
+  const { setApiRoot } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const logOut = () => {
     setIsLogin(false);
     localStorage.removeItem('myCache');
-    userContext.apiRoot = clientMaker();
+    const newApiRoot = clientMaker();
+    setApiRoot(newApiRoot);
     getMyToken();
+    navigate('/');
   };
 
   return (

@@ -11,12 +11,10 @@ import RegistrationForm from './pages/register/Register';
 import About from './pages/about/About';
 import AuthCheck from './components/authCheck/AuthCheck';
 import DetailedProduct from './pages/detailedProduct/DetailedProduct';
-import { UserContext } from './context/userContext';
-import { clientMaker } from '../sdk/createClient';
 import Profile from './pages/profile/Profile';
+import { UserProvider } from './context/userContext';
 
 const App: React.FC = () => {
-  const apiRoot = clientMaker();
   const roots = createBrowserRouter([
     {
       path: '/',
@@ -76,9 +74,9 @@ const App: React.FC = () => {
   ]);
 
   return (
-    <UserContext.Provider value={{ apiRoot }}>
+    <UserProvider>
       <RouterProvider router={roots} />
-    </UserContext.Provider>
+    </UserProvider>
   );
 };
 

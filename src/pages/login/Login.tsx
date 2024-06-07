@@ -80,7 +80,7 @@ const Login: React.FC = () => {
         .execute();
 
       if (response.body) {
-        userContext.apiRoot = clientWithPassword(email, password);
+        userContext.setApiRoot(clientWithPassword(email, password));
         const bodyInit = {
           username: email,
           password: password,
@@ -124,17 +124,15 @@ const Login: React.FC = () => {
     }
   };
 
-  // Wrapping handleSubmit in a non-async function to satisfy the linter
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    void handleSubmit(event);
-  };
-
   return (
     <div className="login-form-container">
       <ToastContainer />
       <h1>Login</h1>
       {generalError && <div className="error">{generalError}</div>}
-      <form onSubmit={handleFormSubmit} className="login-form">
+      <form
+        onSubmit={(event) => void handleSubmit(event)}
+        className="login-form"
+      >
         <div className="login-form-controls">
           <div className="input-container">
             <label htmlFor="email">Email:</label>
