@@ -11,23 +11,27 @@ function CategoriesItem(props: {
   }
 }): React.JSX.Element {
 
-  const handleCategory = async (id: string, element: HTMLLIElement) => {
-      const products = await getProductsByCategory(id);
+  const removeActiveClass = (element: HTMLLIElement) => {
+    element.parentElement?.childNodes.forEach((el) => {
+      const liElement = el as HTMLLIElement;
+      liElement.classList.remove('active');
+    });
+  }
 
-      props.setProducts(products.body.results);
-      element.parentElement?.childNodes.forEach((el) => {
-        const liElement = el as HTMLLIElement;
-        liElement.classList.remove('active');
-      });
-      element.classList.add('active');
-      if (props.parentId) props.parentId.setParentId(id);
+  const handleCategory = async (id: string, element: HTMLLIElement) => {
+    const products = await getProductsByCategory(id);
+
+    props.setProducts(products.body.results);
+    removeActiveClass(element);
+    element.classList.add('active');
+    if (props.parentId) props.parentId.setParentId(id);
   };
 
   return (
     <li
       className="category-item"
       onClick={(e) =>
-       void handleCategory(props.category.id, e.target as HTMLLIElement)
+        void handleCategory(props.category.id, e.target as HTMLLIElement)
       }
     >
       {props.category.name['en-US']}

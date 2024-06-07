@@ -12,7 +12,7 @@ function CategoriesList(props: {
 
 }): React.JSX.Element {
 
-  const handleAllItem =(element: HTMLLIElement) => {
+  const handleAllItem = (element: HTMLLIElement) => {
     props.setProducts(null);
     props.parentId.setParentId('');
     element.parentElement?.childNodes.forEach((el) => {

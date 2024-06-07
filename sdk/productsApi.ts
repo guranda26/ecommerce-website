@@ -11,7 +11,6 @@ export const getProductsByName = async (str: string) => {
                 queryArgs: {
                     limit: 200,
                     fuzzy: true,
-                    fuzzyLevel: 1,
                     'text.en-US': `${str}`,
                 }
             })
