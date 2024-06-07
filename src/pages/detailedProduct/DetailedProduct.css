@@ -16,7 +16,6 @@
 .detailed-product {
   background-color: #fff;
   max-width: 100vw;
-  /* max-height: 100vh; */
 }
 
 .product-info {
@@ -32,6 +31,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .product-name {
   font-size: 30px;
   color: var(--brand-color);
@@ -144,6 +144,9 @@
 @media only screen and (max-width: 768px) {
   .swiper {
     max-width: 100%;
+  }
+  .product-img {
+    max-width: 100vw;
   }
 
   .product-img {
