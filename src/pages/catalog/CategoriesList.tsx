@@ -8,7 +8,7 @@ function CategoriesList(props: {
 }): React.JSX.Element {
   const handleAllItem = async (element: HTMLLIElement) => {
     props.setProducts(null);
-    element.parentElement?.childNodes.forEach(el => {
+    element.parentElement?.childNodes.forEach((el) => {
       const liElement = el as HTMLLIElement;
       liElement.classList.remove('active');
     });
@@ -19,7 +19,10 @@ function CategoriesList(props: {
     <ul className="categories-list">
       <li
         className="category-item active"
-        onClick={(e) => handleAllItem(e.target as HTMLLIElement)}>All</li>
+        onClick={(e) => handleAllItem(e.target as HTMLLIElement)}
+      >
+        All
+      </li>
       {props.categories.map((category) => {
         if (category.ancestors.length === 0)
           return (

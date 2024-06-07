@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
+  gap: 25px;
   margin-bottom: 20px;
 }
 
@@ -51,16 +51,22 @@
 .discount-label {
   font-size: 16px;
   display: flex;
+  font-weight: 600;
   align-items: center;
   justify-content: center;
   color: var(--brand-color);
 }
 
 .price-wrapper {
-  padding: 5px;
-  border: 1px solid var(--brand-color);
   display: flex;
+  flex-wrap: wrap;
   gap: 5px;
+}
+
+.price-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--brand-color);
 }
 
 @media screen and (max-width: 530px) {

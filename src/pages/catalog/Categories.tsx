@@ -39,7 +39,6 @@ function Categories(props: {
     void fetchData();
   }, [fetchData]);
 
-
   return (
     <>
       <CategoriesList categories={response} setProducts={props.setProducts} />
