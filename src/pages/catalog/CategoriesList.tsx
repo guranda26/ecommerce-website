@@ -5,9 +5,16 @@ import { Category, ProductProjection } from '@commercetools/platform-sdk';
 function CategoriesList(props: {
   categories: Category[];
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
+  parentId: {
+    parentId: string,
+    setParentId: React.Dispatch<React.SetStateAction<string>>
+  }
+
 }): React.JSX.Element {
-  const handleAllItem = async (element: HTMLLIElement) => {
+
+  const handleAllItem =(element: HTMLLIElement) => {
     props.setProducts(null);
+    props.parentId.setParentId('');
     element.parentElement?.childNodes.forEach((el) => {
       const liElement = el as HTMLLIElement;
       liElement.classList.remove('active');
@@ -30,6 +37,7 @@ function CategoriesList(props: {
               category={category}
               setProducts={props.setProducts}
               key={category.id}
+              parentId={props.parentId}
             />
           );
       })}

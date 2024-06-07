@@ -22,3 +22,25 @@ export const getProductsByCategory = async (id: string) => {
         throw error;
     }
 }
+
+export const getByParentCategory = async (id: string) => {
+    const apiRoot = clientMaker();
+    try {
+        const response = await apiRoot
+            .categories()
+            .get({
+                queryArgs: {
+                    where: `parent(id="${id}")`
+
+                }
+            })
+            .execute();
+        return response;
+
+    } catch (error) {
+        console.error('Error fetching product :', error);
+        throw error;
+    }
+}
+
+

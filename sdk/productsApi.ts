@@ -52,15 +52,16 @@ export const sortProductByPrice = async (type: string) => {
 type Filter = {
     color: string | undefined,
     discount: boolean | undefined,
-    lowPrice: number,
-    highPrice: number,
+    lowPrice?: number,
+    highPrice?: number,
 };
 
 export const multipleFilterProducts = async (filterValue: Filter) => {
     let filterColor = '';
     filterColor = `variants.attributes.color-filter.key:"${filterValue.color}"`;
     const discountted = filterValue.discount ? 'variants.prices.discounted:exists' : '';
-    const rangePrice = `variants.price.centAmount: range(${filterValue.lowPrice} to ${filterValue.highPrice})`;
+    const rangePrice = (filterValue.highPrice && filterValue.lowPrice) ?
+        `variants.price.centAmount: range(${filterValue.lowPrice} to ${filterValue.highPrice})` : '';
     const apiRoot = clientMaker();
     try {
         const response = await apiRoot
