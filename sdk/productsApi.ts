@@ -12,21 +12,21 @@ export const getProductsByName = async (str: string) => {
             .search()
             .get({
                 queryArgs: {
-                    limit: 500
+                    limit: 200,
+                    fuzzy: true,
+                    fuzzyLevel: 1,
+                    'text.en-US': `${str}`,
                 }
             })
-            .execute()
-            .then((products) => {
-                return products.body.results.filter((product) => product.name['en-US'].toLowerCase().includes(str.toLowerCase()));
-            }).then((res) => res);
-        console.log("response:::", response);
-        return response;
+            .execute();
+        return response.body.results;
 
     } catch (error) {
         console.error('Error fetching product :', error);
         throw error;
     }
 }
+
 
 
 export const sortProductByPrice = async (type: string) => {

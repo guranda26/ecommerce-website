@@ -1,12 +1,22 @@
 import React from 'react';
 import CategoriesItem from './CategoryItem';
-import { Category } from '@commercetools/platform-sdk';
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
 
-function CategoriesList(props: { categories: Category[] }): React.JSX.Element {
+function CategoriesList(props: {
+  categories: Category[];
+  setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
+}): React.JSX.Element {
   return (
     <ul className="categories-list">
       {props.categories.map((category) => {
-        return <CategoriesItem category={category} key={category.id} />;
+        if (category.ancestors.length === 0)
+          return (
+            <CategoriesItem
+              category={category}
+              setProducts={props.setProducts}
+              key={category.id}
+            />
+          );
       })}
     </ul>
   );
