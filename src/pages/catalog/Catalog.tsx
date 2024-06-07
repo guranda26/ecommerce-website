@@ -10,11 +10,11 @@ function Catalog(): React.JSX.Element {
   const [products, setProducts] = useState<ProductProjection[] | null>(null);
   return (
     <div className="catalog-wrapper">
-      <aside className="sidebar">
-        <Categories />
-      </aside>
       <section className="catalog">
         <h2 className="section-header">Our catalog</h2>
+        <aside className="sidebar">
+          <Categories setProducts={setProducts} />
+        </aside>
         <FilterSection setProducts={setProducts} />
         {!products ? <LoadProducts /> : <SearchProducts products={products} />}
       </section>

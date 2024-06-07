@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Category } from '@commercetools/platform-sdk';
+import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { clientMaker } from '../../../sdk/createClient';
 import CategoriesList from './CategoriesList';
-function Categories(): React.JSX.Element {
+
+function Categories(props: {
+  setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
+}): React.JSX.Element {
   const [response, setResponse] = useState<Category[]>([]);
 
   const fetchData = useCallback(async () => {
@@ -36,10 +39,10 @@ function Categories(): React.JSX.Element {
     void fetchData();
   }, [fetchData]);
 
-  console.log(response);
+
   return (
     <>
-      <CategoriesList categories={response} />
+      <CategoriesList categories={response} setProducts={props.setProducts} />
     </>
   );
 }

@@ -18,7 +18,9 @@ function PoductsList(props: {
 
   return (
     <>
-      <p className='total'>Total Products: <span>{products.length}</span></p>
+      <p className="total">
+        Total Products: <span>{products.length}</span>
+      </p>
       <ul className="products-list">
         {products &&
           products.map((product) => (

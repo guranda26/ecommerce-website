@@ -118,9 +118,7 @@ function FilterSection(props: {
               e.target.style.backgroundColor = e.target.value;
             }}
           >
-            <option defaultValue={''}>
-              Choose color
-            </option>
+            <option defaultValue={''}>Choose color</option>
             <option style={{ backgroundColor: '#F5F5DC' }} value="#F5F5DC">
               Beige
             </option>

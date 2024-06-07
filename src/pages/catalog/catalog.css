@@ -1,6 +1,6 @@
 .catalog-wrapper {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 1fr;
   gap: 15px;
 }
 
@@ -9,15 +9,30 @@
 }
 
 .sidebar {
-  padding: 20px;
+  flex-wrap: nowrap;
   background-color: var(--bg-color);
+  margin-bottom: 5px;
 }
 
 .categories-list {
-  font-size: 16px;
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 18px;
   padding: 0;
+  margin: 0;
   list-style: none;
+}
+
+.category-item {
+  font-size: 16px;
+  color: var(--brand-color);
+  cursor: pointer;
+}
+
+.category-item:hover {
+  color: var(--accent-color);
 }
 
 .products-list {
@@ -148,9 +163,5 @@
 @media screen and (max-width: 540px) {
   .catalog-wrapper {
     grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    display: none;
   }
 }
