@@ -9,12 +9,6 @@ import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
-interface Address extends CommercetoolsAddress {
-  id: string;
-  isDefaultBillingAddress?: boolean;
-  isDefaultShippingAddress?: boolean;
-}
-
 const Profile: React.FC = () => {
   const userContext = useContext(UserContext);
   const [user, setUser] = useState<Customer | null>(null);
