@@ -14,12 +14,14 @@ function ChildCategory(props: {
     const [category, setCategory] = useState<Category[]>([]);
 
     const getSubCategory = useCallback(async () => {
-        const response = await getByParentCategory(props.parentId.parentId);
-        setCategory(response.body.results)
+        if (props.parentId.parentId !== '') {
+            const response = await getByParentCategory(props.parentId.parentId);
+            setCategory(response.body.results);
+        }
     }, [props.parentId]);
 
     useEffect(() => {
-      void getSubCategory();
+        void getSubCategory();
     }, [getSubCategory]);
 
     return (

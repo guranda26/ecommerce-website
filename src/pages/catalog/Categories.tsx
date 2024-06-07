@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { clientMaker } from '../../../sdk/createClient';
 import CategoriesList from './CategoriesList';
@@ -44,6 +44,7 @@ function Categories(props: {
     void fetchData();
   }, [fetchData]);
 
+  
   return (
     <>
       <CategoriesList categories={response} setProducts={props.setProducts} parentId = {{parentId,setParentId}}/>
