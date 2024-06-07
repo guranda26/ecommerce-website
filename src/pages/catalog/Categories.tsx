@@ -2,11 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { clientMaker } from '../../../sdk/createClient';
 import CategoriesList from './CategoriesList';
+import SubCategory from '../../components/catalog/subCategory/SubCategory';
+import ChildCategory from '../../components/catalog/subCategory/ChildCategory';
+
 
 function Categories(props: {
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
 }): React.JSX.Element {
   const [response, setResponse] = useState<Category[]>([]);
+  const [parentId,setParentId] = useState('');
+  const [subParentId,setSubParentId] = useState('');
 
   const fetchData = useCallback(async () => {
     const apiRoot = clientMaker();
@@ -41,7 +46,9 @@ function Categories(props: {
 
   return (
     <>
-      <CategoriesList categories={response} setProducts={props.setProducts} />
+      <CategoriesList categories={response} setProducts={props.setProducts} parentId = {{parentId,setParentId}}/>
+      <SubCategory setProducts={props.setProducts} parentId = {{parentId,setParentId}} subParentId = {{parentId:subParentId,setParentId:setSubParentId}}/>
+      <ChildCategory setProducts={props.setProducts} parentId = {{parentId:subParentId,setParentId:setSubParentId}} />
     </>
   );
 }

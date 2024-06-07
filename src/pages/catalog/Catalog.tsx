@@ -14,6 +14,7 @@ function Catalog(): React.JSX.Element {
         <h2 className="section-header">Our catalog</h2>
         <aside className="sidebar">
           <Categories setProducts={setProducts} />
+    
         </aside>
         <FilterSection setProducts={setProducts} />
         {!products ? <LoadProducts /> : <SearchProducts products={products} />}
