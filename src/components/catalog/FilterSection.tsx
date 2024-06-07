@@ -17,8 +17,8 @@ function FilterSection(props: {
 
   const selectRef = useRef<HTMLSelectElement | null>(null);
   const checkboxRef = useRef<HTMLInputElement | null>(null);
-  // const lowPriceInputRef = useRef<HTMLInputElement | null>(null);
-  // const highPriceInputRef = useRef<HTMLInputElement | null>(null);
+  const lowPriceInputRef = useRef<HTMLInputElement | null>(null);
+  const highPriceInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleSearchName = (text: string) => {
     let products;
@@ -44,8 +44,8 @@ function FilterSection(props: {
     let products;
     const filterValue = {
       color: selectRef.current?.value,
-      // lowPrice: lowPriceInputRef.current?.value,
-      // highPrice: highPriceInputRef.current?.value,
+      lowPrice: parseFloat(lowPriceInputRef.current?.value!) * 100,
+      highPrice: parseFloat(highPriceInputRef.current?.value!) * 100,
       discount: checkboxRef.current?.checked,
     };
 
@@ -96,20 +96,21 @@ function FilterSection(props: {
               id="discout"
             />
           </label>
-          {/* <div className='price-wrapper'>
-                <input
-                        ref={lowPriceInputRef}
-                        name='lowPrice'
-                        type="number"
-                        placeholder='Price(euro)'
-                    />
-                    <input
-                        ref={highPriceInputRef}
-                        name='highPrice'
-                        type="number"
-                        placeholder='Price(euro)'
-                    />
-                </div> */}
+          <div className="price-wrapper">
+            <span className="price-text">Prices:</span>
+            <input
+              ref={lowPriceInputRef}
+              name="lowPrice"
+              type="number"
+              placeholder="Price(euro)"
+            />
+            <input
+              ref={highPriceInputRef}
+              name="highPrice"
+              type="number"
+              placeholder="Price(euro)"
+            />
+          </div>
           <select
             name="color"
             id="color"

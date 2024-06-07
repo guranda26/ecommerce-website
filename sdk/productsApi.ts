@@ -1,9 +1,6 @@
 
 import { clientMaker } from './createClient';
 
-
-
-
 export const getProductsByName = async (str: string) => {
     const apiRoot = clientMaker();
     try {
@@ -54,13 +51,16 @@ export const sortProductByPrice = async (type: string) => {
 
 type Filter = {
     color: string | undefined,
-    discount: boolean | undefined
+    discount: boolean | undefined,
+    lowPrice: number,
+    highPrice: number,
 };
 
 export const multipleFilterProducts = async (filterValue: Filter) => {
     let filterColor = '';
     filterColor = `variants.attributes.color-filter.key:"${filterValue.color}"`;
     const discountted = filterValue.discount ? 'variants.prices.discounted:exists' : '';
+    const rangePrice = `variants.price.centAmount: range(${filterValue.lowPrice} to ${filterValue.highPrice})`;
     const apiRoot = clientMaker();
     try {
         const response = await apiRoot
@@ -70,7 +70,7 @@ export const multipleFilterProducts = async (filterValue: Filter) => {
                 {
                     queryArgs: {
                         limit: 200,
-                        filter: filterValue.color === 'Choose color' ? [discountted] : [filterColor, discountted],
+                        filter: filterValue.color === 'Choose color' ? [discountted, rangePrice] : [filterColor, discountted, rangePrice],
                     },
 
                 }
