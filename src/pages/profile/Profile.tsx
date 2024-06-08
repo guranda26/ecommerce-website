@@ -1,9 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
-import {
-  Customer
-} from '@commercetools/platform-sdk';
+import { Customer } from '@commercetools/platform-sdk';
 import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +12,7 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
- 
+
   const fetchUser = useCallback(async () => {
     try {
       const apiRoot = userContext.apiRoot;

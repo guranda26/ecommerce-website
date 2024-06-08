@@ -42,8 +42,12 @@ function FilterSection(props: {
 
   const handleFilter = () => {
     let products;
-    const lowPrice = lowPriceInputRef.current?.value ? parseFloat(lowPriceInputRef.current?.value) * 100 : undefined;
-    const highPrice = highPriceInputRef.current?.value ? parseFloat(highPriceInputRef.current?.value) * 100 : undefined;
+    const lowPrice = lowPriceInputRef.current?.value
+      ? parseFloat(lowPriceInputRef.current?.value) * 100
+      : undefined;
+    const highPrice = highPriceInputRef.current?.value
+      ? parseFloat(highPriceInputRef.current?.value) * 100
+      : undefined;
     const filterValue = {
       color: selectRef.current?.value,
       lowPrice: lowPrice,

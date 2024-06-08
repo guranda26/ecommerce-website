@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import { clientMaker } from '../../../sdk/createClient';
 import CategoriesList from './CategoriesList';
 import SubCategory from '../../components/catalog/subCategory/SubCategory';
 import ChildCategory from '../../components/catalog/subCategory/ChildCategory';
 
-
 function Categories(props: {
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
 }): React.JSX.Element {
   const [response, setResponse] = useState<Category[]>([]);
-  const [parentId,setParentId] = useState('');
-  const [subParentId,setSubParentId] = useState('');
+  const [parentId, setParentId] = useState('');
+  const [subParentId, setSubParentId] = useState('');
+  const categoryWrapRef = useRef<HTMLDivElement>(null);
 
   const fetchData = useCallback(async () => {
     const apiRoot = clientMaker();
@@ -44,13 +44,24 @@ function Categories(props: {
     void fetchData();
   }, [fetchData]);
 
-  
   return (
-    <>
-      <CategoriesList categories={response} setProducts={props.setProducts} parentId = {{parentId,setParentId}}/>
-      <SubCategory setProducts={props.setProducts} parentId = {{parentId,setParentId}} subParentId = {{parentId:subParentId,setParentId:setSubParentId}}/>
-      <ChildCategory setProducts={props.setProducts} parentId = {{parentId:subParentId,setParentId:setSubParentId}} />
-    </>
+    <div ref={categoryWrapRef}>
+      <CategoriesList
+        categories={response}
+        setProducts={props.setProducts}
+        parentId={{ parentId, setParentId }}
+        categoryWrapRef={categoryWrapRef}
+      />
+      <SubCategory
+        setProducts={props.setProducts}
+        parentId={{ parentId, setParentId }}
+        subParentId={{ parentId: subParentId, setParentId: setSubParentId }}
+      />
+      <ChildCategory
+        setProducts={props.setProducts}
+        parentId={{ parentId: subParentId, setParentId: setSubParentId }}
+      />
+    </div>
   );
 }
 
