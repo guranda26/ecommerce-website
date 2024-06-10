@@ -1,42 +1,4 @@
-@font-face {
-  font-family: 'Montserrat';
-  src:
-    url('./assets/fonts/Montserrat-Bold.woff2') format('woff2'),
-    url('./assets/fonts/Montserrat-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  src:
-    url('./assets/fonts/Montserrat-Medium.woff2') format('woff2'),
-    url('./assets/fonts/Montserrat-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  src:
-    url('./assets/fonts/Montserrat-SemiBold.woff2') format('woff2'),
-    url('./assets/fonts/Montserrat-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Montserrat';
-  src:
-    url('./assets/fonts/Montserrat-Regular.woff2') format('woff2'),
-    url('./assets/fonts/Montserrat-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
   font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
@@ -151,6 +113,7 @@ select {
 .button:hover {
   background-color: #fff;
 }
+
 .alert-msg {
   color: #5cb85c;
   font-size: 1em;
