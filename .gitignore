@@ -25,3 +25,19 @@ dist-ssr
 
 # Environment variables
 .env
+
+lib-cov
+coverage
+!**/integrations/coverage
+.cache
+.vite-node
+ltex*
+bench/test/*/*/
+**/bench.json
+**/browser/browser.json
+docs/public/user-avatars
+docs/public/sponsors
+.eslintcache
+docs/.vitepress/cache/
+!test/cli/fixtures/dotted-files/**/.cache
+.vitest-reports
