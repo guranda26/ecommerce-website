@@ -17,6 +17,13 @@
   font-size: 16px;
 }
 
+.button-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  justify-content: end;
+}
+
 .edit-btn {
   width: 30px;
   height: 30px;
@@ -33,4 +40,11 @@
   text-align: right;
   color: var(--brand-color);
   font-weight: 600;
+}
+
+.password-warrapper {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
+  gap: 20px;
 }

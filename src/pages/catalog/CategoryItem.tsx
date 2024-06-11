@@ -6,17 +6,16 @@ function CategoriesItem(props: {
   category: Category;
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
   parentId?: {
-    parentId: string,
-    setParentId: React.Dispatch<React.SetStateAction<string>>
-  }
+    parentId: string;
+    setParentId: React.Dispatch<React.SetStateAction<string>>;
+  };
 }): React.JSX.Element {
-
   const removeActiveClass = (element: HTMLLIElement) => {
     element.parentElement?.childNodes.forEach((el) => {
       const liElement = el as HTMLLIElement;
       liElement.classList.remove('active');
     });
-  }
+  };
 
   const handleCategory = async (id: string, element: HTMLLIElement) => {
     const products = await getProductsByCategory(id);
