@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../assets/images/logo.jpg';
 import './header.css';
 import Profile from './Profile';
+import { routes } from '../../modules/routes';
 
 function Header(): React.JSX.Element {
   const [openNav, setOpenNav] = useState(true);
@@ -15,7 +16,7 @@ function Header(): React.JSX.Element {
 
   return (
     <header ref={headerRef} className={openNav ? 'header' : 'header active'}>
-      <NavLink title="Home Page" className="logo-link" to="/">
+      <NavLink title="Home Page" className="logo-link" to={routes.home}>
         <img
           className="logo-img"
           src={logo}

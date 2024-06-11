@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/userContext';
 import { getMyToken, isExist } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
+import { routes } from '../../modules/routes';
 
 const Login: React.FC = () => {
   const userContext = useContext(UserContext);
@@ -28,7 +29,7 @@ const Login: React.FC = () => {
       toast.info(message, { autoClose: 3000 });
       setTimeout(() => {
         navigate({
-          pathname: '/',
+          pathname: routes.home,
           search: `?message=${encodeURIComponent(message)}`,
         });
       }, 3000);
@@ -117,10 +118,10 @@ const Login: React.FC = () => {
       if (authSuccess) {
         setSuccess(true);
         setGeneralError('');
-        navigate('/', { replace: true });
+        navigate(routes.home, { replace: true });
       }
     } else {
-      navigate('/', { replace: true });
+      navigate(routes.home, { replace: true });
     }
   };
 
@@ -171,7 +172,7 @@ const Login: React.FC = () => {
       </form>
       <div>
         <p className="navigation-link">
-          Do not have an account? <Link to="/register">Sign Up</Link>
+          Do not have an account? <Link to={routes.register}>Sign Up</Link>
         </p>
       </div>
     </div>

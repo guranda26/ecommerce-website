@@ -50,6 +50,7 @@ import { isExist } from '../../../sdk/myToken';
 import { UserContext } from '../../context/userContext';
 import { getMyToken } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
+import { routes } from '../../modules/routes';
 
 const RegistrationForm = () => {
   const userContext = useContext(UserContext);
@@ -319,7 +320,7 @@ const RegistrationForm = () => {
           setErrorToastShown(false);
         });
     } else {
-      navigate('/');
+      navigate(routes.home);
     }
   };
 
@@ -328,7 +329,7 @@ const RegistrationForm = () => {
       showToastMessage('Registration Successful!', 'success');
       setToastShown(true);
       setTimeout(() => {
-        navigate('/');
+        navigate(routes.home);
       }, 5000);
     }
   }, [success, toastShown, navigate]);
@@ -356,7 +357,7 @@ const RegistrationForm = () => {
       <ToastContainer />
       <p className="navigation-link">
         Return to
-        <Link to="/">
+        <Link to={routes.home}>
           <FaHome className="home-icon" /> Home
         </Link>
       </p>
@@ -648,7 +649,7 @@ const RegistrationForm = () => {
         </form>
         <div>
           <p className="navigation-link">
-            Already have an account? <Link to="/login">Login</Link>
+            Already have an account? <Link to={routes.login}>Login</Link>
           </p>
         </div>
       </section>

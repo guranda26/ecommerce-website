@@ -4,6 +4,7 @@ import './header.css';
 import { getMyToken, isExist } from '../../../sdk/myToken';
 import { UserContext } from '../../context/userContext';
 import { clientMaker } from '../../../sdk/createClient';
+import { routes } from '../../modules/routes';
 
 function ProfilePanel(props: {
   handleProfile: VoidFunction;
@@ -18,7 +19,7 @@ function ProfilePanel(props: {
     const newApiRoot = clientMaker();
     setApiRoot(newApiRoot);
     getMyToken();
-    navigate('/');
+    navigate(routes.home);
   };
 
   return (
@@ -28,14 +29,14 @@ function ProfilePanel(props: {
         <>
           <NavLink
             className="profile-link"
-            to="/login"
+            to={routes.login}
             onClick={props.handleProfile}
           >
             Login
           </NavLink>
           <NavLink
             className="profile-link"
-            to="/register"
+            to={routes.register}
             onClick={props.handleProfile}
           >
             Register
@@ -46,7 +47,7 @@ function ProfilePanel(props: {
         <>
           <NavLink
             className="profile-link"
-            to="/profile"
+            to={routes.profile}
             onClick={props.handleProfile}
           >
             My profile
