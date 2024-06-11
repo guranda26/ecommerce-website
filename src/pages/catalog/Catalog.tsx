@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import LoadProducts from './LoadProducts';
+import LoadProducts from '../../components/catalog/LoadProducts';
 import './catalog.css';
 import FilterSection from '../../components/catalog/FilterSection';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import SearchProducts from './SearchProducts';
-import Categories from './Categories';
+import SearchProducts from '../../components/catalog/SearchProducts';
+import Categories from '../../components/catalog/subCategory/Categories';
 
 function Catalog(): React.JSX.Element {
   const [products, setProducts] = useState<ProductProjection[] | null>(null);

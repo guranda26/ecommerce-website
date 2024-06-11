@@ -44,3 +44,25 @@ export const getByParentCategory = async (id: string) => {
 }
 
 
+export const getCategories = async () => {
+    const apiRoot = clientMaker();
+    try {
+        const response = await apiRoot
+            .categories()
+            .get({
+                queryArgs: {
+                    limit: 100,
+                }
+            })
+            .execute();
+        return response;
+    } catch (error) {
+        let errorMessage = 'Unknown error';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        throw new Error(`Failed to get products: ${errorMessage}`);
+    }
+};
+
+

@@ -1,45 +1,42 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import CategoriesItem from '../../../pages/catalog/CategoryItem';
+import React, { useEffect, useState } from 'react';
+import CategoriesItem from './CategoryItem';
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import './subCategory.css';
-import { getByParentCategory } from '../../../../sdk/categoryApi';
 
 function SubCategory(props: {
+  categories: Category[];
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
   parentId: {
     parentId: string;
     setParentId: React.Dispatch<React.SetStateAction<string>>;
   };
-  subParentId: {
+  subParentId?: {
     parentId: string;
     setParentId: React.Dispatch<React.SetStateAction<string>>;
   };
 }): React.JSX.Element {
-  const [category, setCategory] = useState<Category[]>([]);
-
-  const getSubCategory = useCallback(async () => {
-    if (props.parentId.parentId != '') {
-      const response = await getByParentCategory(props.parentId.parentId);
-      setCategory(response.body.results);
-    }
-  }, [props.parentId]);
-
+  const [subcategory, setSubcategory] = useState<Category[]>([]);
   useEffect(() => {
-    void getSubCategory();
-  }, [getSubCategory]);
+    if (props.parentId.parentId != '') {
+      const subCategories = props.categories.filter(
+        (category) => category.parent?.id === props.parentId.parentId
+      );
+      setSubcategory(subCategories);
+    }
+  }, [props.parentId.parentId, props.categories]);
 
+  if (props.parentId.parentId === '') return <></>;
   return (
     <ul className="categories-list subchild-category">
-      {category.map((cat) => {
-        if (cat.ancestors.length === 1)
-          return (
-            <CategoriesItem
-              category={cat}
-              setProducts={props.setProducts}
-              key={cat.id}
-              parentId={props.subParentId}
-            />
-          );
+      {subcategory.map((cat) => {
+        return (
+          <CategoriesItem
+            category={cat}
+            setProducts={props.setProducts}
+            key={cat.id}
+            parentId={props.subParentId}
+          />
+        );
       })}
     </ul>
   );

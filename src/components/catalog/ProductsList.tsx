@@ -2,7 +2,7 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './catalog.css';
-import { getPrice } from '../../components/priceFunction/getPrice';
+import { getPrice } from '../priceFunction/getPrice';
 
 function PoductsList(props: {
   products: ProductProjection[];
