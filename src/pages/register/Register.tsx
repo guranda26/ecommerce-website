@@ -572,7 +572,10 @@ const RegistrationForm = () => {
                   }
                 />
                 {errors.shippingAddress?.postalCode && (
-                  <ErrorInput error={errors.shippingAddress.postalCode} />
+                  <ErrorInput
+                    className="error-zip"
+                    error={errors.shippingAddress.postalCode}
+                  />
                 )}
               </div>
             </>
