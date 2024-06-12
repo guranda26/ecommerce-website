@@ -1,12 +1,5 @@
 import { CountryCode } from 'src/modules/validationUtils';
 
-export interface ICustomer {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-}
-
 export interface CustomerData {
   firstName: string;
   lastName: string;
