@@ -1,12 +1,21 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
-import { Customer } from '@commercetools/platform-sdk';
+import {
+  Customer,
+  Address as CommercetoolsAddress,
+} from '@commercetools/platform-sdk';
 import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { updateProfile, updatePassword } from '../../../sdk/profileApi';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+
+interface Address extends CommercetoolsAddress {
+  id: string;
+  isDefaultBillingAddress?: boolean;
+  isDefaultShippingAddress?: boolean;
+}
 
 const Profile: React.FC = () => {
   const userContext = useContext(UserContext);
@@ -18,6 +27,7 @@ const Profile: React.FC = () => {
     currentPassword: '',
     newPassword: '',
   });
+  const [addresses, setAddresses] = useState<Address[]>([]);
   const [changePassword, setChangePassword] = useState(false);
   const navigate = useNavigate();
 
@@ -28,6 +38,8 @@ const Profile: React.FC = () => {
       const response = await apiRoot.me().get().execute();
       const data: Customer = response.body;
       setUser(data);
+      const userAddresses = data.addresses || [];
+      setAddresses(userAddresses as Address[]);
     } catch (error) {
       console.error('Error fetching user data:', error);
       setError('Error fetching user data');
