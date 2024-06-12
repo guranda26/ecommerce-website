@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
-import { clientMaker } from '../../../sdk/createClient';
 import CategoriesList from './CategoriesList';
-import SubCategory from '../../components/catalog/subCategory/SubCategory';
-import ChildCategory from '../../components/catalog/subCategory/ChildCategory';
+import SubCategory from './SubCategory';
+import { getCategories } from '../../../../sdk/categoryApi';
 
 function Categories(props: {
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
@@ -11,25 +10,10 @@ function Categories(props: {
   const [response, setResponse] = useState<Category[]>([]);
   const [parentId, setParentId] = useState('');
   const [subParentId, setSubParentId] = useState('');
-  const categoryWrapRef = useRef<HTMLDivElement>(null);
 
   const fetchData = useCallback(async () => {
-    const apiRoot = clientMaker();
-    const getProducts = async () => {
-      try {
-        const response = await apiRoot.categories().get().execute();
-        return response;
-      } catch (error) {
-        let errorMessage = 'Unknown error';
-        if (error instanceof Error) {
-          errorMessage = error.message;
-        }
-        throw new Error(`Failed to get products: ${errorMessage}`);
-      }
-    };
-
     try {
-      const res = await getProducts();
+      const res = await getCategories();
       if (res.statusCode === 200) {
         setResponse(() => [...res.body.results]);
       }
@@ -45,19 +29,21 @@ function Categories(props: {
   }, [fetchData]);
 
   return (
-    <div ref={categoryWrapRef}>
+    <div className='categories'>
       <CategoriesList
         categories={response}
         setProducts={props.setProducts}
         parentId={{ parentId, setParentId }}
-        categoryWrapRef={categoryWrapRef}
+        subParentId={{ parentId: subParentId, setParentId: setSubParentId }}
       />
       <SubCategory
+        categories={response}
         setProducts={props.setProducts}
         parentId={{ parentId, setParentId }}
         subParentId={{ parentId: subParentId, setParentId: setSubParentId }}
       />
-      <ChildCategory
+      <SubCategory
+        categories={response}
         setProducts={props.setProducts}
         parentId={{ parentId: subParentId, setParentId: setSubParentId }}
       />

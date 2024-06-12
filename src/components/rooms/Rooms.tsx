@@ -1,8 +1,24 @@
 import React from 'react';
 import './rooms.css';
 import { Link } from 'react-router-dom';
+import { routes } from '../../modules/routes';
 
 function Rooms(): React.JSX.Element {
+  const rooms = [
+    {
+      room: 'Dining',
+      path: routes.catalog,
+    },
+    {
+      room: 'Living',
+      path: routes.catalog,
+    },
+    {
+      room: 'Bedroom',
+      path: routes.catalog,
+    },
+  ];
+
   return (
     <section className="section rooms">
       <h2 className="section-header">Browse The Range</h2>
@@ -14,21 +30,13 @@ function Rooms(): React.JSX.Element {
         500 products
       </p>
       <ul className="rooms-lists">
-        <li className="rooms-item">
-          <Link className="rooms-link dining" to="/catalog">
-            Dining
-          </Link>
-        </li>
-        <li className="rooms-item">
-          <Link className="rooms-link living" to="/catalog">
-            Living
-          </Link>
-        </li>
-        <li className="rooms-item">
-          <Link className="rooms-link bedroom" to="/catalog">
-            Bedroom
-          </Link>
-        </li>
+        {rooms.map((element, index) => (
+          <li className="rooms-item" key={index}>
+            <Link className={`rooms-link ${element.room.toLowerCase()}`} to={element.path}>
+              {element.room}
+            </Link>
+          </li>
+        ))}
       </ul>
     </section>
   );

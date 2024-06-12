@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/userContext';
 import {
@@ -8,7 +8,12 @@ import {
 import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { updateProfile, updatePassword } from '../../../sdk/profileApi';
+import { handleEditBtn, handlechange } from './updateProfile';
+import {
+  updateProfile,
+  updatePassword,
+  getUser,
+} from '../../../sdk/profileApi';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 interface FetchAddress extends CommercetoolsAddress {
@@ -16,7 +21,6 @@ interface FetchAddress extends CommercetoolsAddress {
 }
 
 const Profile: React.FC = () => {
-  const userContext = useContext(UserContext);
   const [user, setUser] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +44,7 @@ const Profile: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [navigate, userContext.apiRoot]);
+  }, [navigate]);
 
   useEffect(() => {
     void fetchUser();

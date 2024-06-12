@@ -7,6 +7,7 @@ import {
   faHouse,
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
+import { routes } from '../../modules/routes';
 
 function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
   return (
@@ -16,7 +17,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
           <NavLink
             title="Home"
             className="nav-link"
-            to="/"
+            to={routes.home}
             onClick={props.handleBurgerBtn}
           >
             <FontAwesomeIcon icon={faHouse} />
@@ -27,7 +28,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
           <NavLink
             title="Catalog"
             className="nav-link"
-            to="/catalog"
+            to={routes.catalog}
             onClick={props.handleBurgerBtn}
           >
             <FontAwesomeIcon icon={faBook} /> Catalog
@@ -37,7 +38,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
           <NavLink
             title="About us"
             className="nav-link"
-            to="/about"
+            to={routes.about}
             onClick={props.handleBurgerBtn}
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} />

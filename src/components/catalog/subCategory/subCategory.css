@@ -1,3 +1,10 @@
+.categories {
+  height: 96px;
+  background-image: url('https://bg3llc.com/wp-content/uploads/LinkedIn-Background-1-1.png');
+  background-position: center;
+  background-size: cover;
+}
+
 .subchild-category .category-item,
 .child-category .category-item {
   font-weight: 500;
@@ -5,4 +12,10 @@
 
 .child-category .category-item {
   font-weight: 400;
+}
+
+@media screen and (max-width: 510px) {
+  .categories {
+    height: 200px;
+  }
 }

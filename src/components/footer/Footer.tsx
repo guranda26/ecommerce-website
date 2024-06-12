@@ -1,28 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './footer.css';
+import { routes } from '../../modules/routes';
 
 function Footer(): React.JSX.Element {
   return (
     <footer className="footer">
       <ul className="footer-lists">
         <li className="footer-item">
-          <Link className="footer-link" to="/">
+          <Link className="footer-link" to={routes.home}>
             Home
           </Link>
         </li>
         <li className="footer-item">
-          <Link className="footer-link" to="/catalog">
+          <Link className="footer-link" to={routes.catalog}>
             Catalog
           </Link>
         </li>
         <li className="footer-item">
-          <Link className="footer-link" to="/products">
-            Products
-          </Link>
-        </li>
-        <li className="footer-item">
-          <Link className="footer-link" to="/about">
+          <Link className="footer-link" to={routes.about}>
             About us
           </Link>
         </li>

@@ -1,11 +1,15 @@
 import { Category, ProductProjection } from '@commercetools/platform-sdk';
 import React from 'react';
-import { getProductsByCategory } from '../../../sdk/categoryApi';
+import { getProductsByCategory } from '../../../../sdk/categoryApi';
 
 function CategoriesItem(props: {
   category: Category;
   setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
   parentId?: {
+    parentId: string;
+    setParentId: React.Dispatch<React.SetStateAction<string>>;
+  };
+  subParentId?: {
     parentId: string;
     setParentId: React.Dispatch<React.SetStateAction<string>>;
   };
@@ -18,12 +22,15 @@ function CategoriesItem(props: {
   };
 
   const handleCategory = async (id: string, element: HTMLLIElement) => {
+    removeActiveClass(element);
+    element.classList.add('active');
+    if (props.parentId) {
+      props.parentId.setParentId(id);
+      if (props.subParentId) props.subParentId.setParentId('');
+    }
     const products = await getProductsByCategory(id);
 
     props.setProducts(products.body.results);
-    removeActiveClass(element);
-    element.classList.add('active');
-    if (props.parentId) props.parentId.setParentId(id);
   };
 
   return (

@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/userContext';
 import { getMyToken, isExist } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
+import { routes } from '../../modules/routes';
 import { useFormik } from 'formik';
 
 interface LoginFormValues {
@@ -32,7 +33,7 @@ const Login: React.FC = () => {
       toast.info(message, { autoClose: 3000 });
       setTimeout(() => {
         navigate({
-          pathname: '/',
+          pathname: routes.home,
           search: `?message=${encodeURIComponent(message)}`,
         });
       }, 3000);
@@ -131,6 +132,32 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const message =
+      'User is already logged in. Do you want to log out and then log in again?';
+
+    if (!isExist() || window.confirm(message) == true) {
+      validateField('email', email);
+      validateField('password', password);
+
+      if (errors.email || errors.password) {
+        console.log('Form validation failed:', errors);
+        return;
+      }
+
+      const authSuccess = await authenticateUser(email, password);
+
+      if (authSuccess) {
+        setSuccess(true);
+        setGeneralError('');
+        navigate(routes.home, { replace: true });
+      }
+    } else {
+      navigate(routes.home, { replace: true });
+    }
+  };
+
   return (
     <div className="login-form-container">
       <ToastContainer />
@@ -173,7 +200,7 @@ const Login: React.FC = () => {
       </form>
       <div>
         <p className="navigation-link">
-          Do not have an account? <Link to="/register">Sign Up</Link>
+          Do not have an account? <Link to={routes.register}>Sign Up</Link>
         </p>
       </div>
     </div>
