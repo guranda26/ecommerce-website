@@ -23,10 +23,10 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editMode, setEditMode] = useState(false);
-  const [password, setPassword] = useState({
-    currentPassword: '',
-    newPassword: '',
-  });
+  // const [password, setPassword] = useState({
+  //   currentPassword: '',
+  //   newPassword: '',
+  // });
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [changePassword, setChangePassword] = useState(false);
   const navigate = useNavigate();
@@ -61,16 +61,40 @@ const Profile: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  const handleUpdatePassword = async () => {
+  // const handleUpdatePassword = async () => {
+  //   try {
+  //     if (user && password.currentPassword && password.newPassword) {
+  //       await updatePassword(user, password);
+  //       setPassword({ currentPassword: '', newPassword: '' });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating password:', error);
+  //   }
+  // };
+
+  const handleUpdatePassword = async (values: FormikValues) => {
     try {
-      if (user && password.currentPassword && password.newPassword) {
-        await updatePassword(user, password);
-        setPassword({ currentPassword: '', newPassword: '' });
+      if (user && values.currentPassword && values.newPassword) {
+        await updatePassword(user, {
+          currentPassword: values.currentPassword,
+          newPassword: values.newPassword,
+        });
+        setChangePassword(false); // Close the password update section after successful update
       }
     } catch (error) {
       console.error('Error updating password:', error);
     }
   };
+  // const handleUpdatePassword = async () => {
+  //   try {
+  //     if (user && password.currentPassword && password.newPassword) {
+  //       await updatePassword(user, password);
+  //       setPassword({ currentPassword: '', newPassword: '' });
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating password:', error);
+  //   }
+  // };
 
   const handleUpdatePasswordClick = (
     e: React.MouseEvent<HTMLButtonElement>
@@ -97,20 +121,30 @@ const Profile: React.FC = () => {
         }}
         onSubmit={async (values, { setSubmitting }) => {
           try {
+            const newAddresses = [
+              {
+                ...user!.addresses[0],
+                country: values.country,
+                city: values.city,
+                postalCode: values.postalCode,
+              },
+              {
+                ...user!.addresses[1],
+                country: values.country,
+                city: values.city,
+                postalCode: values.postalCode,
+              },
+            ];
             const updatedUser: Customer = {
               ...user!,
               firstName: values.firstName,
               lastName: values.lastName,
               email: values.email,
+              password: values.currentPassword,
               dateOfBirth: values.dateOfBirth,
-              addresses: [
-                {
-                  country: values.country,
-                  city: values.city,
-                  postalCode: values.postalCode,
-                },
-              ],
+              addresses: newAddresses,
             };
+            setUser(updatedUser);
             await updateProfile(updatedUser);
             setSubmitting(false);
           } catch (error) {
@@ -184,7 +218,7 @@ const Profile: React.FC = () => {
               </label>
               <Field
                 className="field"
-                id="password"
+                id="currentPassword"
                 type="password"
                 name="password"
                 readOnly={!editMode}
@@ -349,7 +383,7 @@ const Profile: React.FC = () => {
                   <button
                     className="button"
                     type="button"
-                    onClick={handleUpdatePasswordClick}
+                    onClick={handleUpdatePasswordClick} // Pass Formik values to handleUpdatePassword
                   >
                     Update Password
                   </button>
