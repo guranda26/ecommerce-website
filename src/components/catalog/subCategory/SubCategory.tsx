@@ -16,6 +16,7 @@ function SubCategory(props: {
   };
 }): React.JSX.Element {
   const [subcategory, setSubcategory] = useState<Category[]>([]);
+
   useEffect(() => {
     if (props.parentId.parentId != '') {
       const subCategories = props.categories.filter(

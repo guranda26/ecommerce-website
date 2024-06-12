@@ -86,3 +86,25 @@ export const multipleFilterProducts = async (filterValue: Filter) => {
 }
 
 
+export const getProducts = async (page: number) => {
+    const apiRoot = clientMaker();
+    try {
+      const response = await apiRoot
+        .productProjections()
+        .get({
+          queryArgs: {
+            limit: page * 20,
+          },
+        })
+        .execute();
+      return response;
+    } catch (error) {
+      let errorMessage = 'Unknown error';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      throw new Error(`Failed to get products: ${errorMessage}`);
+    }
+  };
+
+

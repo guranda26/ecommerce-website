@@ -16,8 +16,8 @@ function Rooms(): React.JSX.Element {
     {
       room: 'Bedroom',
       path: routes.catalog,
-    }
-  ]
+    },
+  ];
 
   return (
     <section className="section rooms">
