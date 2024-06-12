@@ -51,6 +51,7 @@ import { UserContext } from '../../context/userContext';
 import { getMyToken } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
 import TextInput from '../../components/TextInput/TextInput';
+import ErrorInput from '../../components/ErrorInput/ErrorInput';
 
 const RegistrationForm = () => {
   const userContext = useContext(UserContext);
@@ -381,11 +382,7 @@ const RegistrationForm = () => {
                 onChange={handleChange}
                 className={errors.firstName ? 'error-input' : 'normal-input'}
               />
-              {errors.firstName && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span> {errors.firstName}
-                </div>
-              )}
+              {errors.firstName && <ErrorInput error={errors.firstName} />}
             </div>
             <div className="input-container">
               <label htmlFor="lastName">Last Name:</label>
@@ -398,11 +395,7 @@ const RegistrationForm = () => {
                 onChange={handleChange}
                 className={errors.lastName ? 'error-input' : 'normal-input'}
               />
-              {errors.lastName && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span> {errors.lastName}
-                </div>
-              )}
+              {errors.lastName && <ErrorInput error={errors.lastName} />}
             </div>
           </div>
           <div className="form-group">
@@ -417,11 +410,7 @@ const RegistrationForm = () => {
                 onChange={handleChange}
                 className={errors.email ? 'error-input' : 'normal-input'}
               />
-              {errors.email && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span> {errors.email}
-                </div>
-              )}
+              {errors.email && <ErrorInput error={errors.email} />}
             </div>
             <Tooltip title={tooltipError} arrow>
               <div className="password-field">
@@ -449,11 +438,7 @@ const RegistrationForm = () => {
                   </option>
                 ))}
               </select>
-              {errors.countryCode && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span> {errors.countryCode}
-                </div>
-              )}
+              {errors.countryCode && <ErrorInput error={errors.countryCode} />}
             </div>
             <div className="input-container">
               <label htmlFor="dateOfBirth">Date of Birth:</label>
@@ -462,14 +447,11 @@ const RegistrationForm = () => {
                 id="dateOfBirth"
                 name="dateOfBirth"
                 value={customerData.dateOfBirth}
+                placeholder=""
                 onChange={handleChange}
                 className={errors.dateOfBirth ? 'error-input' : 'normal-input'}
               />
-              {errors.dateOfBirth && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span> {errors.dateOfBirth}
-                </div>
-              )}
+              {errors.dateOfBirth && <ErrorInput error={errors.dateOfBirth} />}
             </div>
           </div>
 
@@ -487,10 +469,7 @@ const RegistrationForm = () => {
                 className={errors.billingAddress?.city ? 'error-input' : ''}
               />
               {errors.billingAddress?.city && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span>{' '}
-                  {errors.billingAddress.city}
-                </div>
+                <ErrorInput error={errors.billingAddress.city} />
               )}
             </div>
             <div className="input-container">
@@ -507,10 +486,7 @@ const RegistrationForm = () => {
                 }
               />
               {errors.billingAddress?.streetName && (
-                <div className="error">
-                  <span className="error-icon">⚠️</span>{' '}
-                  {errors.billingAddress.streetName}
-                </div>
+                <ErrorInput error={errors.billingAddress.streetName} />
               )}
             </div>
           </div>
@@ -526,10 +502,7 @@ const RegistrationForm = () => {
               className={errors.billingAddress?.postalCode ? 'error-input' : ''}
             />
             {errors.billingAddress?.postalCode && (
-              <div className="error error-zip">
-                <span className="error-icon">⚠️</span>{' '}
-                {errors.billingAddress.postalCode}
-              </div>
+              <ErrorInput error={errors.billingAddress.postalCode} />
             )}
           </div>
 
@@ -564,10 +537,7 @@ const RegistrationForm = () => {
                     }
                   />
                   {errors.shippingAddress?.city && (
-                    <div className="error">
-                      <span className="error-icon">⚠️</span>{' '}
-                      {errors.shippingAddress.city}
-                    </div>
+                    <ErrorInput error={errors.shippingAddress.city} />
                   )}
                 </div>
                 <div className="input-container">
@@ -584,10 +554,7 @@ const RegistrationForm = () => {
                     }
                   />
                   {errors.shippingAddress?.streetName && (
-                    <div className="error">
-                      <span className="error-icon">⚠️</span>{' '}
-                      {errors.shippingAddress.streetName}
-                    </div>
+                    <ErrorInput error={errors.shippingAddress.streetName} />
                   )}
                 </div>
               </div>
@@ -605,10 +572,7 @@ const RegistrationForm = () => {
                   }
                 />
                 {errors.shippingAddress?.postalCode && (
-                  <div className="error error-zip">
-                    <span className="error-icon">⚠️</span>
-                    {errors.shippingAddress.postalCode}
-                  </div>
+                  <ErrorInput error={errors.shippingAddress.postalCode} />
                 )}
               </div>
             </>
