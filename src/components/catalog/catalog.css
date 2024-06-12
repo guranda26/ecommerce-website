@@ -1,0 +1,153 @@
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.category-item {
+    font-size: 16px;
+    color: var(--brand-color);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 2px;
+    font-weight: 600;
+}
+
+.category-item.active {
+    background-color: var(--brand-color);
+    color: #fff;
+}
+
+.category-item:hover {
+    color: var(--accent-color);
+}
+
+.products-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+}
+
+.products-item {
+    display: grid;
+    grid-template-rows: 250px 1fr;
+    gap: 10px;
+    padding: 15px;
+    max-width: 300px;
+    width: 100%;
+    height: 470px;
+    border-radius: 50px;
+    transform: translateY(0) translate3d(0, 0, 0);
+    transition: transform 0.5s ease-in-out;
+    cursor: pointer;
+    box-shadow:
+        rgba(0, 0, 0, 0.16) 0px 3px 6px,
+        rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.products-item:hover {
+    transform: translateY(-10px);
+}
+
+.products-item:active {
+    transform: perspective(500px) translate3d(0, 0, 10px);
+}
+
+.products-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 300px;
+}
+
+.products-img {
+    object-fit: contain;
+    object-position: center;
+}
+
+.products-item-bottom {
+    display: grid;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+}
+
+.products-header {
+    font-size: 18px;
+    margin: 0;
+}
+
+.products-description {
+    width: 100%;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.total {
+    font-size: 14px;
+    text-align: left;
+}
+
+.price-content {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+}
+
+.price {
+    color: var(--brand-color);
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.discount-price {
+    position: relative;
+    font-size: 18px;
+}
+
+.discount-price::before {
+    content: '';
+    position: absolute;
+    top: 13px;
+    width: 50%;
+    height: 2px;
+    background-color: var(--accent-color);
+    transform: rotate(15deg);
+}
+
+.discount {
+    color: var(--accent-color);
+}
+
+.more-btn {
+    padding: 5px;
+    background-color: transparent;
+    color: var(--accent-color);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.more-btn:hover {
+    color: var(--brand-color);
+}
+
+.nothing-text {
+    font-size: 24px;
+    color: var(--brand-color);
+}
+
+.error-message {
+    color: var(--accent-color);
+}
