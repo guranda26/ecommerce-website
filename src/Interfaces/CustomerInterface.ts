@@ -113,3 +113,14 @@ export interface ProductData {
   description?: { [key: string]: string };
   MasterVariant?: MasterVariant;
 }
+
+export interface TextInputProps {
+  type: 'text' | 'email' | 'password' | 'date';
+  id: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  required?: boolean;
+}

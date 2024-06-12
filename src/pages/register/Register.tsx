@@ -50,6 +50,7 @@ import { isExist } from '../../../sdk/myToken';
 import { UserContext } from '../../context/userContext';
 import { getMyToken } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
+import TextInput from '../../components/TextInput/TextInput';
 
 const RegistrationForm = () => {
   const userContext = useContext(UserContext);
@@ -371,7 +372,7 @@ const RegistrationForm = () => {
           <div className="form-group">
             <div className="input-container">
               <label htmlFor="firstName">First Name:</label>
-              <input
+              <TextInput
                 type="text"
                 id="firstName"
                 name="firstName"
@@ -379,7 +380,6 @@ const RegistrationForm = () => {
                 value={customerData.firstName}
                 onChange={handleChange}
                 className={errors.firstName ? 'error-input' : 'normal-input'}
-                required
               />
               {errors.firstName && (
                 <div className="error">
@@ -389,7 +389,7 @@ const RegistrationForm = () => {
             </div>
             <div className="input-container">
               <label htmlFor="lastName">Last Name:</label>
-              <input
+              <TextInput
                 type="text"
                 id="lastName"
                 name="lastName"
@@ -397,7 +397,6 @@ const RegistrationForm = () => {
                 value={customerData.lastName}
                 onChange={handleChange}
                 className={errors.lastName ? 'error-input' : 'normal-input'}
-                required
               />
               {errors.lastName && (
                 <div className="error">
@@ -409,7 +408,7 @@ const RegistrationForm = () => {
           <div className="form-group">
             <div className="input-container">
               <label htmlFor="email">Email:</label>
-              <input
+              <TextInput
                 type="email"
                 id="email"
                 name="email"
@@ -417,7 +416,6 @@ const RegistrationForm = () => {
                 value={customerData.email}
                 onChange={handleChange}
                 className={errors.email ? 'error-input' : 'normal-input'}
-                required
               />
               {errors.email && (
                 <div className="error">
@@ -459,14 +457,13 @@ const RegistrationForm = () => {
             </div>
             <div className="input-container">
               <label htmlFor="dateOfBirth">Date of Birth:</label>
-              <input
+              <TextInput
                 type="date"
                 id="dateOfBirth"
                 name="dateOfBirth"
                 value={customerData.dateOfBirth}
                 onChange={handleChange}
                 className={errors.dateOfBirth ? 'error-input' : 'normal-input'}
-                required
               />
               {errors.dateOfBirth && (
                 <div className="error">
@@ -480,7 +477,7 @@ const RegistrationForm = () => {
           <div className="form-group">
             <div className="input-container">
               <label htmlFor="billingCity">City:</label>
-              <input
+              <TextInput
                 type="text"
                 id="billingCity"
                 name="city"
@@ -488,7 +485,6 @@ const RegistrationForm = () => {
                 value={customerData.billingAddress.city}
                 onChange={(e) => handleAddressChange(e, 'billing')}
                 className={errors.billingAddress?.city ? 'error-input' : ''}
-                required
               />
               {errors.billingAddress?.city && (
                 <div className="error">
@@ -499,7 +495,7 @@ const RegistrationForm = () => {
             </div>
             <div className="input-container">
               <label htmlFor="billingStreet">Street:</label>
-              <input
+              <TextInput
                 type="text"
                 id="billingStreet"
                 name="streetName"
@@ -509,7 +505,6 @@ const RegistrationForm = () => {
                 className={
                   errors.billingAddress?.streetName ? 'error-input' : ''
                 }
-                required
               />
               {errors.billingAddress?.streetName && (
                 <div className="error">
@@ -521,7 +516,7 @@ const RegistrationForm = () => {
           </div>
           <div className="input-container">
             <label htmlFor="billingPostalCode">Postal Code:</label>
-            <input
+            <TextInput
               type="text"
               id="billingPostalCode"
               name="postalCode"
@@ -529,7 +524,6 @@ const RegistrationForm = () => {
               value={customerData.billingAddress.postalCode}
               onChange={(e) => handleAddressChange(e, 'billing')}
               className={errors.billingAddress?.postalCode ? 'error-input' : ''}
-              required
             />
             {errors.billingAddress?.postalCode && (
               <div className="error error-zip">
@@ -558,7 +552,7 @@ const RegistrationForm = () => {
               <div className="form-group">
                 <div className="input-container">
                   <label htmlFor="shippingCity">City:</label>
-                  <input
+                  <TextInput
                     type="text"
                     id="shippingCity"
                     name="city"
@@ -578,7 +572,7 @@ const RegistrationForm = () => {
                 </div>
                 <div className="input-container">
                   <label htmlFor="shippingStreet">Street:</label>
-                  <input
+                  <TextInput
                     type="text"
                     id="shippingStreet"
                     name="streetName"
@@ -599,7 +593,7 @@ const RegistrationForm = () => {
               </div>
               <div className="input-container">
                 <label htmlFor="shippingPostalCode">Postal Code:</label>
-                <input
+                <TextInput
                   type="text"
                   id="shippingPostalCode"
                   name="postalCode"
