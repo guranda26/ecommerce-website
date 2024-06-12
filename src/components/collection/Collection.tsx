@@ -4,6 +4,7 @@ import './collection.css';
 import table from '../../assets/images/table.png';
 import poufic from '../../assets/images/poufic.png';
 import lamp from '../../assets/images/lamp.png';
+import { routes } from '../../modules/routes';
 
 function Collection(): React.JSX.Element {
   return (
@@ -16,14 +17,14 @@ function Collection(): React.JSX.Element {
         décor, or home accessories.
       </p>
       <div className="collection-images">
-        <Link className="collection-link" to="/products">
-          <img src={table} alt="" width={355} height={434} />
+        <Link className="collection-link" to={routes.catalog}>
+          <img src={table} alt="Table image" width={355} height={434} />
         </Link>
-        <Link className="collection-link" to="/products">
-          <img src={poufic} alt="" width={355} height={434} />
+        <Link className="collection-link" to={routes.catalog}>
+          <img src={poufic} alt="Chair image" width={355} height={434} />
         </Link>
-        <Link className="collection-link" to="/products">
-          <img src={lamp} alt="" width={355} height={434} />
+        <Link className="collection-link" to={routes.catalog}>
+          <img src={lamp} alt="Lamp image" width={355} height={434} />
         </Link>
       </div>
     </section>

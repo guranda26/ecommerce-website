@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import useProducts from '../../hooks/useProduct';
 import './DetailedProduct.css';
 import ImageModal from '../../modules/modal/modal';
+import { routes } from '../../modules/routes';
 
 function DetailedProduct(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +17,7 @@ function DetailedProduct(): React.JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleClick = () => {
-    navigate('/catalog');
+    navigate(routes.catalog);
   };
 
   const handleImageClick = () => {

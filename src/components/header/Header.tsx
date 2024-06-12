@@ -1,21 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Navbar from './Navbar';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/images/logo.jpg';
 import './header.css';
 import Profile from './Profile';
+import { routes } from '../../modules/routes';
 
 function Header(): React.JSX.Element {
   const [openNav, setOpenNav] = useState(true);
-  const headerRef = useRef(null);
 
   const handleBurgerBtn = () => {
     setOpenNav(!openNav);
   };
 
   return (
-    <header ref={headerRef} className={openNav ? 'header' : 'header active'}>
-      <NavLink title="Home Page" className="logo-link" to="/">
+    <header className={openNav ? 'header' : 'header active'}>
+      <NavLink title="Home Page" className="logo-link" to={routes.home}>
         <img
           className="logo-img"
           src={logo}

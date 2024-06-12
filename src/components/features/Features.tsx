@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './features.css';
+import { routes } from '../../modules/routes';
 
 function Features(): React.JSX.Element {
   return (
@@ -15,7 +16,7 @@ function Features(): React.JSX.Element {
           of furniture to create a harmonious and cohesive theme in your home.
         </p>
         <div>
-          <Link className="button" to={'/catalog'}>
+          <Link className="button" to={routes.catalog}>
             Buy now
           </Link>
         </div>

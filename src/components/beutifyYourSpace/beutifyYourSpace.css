@@ -25,19 +25,6 @@
   background-size: cover;
 }
 
-.beutifyYourSpace-image::after {
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 200px;
-  content: '';
-  width: 372px;
-  height: 372px;
-  border-radius: 50%;
-  background-color: #09513b;
-  z-index: -1;
-}
-
 @media screen and (max-width: 1200px) {
   .beutifyYourSpace-content {
     width: 70%;
@@ -67,9 +54,5 @@
 @media screen and (max-width: 500px) {
   .beutifyYourSpace {
     padding: 10px;
-  }
-
-  .beutifyYourSpace-image::after {
-    display: none;
   }
 }

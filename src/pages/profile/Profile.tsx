@@ -1,15 +1,19 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/userContext';
 import { Customer } from '@commercetools/platform-sdk';
 import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { updateProfile, updatePassword } from '../../../sdk/profileApi';
+import { handleEditBtn, handlechange } from './updateProfile';
+import {
+  updateProfile,
+  updatePassword,
+  getUser,
+} from '../../../sdk/profileApi';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
+
 const Profile: React.FC = () => {
-  const userContext = useContext(UserContext);
   const [user, setUser] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,11 +27,8 @@ const Profile: React.FC = () => {
 
   const fetchUser = useCallback(async () => {
     try {
-      const apiRoot = userContext.apiRoot;
-
-      const response = await apiRoot.me().get().execute();
-      const data: Customer = response.body;
-      setUser(data);
+      const response = await getUser();
+      if (response) setUser(response);
     } catch (error) {
       console.error('Error fetching user data:', error);
       setError('Error fetching user data');
@@ -35,7 +36,7 @@ const Profile: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [navigate, userContext.apiRoot]);
+  }, [navigate]);
 
   useEffect(() => {
     void fetchUser();

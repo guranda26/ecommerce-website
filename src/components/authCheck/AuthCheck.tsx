@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { isExist } from '../../../sdk/myToken';
+import { routes } from '../../modules/routes';
 
 interface AuthCheckProps {
   children: React.ReactNode;
@@ -25,7 +26,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({
       if (restricted && location.pathname !== '/login') {
         const toastMessage = 'You need to be logged in to access this page.';
         toast.info(toastMessage, { autoClose: 3000 });
-        navigate('/login', { replace: true });
+        navigate(routes.login, { replace: true });
       }
     }
   }, [navigate, isUserExist, restricted, location.pathname]);
@@ -35,7 +36,7 @@ const AuthCheck: React.FC<AuthCheckProps> = ({
       const toastMessage = 'You are already logged in.';
       toast.info(toastMessage, { autoClose: 3000 });
       setTimeout(() => {
-        navigate('/');
+        navigate(routes.home);
       }, 3000);
     }
   }, [navigate, isUserExist, location.pathname]);

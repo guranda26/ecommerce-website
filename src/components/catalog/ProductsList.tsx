@@ -2,7 +2,8 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './catalog.css';
-import { getPrice } from '../../components/priceFunction/getPrice';
+import { getPrice } from '../priceFunction/getPrice';
+import { routes } from '../../modules/routes';
 
 function PoductsList(props: {
   products: ProductProjection[];
@@ -11,7 +12,7 @@ function PoductsList(props: {
   const products = props.products;
 
   const productClickHandle = (id: string) => {
-    navigate(`/catalog/${id}`);
+    navigate(`${routes.catalog}/${id}`);
   };
 
   const cutDescription = (text: string) => text.split('.')[0];

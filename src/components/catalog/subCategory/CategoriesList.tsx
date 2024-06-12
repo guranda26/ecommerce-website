@@ -9,7 +9,10 @@ function CategoriesList(props: {
     parentId: string;
     setParentId: React.Dispatch<React.SetStateAction<string>>;
   };
-  categoryWrapRef: React.RefObject<HTMLDivElement>;
+  subParentId: {
+    parentId: string;
+    setParentId: React.Dispatch<React.SetStateAction<string>>;
+  };
 }): React.JSX.Element {
   const handleAllItem = (element: HTMLLIElement) => {
     props.setProducts(null);
@@ -18,12 +21,6 @@ function CategoriesList(props: {
       const liElement = el as HTMLLIElement;
       liElement.classList.remove('active');
     });
-    props.categoryWrapRef.current?.removeChild(
-      props.categoryWrapRef.current.childNodes[1]
-    );
-    props.categoryWrapRef.current?.removeChild(
-      props.categoryWrapRef.current.childNodes[1]
-    );
     element.classList.add('active');
   };
 
@@ -43,6 +40,7 @@ function CategoriesList(props: {
               setProducts={props.setProducts}
               key={category.id}
               parentId={props.parentId}
+              subParentId={props.subParentId}
             />
           );
       })}

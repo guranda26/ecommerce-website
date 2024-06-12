@@ -88,3 +88,17 @@ export const updatePassword = async (user: Customer, password: {
         return false;
     }
 }
+
+export const getUser = async () => {
+    const apiRoot = clientMaker();
+    try {
+        const response = await apiRoot
+            .me()
+            .get()
+            .execute();
+        return response.body;
+    }
+    catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}

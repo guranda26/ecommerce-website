@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ProductsList from './ProductsList';
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { clientMaker } from '../../../sdk/createClient';
 import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getProducts } from '../../../sdk/productsApi';
 function LoadProducts(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -13,27 +13,6 @@ function LoadProducts(): React.JSX.Element {
   const [response, setResponse] = useState<ProductProjection[]>([]);
 
   const fetchData = useCallback(async () => {
-    const apiRoot = clientMaker();
-    const getProducts = async (page: number) => {
-      try {
-        const response = await apiRoot
-          .productProjections()
-          .get({
-            queryArgs: {
-              limit: page * 20,
-            },
-          })
-          .execute();
-        return response;
-      } catch (error) {
-        let errorMessage = 'Unknown error';
-        if (error instanceof Error) {
-          errorMessage = error.message;
-        }
-        throw new Error(`Failed to get products: ${errorMessage}`);
-      }
-    };
-
     try {
       const res = await getProducts(page);
       if (res.statusCode === 200) {
