@@ -16,6 +16,7 @@
   --bg-color: #f2f5ff;
   color: #666;
   --accent-color: rgb(246, 81, 81);
+  --white: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
