@@ -87,6 +87,7 @@ const Profile: React.FC = () => {
           firstName: user?.firstName || '',
           lastName: user?.lastName || '',
           email: user?.email || '',
+          password: user?.password || '',
           dateOfBirth: user?.dateOfBirth || '',
           country: user?.addresses[0]?.country || '',
           city: user?.addresses[0]?.city || '',
@@ -167,6 +168,25 @@ const Profile: React.FC = () => {
                 id="email"
                 type="email"
                 name="email"
+                readOnly={!editMode}
+              />
+              <button
+                className="edit-btn"
+                type="button"
+                onClick={() => setEditMode(!editMode)}
+              >
+                <FontAwesomeIcon className="edit-img" icon={faEdit} />
+              </button>
+            </div>
+            <div className="input-wrapper">
+              <label className="profile-label" htmlFor="email">
+                Password:
+              </label>
+              <Field
+                className="field"
+                id="password"
+                type="password"
+                name="password"
                 readOnly={!editMode}
               />
               <button
