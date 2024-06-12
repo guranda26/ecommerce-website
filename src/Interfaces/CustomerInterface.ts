@@ -1,12 +1,5 @@
 import { CountryCode } from 'src/modules/validationUtils';
 
-export interface ICustomer {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-}
-
 export interface CustomerData {
   firstName: string;
   lastName: string;
@@ -119,4 +112,15 @@ export interface ProductData {
   name?: { [key: string]: string };
   description?: { [key: string]: string };
   MasterVariant?: MasterVariant;
+}
+
+export interface TextInputProps {
+  type: 'text' | 'email' | 'password' | 'date';
+  id: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  required?: boolean;
 }
