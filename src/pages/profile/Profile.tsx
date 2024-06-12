@@ -11,10 +11,8 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { updateProfile, updatePassword } from '../../../sdk/profileApi';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-interface Address extends CommercetoolsAddress {
-  id: string;
-  isDefaultBillingAddress?: boolean;
-  isDefaultShippingAddress?: boolean;
+interface FetchAddress extends CommercetoolsAddress {
+  country: string;
 }
 
 const Profile: React.FC = () => {
@@ -23,11 +21,6 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editMode, setEditMode] = useState(false);
-  // const [password, setPassword] = useState({
-  //   currentPassword: '',
-  //   newPassword: '',
-  // });
-  const [addresses, setAddresses] = useState<Address[]>([]);
   const [changePassword, setChangePassword] = useState(false);
   const navigate = useNavigate();
 
@@ -39,7 +32,7 @@ const Profile: React.FC = () => {
       const data: Customer = response.body;
       setUser(data);
       const userAddresses = data.addresses || [];
-      setAddresses(userAddresses as Address[]);
+      userAddresses as Address[];
     } catch (error) {
       console.error('Error fetching user data:', error);
       setError('Error fetching user data');
@@ -61,46 +54,70 @@ const Profile: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  // const handleUpdatePassword = async () => {
-  //   try {
-  //     if (user && password.currentPassword && password.newPassword) {
-  //       await updatePassword(user, password);
-  //       setPassword({ currentPassword: '', newPassword: '' });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating password:', error);
-  //   }
-  // };
+  interface Address extends CommercetoolsAddress {
+    id: string;
+    isDefaultBillingAddress?: boolean;
+    isDefaultShippingAddress?: boolean;
+  }
 
-  const handleUpdatePassword = async (values: FormikValues) => {
+  const handleUpdateProfile = async (values: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    dateOfBirth: string;
+    country: string;
+    city: string;
+    postalCode: string;
+  }) => {
+    try {
+      const newAddresses: FetchAddress[] = [
+        {
+          ...user!.addresses[0],
+          id: user!.addresses[0].id,
+          country: values.country,
+          city: values.city,
+          postalCode: values.postalCode,
+        },
+        {
+          ...user!.addresses[1],
+          id: user!.addresses[1].id,
+          country: values.country,
+          city: values.city,
+          postalCode: values.postalCode,
+        },
+      ];
+      const updatedUser: Customer = {
+        ...user!,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        dateOfBirth: values.dateOfBirth,
+        addresses: newAddresses,
+      };
+      setUser(updatedUser);
+      await updateProfile(updatedUser);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
+  };
+
+  const handleUpdatePassword = async (values: {
+    currentPassword: string;
+    newPassword: string;
+  }) => {
     try {
       if (user && values.currentPassword && values.newPassword) {
-        await updatePassword(user, {
+        const passwordUpdated = await updatePassword(user, {
           currentPassword: values.currentPassword,
           newPassword: values.newPassword,
         });
-        setChangePassword(false); // Close the password update section after successful update
+        if (passwordUpdated) {
+          setChangePassword(false);
+        }
       }
     } catch (error) {
       console.error('Error updating password:', error);
     }
-  };
-  // const handleUpdatePassword = async () => {
-  //   try {
-  //     if (user && password.currentPassword && password.newPassword) {
-  //       await updatePassword(user, password);
-  //       setPassword({ currentPassword: '', newPassword: '' });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating password:', error);
-  //   }
-  // };
-
-  const handleUpdatePasswordClick = (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    void handleUpdatePassword();
   };
 
   return (
@@ -111,46 +128,14 @@ const Profile: React.FC = () => {
           firstName: user?.firstName || '',
           lastName: user?.lastName || '',
           email: user?.email || '',
-          password: user?.password || '',
           dateOfBirth: user?.dateOfBirth || '',
           country: user?.addresses[0]?.country || '',
           city: user?.addresses[0]?.city || '',
           postalCode: user?.addresses[0]?.postalCode || '',
-          currentPassword: '',
-          newPassword: '',
         }}
         onSubmit={async (values, { setSubmitting }) => {
-          try {
-            const newAddresses = [
-              {
-                ...user!.addresses[0],
-                country: values.country,
-                city: values.city,
-                postalCode: values.postalCode,
-              },
-              {
-                ...user!.addresses[1],
-                country: values.country,
-                city: values.city,
-                postalCode: values.postalCode,
-              },
-            ];
-            const updatedUser: Customer = {
-              ...user!,
-              firstName: values.firstName,
-              lastName: values.lastName,
-              email: values.email,
-              password: values.currentPassword,
-              dateOfBirth: values.dateOfBirth,
-              addresses: newAddresses,
-            };
-            setUser(updatedUser);
-            await updateProfile(updatedUser);
-            setSubmitting(false);
-          } catch (error) {
-            console.error('Error updating profile:', error);
-            setSubmitting(false);
-          }
+          await handleUpdateProfile(values);
+          setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
@@ -213,25 +198,6 @@ const Profile: React.FC = () => {
               </button>
             </div>
             <div className="input-wrapper">
-              <label className="profile-label" htmlFor="email">
-                Password:
-              </label>
-              <Field
-                className="field"
-                id="currentPassword"
-                type="password"
-                name="password"
-                readOnly={!editMode}
-              />
-              <button
-                className="edit-btn"
-                type="button"
-                onClick={() => setEditMode(!editMode)}
-              >
-                <FontAwesomeIcon className="edit-img" icon={faEdit} />
-              </button>
-            </div>
-            <div className="input-wrapper">
               <label className="profile-label" htmlFor="dateOfBirth">
                 Date of Birth:
               </label>
@@ -269,7 +235,6 @@ const Profile: React.FC = () => {
                 <FontAwesomeIcon icon={faEdit} />
               </button>
             </div>
-
             <div className="input-wrapper">
               <label className="profile-label" htmlFor="city">
                 City:
@@ -289,7 +254,6 @@ const Profile: React.FC = () => {
                 <FontAwesomeIcon icon={faEdit} />
               </button>
             </div>
-
             <div className="input-wrapper">
               <label className="profile-label" htmlFor="postalCode">
                 Postal Code:
@@ -311,88 +275,89 @@ const Profile: React.FC = () => {
             </div>
             <div className="button-wrap">
               <button className="button" type="submit" disabled={isSubmitting}>
-                Update
-              </button>
-              <button
-                className="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setEditMode(false);
-                  setChangePassword(false);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setChangePassword(!changePassword);
-                }}
-              >
-                {changePassword ? 'Hide password field' : 'Change Password'}
+                Update Profile
               </button>
             </div>
-            {changePassword && (
-              <div className="password-wrapper">
-                <div className="input-wrapper">
-                  <label className="profile-label" htmlFor="currentPassword">
-                    Current Password:
-                  </label>
-                  <Field
-                    className="field"
-                    type="password"
-                    id="currentPassword"
-                    name="currentPassword"
-                    placeholder="Current Password"
-                  />
-                  <ErrorMessage
-                    name="currentPassword"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-                <div className="input-wrapper">
-                  <label className="profile-label" htmlFor="newPassword">
-                    New Password:
-                  </label>
-                  <Field
-                    className="field"
-                    type="password"
-                    id="newPassword"
-                    name="newPassword"
-                    placeholder="New Password"
-                  />
-                  <ErrorMessage
-                    name="newPassword"
-                    component="div"
-                    className="error"
-                  />
-                </div>
-
-                <div className="button-wrap">
-                  <button
-                    className="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setChangePassword(false);
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="button"
-                    type="button"
-                    onClick={handleUpdatePasswordClick} // Pass Formik values to handleUpdatePassword
-                  >
-                    Update Password
-                  </button>
-                </div>
-              </div>
-            )}
           </Form>
         )}
       </Formik>
+
+      {changePassword && (
+        <Formik
+          initialValues={{
+            currentPassword: '',
+            newPassword: '',
+          }}
+          onSubmit={async (values, { setSubmitting }) => {
+            await handleUpdatePassword(values);
+            setSubmitting(false);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form className="password-form">
+              <div className="input-wrapper">
+                <label className="profile-label" htmlFor="currentPassword">
+                  Current Password:
+                </label>
+                <Field
+                  className="field"
+                  type="password"
+                  id="currentPassword"
+                  name="currentPassword"
+                  placeholder="Current Password"
+                />
+                <ErrorMessage
+                  name="currentPassword"
+                  component="div"
+                  className="error"
+                />
+              </div>
+              <div className="input-wrapper">
+                <label className="profile-label" htmlFor="newPassword">
+                  New Password:
+                </label>
+                <Field
+                  className="field"
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  placeholder="New Password"
+                />
+                <ErrorMessage
+                  name="newPassword"
+                  component="div"
+                  className="error"
+                />
+              </div>
+
+              <div className="button-wrap">
+                <button
+                  className="button"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Update Password
+                </button>
+                <button
+                  className="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setChangePassword(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      )}
+      <button
+        className="button"
+        onClick={() => setChangePassword(!changePassword)}
+      >
+        {changePassword ? 'Hide password field' : 'Change Password'}
+      </button>
     </section>
   );
 };
