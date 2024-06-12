@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import LoadProducts from '../../components/catalog/LoadProducts';
+import './catalog.css';
+import FilterSection from '../../components/catalog/FilterSection';
+import { ProductProjection } from '@commercetools/platform-sdk';
+import SearchProducts from '../../components/catalog/SearchProducts';
+import Categories from '../../components/catalog/subCategory/Categories';
 
 function Catalog(): React.JSX.Element {
+  const [products, setProducts] = useState<ProductProjection[] | null>(null);
   return (
-    <>
-      <h2>Catalog Example page</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-        perferendis, eos quaerat blanditiis doloremque, commodi ea voluptatibus
-        molestiae quisquam dolor consectetur, eum minus dicta corrupti inventore
-        amet alias ducimus. Repellendus.
-      </p>
-    </>
+    <div className="catalog-wrapper">
+      <section className="catalog">
+        <h2 className="section-header">Our catalog</h2>
+        <aside className="sidebar">
+          <Categories setProducts={setProducts} />
+        </aside>
+        <FilterSection setProducts={setProducts} />
+        {!products ? <LoadProducts /> : <SearchProducts products={products} />}
+      </section>
+    </div>
   );
 }
 

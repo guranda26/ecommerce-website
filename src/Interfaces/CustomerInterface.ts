@@ -1,12 +1,5 @@
 import { CountryCode } from 'src/modules/validationUtils';
 
-export interface ICustomer {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-}
-
 export interface CustomerData {
   firstName: string;
   lastName: string;
@@ -90,4 +83,44 @@ export interface CustomError extends Error {
   response?: {
     status?: number;
   };
+}
+
+export type Product = {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl?: string;
+  images?: string[];
+  price?: string;
+  discountPrice?: string;
+};
+
+export interface ProductsProps {
+  productId?: string;
+}
+
+interface Image {
+  url: string;
+}
+
+export interface MasterVariant {
+  images?: Image[];
+}
+
+export interface ProductData {
+  id: string;
+  name?: { [key: string]: string };
+  description?: { [key: string]: string };
+  MasterVariant?: MasterVariant;
+}
+
+export interface TextInputProps {
+  type: 'text' | 'email' | 'password' | 'date';
+  id: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  required?: boolean;
 }

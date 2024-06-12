@@ -2,6 +2,21 @@ import React from 'react';
 import './howItWorks.css';
 
 function HowItWorks(): React.JSX.Element {
+  const howItWorksText = [
+    {
+      header: 'Purchase Securely',
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    },
+    {
+      header: 'Ships From Warehouse',
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    },
+    {
+      header: 'Style Your Room',
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    },
+  ];
+
   return (
     <section className="section howItWorks">
       <h2 className="section-header">How It Works</h2>
@@ -10,24 +25,12 @@ function HowItWorks(): React.JSX.Element {
         within 72 hours.
       </p>
       <ul className="howItWorks-lists">
-        <li className="howItWorks-item">
-          <h2 className="howItWorks-header">Purchase Securely</h2>
-          <p className="howItWorks-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-        </li>
-        <li className="howItWorks-item">
-          <h2 className="howItWorks-header">Ships From Warehouse</h2>
-          <p className="howItWorks-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-        </li>
-        <li className="howItWorks-item">
-          <h2 className="howItWorks-header">Style Your Room</h2>
-          <p className="howItWorks-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-        </li>
+        {howItWorksText.map((element, index) => (
+          <li className="howItWorks-item" key={index}>
+            <h2 className="howItWorks-header">{element.header}</h2>
+            <p className="howItWorks-text">{element.text}</p>
+          </li>
+        ))}
       </ul>
     </section>
   );

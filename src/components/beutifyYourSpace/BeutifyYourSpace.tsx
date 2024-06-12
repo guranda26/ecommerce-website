@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './beutifyYourSpace.css';
+import { routes } from '../../modules/routes';
 
 function BeutifyYourSpace(): React.JSX.Element {
   return (
@@ -15,7 +16,7 @@ function BeutifyYourSpace(): React.JSX.Element {
           process can be complex, as it involves balancing practicality,
           affordability, aesthetics, and quality.
         </p>
-        <Link className="button" to="/products">
+        <Link className="button" to={routes.catalog}>
           Learn more
         </Link>
       </div>

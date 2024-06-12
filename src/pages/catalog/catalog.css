@@ -1,0 +1,21 @@
+.catalog-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.catalog {
+  padding-bottom: 40px;
+}
+
+.sidebar {
+  flex-wrap: nowrap;
+  background-color: var(--bg-color);
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 540px) {
+  .catalog-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

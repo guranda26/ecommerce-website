@@ -1,21 +1,51 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { isExist } from '../../../sdk/myToken';
+import { routes } from '../../modules/routes';
 
 interface AuthCheckProps {
   children: React.ReactNode;
+  restricted?: boolean;
 }
 
-const AuthCheck: React.FC<AuthCheckProps> = ({ children }) => {
+const AuthCheck: React.FC<AuthCheckProps> = ({
+  children,
+  restricted = false,
+}) => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem('userId');
+  const location = useLocation();
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const isUserExist = isExist();
 
-  React.useEffect(() => {
-    if (userId) {
-      navigate('/?message=You are already logged in.');
+  useEffect(() => {
+    if (isUserExist) {
+      setIsAuthChecked(true);
+    } else {
+      setIsAuthChecked(true);
+      if (restricted && location.pathname !== '/login') {
+        const toastMessage = 'You need to be logged in to access this page.';
+        toast.info(toastMessage, { autoClose: 3000 });
+        navigate(routes.login, { replace: true });
+      }
     }
-  }, [navigate, userId]);
+  }, [navigate, isUserExist, restricted, location.pathname]);
 
-  return <>{!userId && children}</>;
+  useEffect(() => {
+    if (isUserExist && location.pathname === '/login') {
+      const toastMessage = 'You are already logged in.';
+      toast.info(toastMessage, { autoClose: 3000 });
+      setTimeout(() => {
+        navigate(routes.home);
+      }, 3000);
+    }
+  }, [navigate, isUserExist, location.pathname]);
+
+  if (!isAuthChecked) {
+    return null;
+  }
+
+  return <>{children}</>;
 };
 
 export default AuthCheck;

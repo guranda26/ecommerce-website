@@ -8,9 +8,11 @@ import Login from './pages/login/Login';
 import MainPage from './pages/mainPage/MainPage';
 import './App.css';
 import RegistrationForm from './pages/register/Register';
-import Products from './pages/products/Products';
 import About from './pages/about/About';
 import AuthCheck from './components/authCheck/AuthCheck';
+import DetailedProduct from './pages/detailedProduct/DetailedProduct';
+import Profile from './pages/profile/Profile';
+import { UserProvider } from './context/userContext';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -28,12 +30,20 @@ const App: React.FC = () => {
           element: <Catalog />,
         },
         {
-          path: 'products',
-          element: <Products />,
-        },
-        {
           path: 'about',
           element: <About />,
+        },
+        {
+          path: 'catalog/:id',
+          element: <DetailedProduct />,
+        },
+        {
+          path: 'profile',
+          element: (
+            <AuthCheck restricted>
+              <Profile />
+            </AuthCheck>
+          ),
         },
       ],
     },
@@ -64,9 +74,9 @@ const App: React.FC = () => {
   ]);
 
   return (
-    <>
+    <UserProvider>
       <RouterProvider router={roots} />
-    </>
+    </UserProvider>
   );
 };
 

@@ -1,75 +1,105 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiRoot } from '../../../sdk/client';
 import './Login.css';
-import { projectKey } from '../../../sdk/ClientBuilder';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../../context/userContext';
+import { getMyToken, isExist } from '../../../sdk/myToken';
+import { clientWithPassword } from '../../../sdk/createClient';
+import { routes } from '../../modules/routes';
+import { useFormik } from 'formik';
+
+interface LoginFormValues {
+  email: string;
+  password: string;
+  submit?: string;
+}
+
+interface LoginFormErrors {
+  email?: string;
+  password?: string;
+  submit?: string;
+}
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{
-    email?: string;
-    password?: string;
-    submit?: string;
-  }>({});
-  const [generalError, setGeneralError] = useState<string>('');
-  const [success, setSuccess] = useState<boolean>(false);
-
+  const userContext = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
+    if (isExist()) {
       const message = 'You are already logged in';
       toast.info(message, { autoClose: 3000 });
       setTimeout(() => {
         navigate({
-          pathname: '/',
+          pathname: routes.home,
           search: `?message=${encodeURIComponent(message)}`,
         });
       }, 3000);
     }
   }, [navigate]);
 
-  const validateField = (name: string, value: string): void => {
-    let error: string = '';
+  const validate = (values: LoginFormValues) => {
+    const errors: LoginFormErrors = {};
 
-    switch (name) {
-      case 'email':
-        if (!isEmailValid(value)) error = 'Invalid email format';
-        break;
-      case 'password':
-        if (!isPasswordValid(value)) {
-          error =
-            'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*.,)';
-        }
-        break;
+    if (!isEmailValid(values.email)) {
+      errors.email = 'Invalid email format';
     }
 
-    setErrors((prev) => ({ ...prev, [name]: error }));
+    if (!isPasswordValid(values.password)) {
+      errors.password =
+        'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*.,)';
+    }
+
+    return errors;
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const formik = useFormik<LoginFormValues>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate,
+    onSubmit: async (values, { setErrors }) => {
+      const message =
+        'User is already logged in. Do you want to log out and then log in again?';
 
-    if (name === 'email') setEmail(value);
+      if (!isExist() || window.confirm(message)) {
+        const authSuccess = await authenticateUser(
+          values.email,
+          values.password,
+          setErrors
+        );
 
-    validateField(name, value);
+        if (authSuccess) {
+          navigate('/', { replace: true });
+        }
+      } else {
+        navigate('/', { replace: true });
+      }
+    },
+  });
+
+  const handlePasswordChange = async (password: string) => {
+    await formik.setFieldValue('password', password);
+    await formik.validateField('password');
   };
 
-  const handlePasswordChange = (password: string) => {
-    setPassword(password);
-    validateField('password', password);
+  const handlePasswordChangeWrapper = (password: string) => {
+    handlePasswordChange(password).catch((error) => {
+      console.error(error);
+    });
   };
 
-  const authenticateUser = async (email: string, password: string) => {
+  const authenticateUser = async (
+    email: string,
+    password: string,
+    setErrors: (errors: LoginFormErrors) => void
+  ) => {
     try {
-      const response = await apiRoot()
-        .withProjectKey({ projectKey })
+      const response = await userContext.apiRoot
+        .me()
         .login()
         .post({
           body: {
@@ -80,16 +110,24 @@ const Login: React.FC = () => {
         .execute();
 
       if (response.body) {
-        localStorage.setItem('userId', response.body.customer.id);
-        console.log('response:', response.body);
+        userContext.setApiRoot(clientWithPassword(email, password));
+        const bodyInit = {
+          username: email,
+          password: password,
+        };
+        getMyToken(bodyInit);
         return true;
       } else {
-        setGeneralError('Login failed. Please check your email and password.');
+        setErrors({
+          submit: 'Login failed. Please check your email and password.',
+        });
         return false;
       }
     } catch (error) {
       console.error(error);
-      setGeneralError('Login failed. Please check your email and password.');
+      setErrors({
+        submit: 'Login failed. Please check your email and password.',
+      });
       return false;
     }
   };
@@ -98,8 +136,8 @@ const Login: React.FC = () => {
     event.preventDefault();
     const message =
       'User is already logged in. Do you want to log out and then log in again?';
-    const userId = localStorage.getItem('userId');
-    if (!userId || window.confirm(message) == true) {
+
+    if (!isExist() || window.confirm(message) == true) {
       validateField('email', email);
       validateField('password', password);
 
@@ -113,24 +151,21 @@ const Login: React.FC = () => {
       if (authSuccess) {
         setSuccess(true);
         setGeneralError('');
-        navigate('/', { replace: true });
+        navigate(routes.home, { replace: true });
       }
     } else {
-      navigate('/', { replace: true });
+      navigate(routes.home, { replace: true });
     }
-  };
-
-  // Wrapping handleSubmit in a non-async function to satisfy the linter
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    void handleSubmit(event);
   };
 
   return (
     <div className="login-form-container">
       <ToastContainer />
       <h1>Login</h1>
-      {generalError && <div className="error">{generalError}</div>}
-      <form onSubmit={handleFormSubmit} className="login-form">
+      {formik.errors.submit && (
+        <div className="error">{formik.errors.submit}</div>
+      )}
+      <form onSubmit={formik.handleSubmit} className="login-form">
         <div className="login-form-controls">
           <div className="input-container">
             <label htmlFor="email">Email:</label>
@@ -138,38 +173,34 @@ const Login: React.FC = () => {
               type="email"
               id="email"
               name="email"
-              value={email}
-              onChange={handleChange}
+              onChange={formik.handleChange}
+              value={formik.values.email}
               placeholder="Email"
             />
-            {errors.email && (
+            {formik.errors.email && (
               <div className="error">
                 <span className="error-icon">⚠️</span>
-                {errors.email}
+                {formik.errors.email}
               </div>
             )}
           </div>
         </div>
         <div className="login-form-controls">
           <PasswordInput
-            password={password}
-            onPasswordChange={handlePasswordChange}
-            error={errors.password}
+            password={formik.values.password}
+            onPasswordChange={handlePasswordChangeWrapper}
+            error={formik.errors.password}
           />
         </div>
         <div className="login-form-controls">
           <button type="submit" className="button login">
             Login
           </button>
-          {errors.submit && <div className="error">{errors.submit}</div>}
-          {success && (
-            <div className="success">Login successful! Redirecting...</div>
-          )}
         </div>
       </form>
       <div>
         <p className="navigation-link">
-          Do not have an account? <Link to="/register">Sign Up</Link>
+          Do not have an account? <Link to={routes.register}>Sign Up</Link>
         </p>
       </div>
     </div>
