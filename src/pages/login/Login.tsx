@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { isEmailValid, isPasswordValid } from '../../modules/validationUtils';
 import PasswordInput from '../../components/passwordInput/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,18 +9,22 @@ import { UserContext } from '../../context/userContext';
 import { getMyToken, isExist } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
 import { routes } from '../../modules/routes';
+import { useFormik } from 'formik';
+
+interface LoginFormValues {
+  email: string;
+  password: string;
+  submit?: string;
+}
+
+interface LoginFormErrors {
+  email?: string;
+  password?: string;
+  submit?: string;
+}
 
 const Login: React.FC = () => {
   const userContext = useContext(UserContext);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{
-    email?: string;
-    password?: string;
-    submit?: string;
-  }>({});
-  const [generalError, setGeneralError] = useState<string>('');
-  const [success, setSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,38 +40,63 @@ const Login: React.FC = () => {
     }
   }, [navigate]);
 
-  const validateField = (name: string, value: string): void => {
-    let error: string = '';
+  const validate = (values: LoginFormValues) => {
+    const errors: LoginFormErrors = {};
 
-    switch (name) {
-      case 'email':
-        if (!isEmailValid(value)) error = 'Invalid email format';
-        break;
-      case 'password':
-        if (!isPasswordValid(value)) {
-          error =
-            'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*.,)';
-        }
-        break;
+    if (!isEmailValid(values.email)) {
+      errors.email = 'Invalid email format';
     }
 
-    setErrors((prev) => ({ ...prev, [name]: error }));
+    if (!isPasswordValid(values.password)) {
+      errors.password =
+        'Password must be at least 8 characters, include an uppercase letter, a lowercase letter, a number, and a special character (!@#$%^&*.,)';
+    }
+
+    return errors;
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const formik = useFormik<LoginFormValues>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate,
+    onSubmit: async (values, { setErrors }) => {
+      const message =
+        'User is already logged in. Do you want to log out and then log in again?';
 
-    if (name === 'email') setEmail(value);
+      if (!isExist() || window.confirm(message)) {
+        const authSuccess = await authenticateUser(
+          values.email,
+          values.password,
+          setErrors
+        );
 
-    validateField(name, value);
+        if (authSuccess) {
+          navigate('/', { replace: true });
+        }
+      } else {
+        navigate('/', { replace: true });
+      }
+    },
+  });
+
+  const handlePasswordChange = async (password: string) => {
+    await formik.setFieldValue('password', password);
+    await formik.validateField('password');
   };
 
-  const handlePasswordChange = (password: string) => {
-    setPassword(password);
-    validateField('password', password);
+  const handlePasswordChangeWrapper = (password: string) => {
+    handlePasswordChange(password).catch((error) => {
+      console.error(error);
+    });
   };
 
-  const authenticateUser = async (email: string, password: string) => {
+  const authenticateUser = async (
+    email: string,
+    password: string,
+    setErrors: (errors: LoginFormErrors) => void
+  ) => {
     try {
       const response = await userContext.apiRoot
         .me()
@@ -89,12 +118,16 @@ const Login: React.FC = () => {
         getMyToken(bodyInit);
         return true;
       } else {
-        setGeneralError('Login failed. Please check your email and password.');
+        setErrors({
+          submit: 'Login failed. Please check your email and password.',
+        });
         return false;
       }
     } catch (error) {
       console.error(error);
-      setGeneralError('Login failed. Please check your email and password.');
+      setErrors({
+        submit: 'Login failed. Please check your email and password.',
+      });
       return false;
     }
   };
@@ -129,11 +162,10 @@ const Login: React.FC = () => {
     <div className="login-form-container">
       <ToastContainer />
       <h1>Login</h1>
-      {generalError && <div className="error">{generalError}</div>}
-      <form
-        onSubmit={(event) => void handleSubmit(event)}
-        className="login-form"
-      >
+      {formik.errors.submit && (
+        <div className="error">{formik.errors.submit}</div>
+      )}
+      <form onSubmit={formik.handleSubmit} className="login-form">
         <div className="login-form-controls">
           <div className="input-container">
             <label htmlFor="email">Email:</label>
@@ -141,33 +173,29 @@ const Login: React.FC = () => {
               type="email"
               id="email"
               name="email"
-              value={email}
-              onChange={handleChange}
+              onChange={formik.handleChange}
+              value={formik.values.email}
               placeholder="Email"
             />
-            {errors.email && (
+            {formik.errors.email && (
               <div className="error">
                 <span className="error-icon">⚠️</span>
-                {errors.email}
+                {formik.errors.email}
               </div>
             )}
           </div>
         </div>
         <div className="login-form-controls">
           <PasswordInput
-            password={password}
-            onPasswordChange={handlePasswordChange}
-            error={errors.password}
+            password={formik.values.password}
+            onPasswordChange={handlePasswordChangeWrapper}
+            error={formik.errors.password}
           />
         </div>
         <div className="login-form-controls">
           <button type="submit" className="button login">
             Login
           </button>
-          {errors.submit && <div className="error">{errors.submit}</div>}
-          {success && (
-            <div className="success">Login successful! Redirecting...</div>
-          )}
         </div>
       </form>
       <div>
