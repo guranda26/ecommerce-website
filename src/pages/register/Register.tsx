@@ -471,7 +471,10 @@ const RegistrationForm = () => {
                 className={errors.billingAddress?.city ? 'error-input' : ''}
               />
               {errors.billingAddress?.city && (
-                <ErrorInput error={errors.billingAddress.city} />
+                <ErrorInput
+                  className="error-zip"
+                  error={errors.billingAddress.city}
+                />
               )}
             </div>
             <div className="input-container">
