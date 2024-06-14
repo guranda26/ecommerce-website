@@ -13,6 +13,7 @@ import AuthCheck from './components/authCheck/AuthCheck';
 import DetailedProduct from './pages/detailedProduct/DetailedProduct';
 import Profile from './pages/profile/Profile';
 import { UserProvider } from './context/userContext';
+import Basket from './pages/basket/Basket';
 
 const App: React.FC = () => {
   const roots = createBrowserRouter([
@@ -36,6 +37,10 @@ const App: React.FC = () => {
         {
           path: 'catalog/:id',
           element: <DetailedProduct />,
+        },
+        {
+          path: 'basket',
+          element: <Basket />,
         },
         {
           path: 'profile',
