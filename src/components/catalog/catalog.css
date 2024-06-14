@@ -38,14 +38,14 @@
   overflow: hidden;
 }
 
-.products-item {
+.card {
   display: grid;
-  grid-template-rows: 250px 1fr;
+  grid-template-rows: 250px 1fr auto;
   gap: 10px;
   padding: 15px;
   max-width: 300px;
   width: 100%;
-  height: 470px;
+  height: 500px;
   border-radius: 50px;
   transform: translateY(0) translate3d(0, 0, 0);
   transition: transform 0.5s ease-in-out;
@@ -55,15 +55,15 @@
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.products-item:hover {
+.card:hover {
   transform: translateY(-10px);
 }
 
-.products-item:active {
+.card:active {
   transform: perspective(500px) translate3d(0, 0, 10px);
 }
 
-.products-item-top {
+.card-top {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@
   object-position: center;
 }
 
-.products-item-bottom {
+.card-middle {
   display: grid;
   gap: 5px;
   align-items: center;
@@ -150,5 +150,42 @@
 }
 
 .error-message {
+  color: var(--accent-color);
+}
+
+.footer-card {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  justify-content: center;
+}
+
+.bucket-btn {
+  background-color: transparent;
+  padding: 1px;
+}
+
+.number-pcs {
+  width: 100px;
+  font-size: 14px;
+  color: var(--brand-color);
+}
+
+.not-available {
+  color: var(--accent-color);
+}
+
+.bucket-image {
+  width: 25px;
+  height: 25px;
+  color: var(--brand-color);
+}
+
+.bucket-btn.disabled .bucket-image,
+.bucket-btn.disabled:hover .bucket-image {
+  color: var(--dark-color);
+}
+
+.bucket-btn:hover .bucket-image {
   color: var(--accent-color);
 }
