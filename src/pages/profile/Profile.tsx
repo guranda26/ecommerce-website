@@ -11,7 +11,6 @@ import {
 } from '../../../sdk/profileApi';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-
 const Profile: React.FC = () => {
   const [user, setUser] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);

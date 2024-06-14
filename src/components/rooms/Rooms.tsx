@@ -32,7 +32,10 @@ function Rooms(): React.JSX.Element {
       <ul className="rooms-lists">
         {rooms.map((element, index) => (
           <li className="rooms-item" key={index}>
-            <Link className={`rooms-link ${element.room.toLowerCase()}`} to={element.path}>
+            <Link
+              className={`rooms-link ${element.room.toLowerCase()}`}
+              to={element.path}
+            >
               {element.room}
             </Link>
           </li>
