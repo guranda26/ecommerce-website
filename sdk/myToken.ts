@@ -66,7 +66,7 @@ export const getMyToken = (bodyInit?: { username: string; password?: string }) =
 }
 
 export function getToken() {
-    const myToken = localStorage.getItem('myCache');
+    const myToken = localStorage.getItem('myCache') || localStorage.getItem('anonymCache');
     if (myToken) {
         const token: TokenInfo = JSON.parse(myToken) as TokenInfo;
         return token.access_token;
@@ -77,5 +77,11 @@ export function isExist() {
     const myCash = localStorage.getItem('myCache');
     return !!myCash;
 }
+
+export function isExistAnonymToken() {
+    const myCash = localStorage.getItem('anonymCache');
+    return !!myCash;
+}
+
 
 

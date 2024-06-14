@@ -39,9 +39,7 @@
 }
 
 .card {
-  display: grid;
-  grid-template-rows: 250px 1fr auto;
-  gap: 10px;
+  position: relative;
   padding: 15px;
   max-width: 300px;
   width: 100%;
@@ -53,6 +51,15 @@
   box-shadow:
     rgba(0, 0, 0, 0.16) 0px 3px 6px,
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.card-link {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 250px 1fr auto;
+  gap: 10px;
+  color: var(--dark-color);
+  text-decoration: none;
 }
 
 .card:hover {
@@ -154,10 +161,9 @@
 }
 
 .footer-card {
-  display: flex;
-  align-items: center;
-  gap: 60px;
-  justify-content: center;
+  position: absolute;
+  bottom: 15px;
+  right: 40px;
 }
 
 .bucket-btn {
@@ -167,6 +173,7 @@
 
 .number-pcs {
   width: 100px;
+  margin-left: 20px;
   font-size: 14px;
   color: var(--brand-color);
 }

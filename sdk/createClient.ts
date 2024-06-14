@@ -1,4 +1,5 @@
 import {
+    AnonymousAuthMiddlewareOptions,
     AuthMiddlewareOptions,
     Client,
     ClientBuilder,
@@ -12,7 +13,7 @@ import {
 } from '@commercetools/platform-sdk';
 
 
-import { getToken, isExist } from './myToken';
+import { getMyToken, getToken, isExist, isExistAnonymToken } from './myToken';
 
 
 export const projectKey: string = import.meta.env
@@ -24,6 +25,18 @@ export const apiUrl: string = import.meta.env.VITE_CTP_API_URL as string;
 export const scopes: string[] = (import.meta.env.VITE_CTP_SCOPES as string).split(',');
 
 export const authMiddlewareOptions: AuthMiddlewareOptions = {
+    host: authUrl,
+    projectKey: projectKey,
+    credentials: {
+        clientId: clientId,
+        clientSecret: clientSecret,
+    },
+    scopes: scopes,
+    fetch,
+};
+
+
+export const withAnonymousSessionFlowOptions: AnonymousAuthMiddlewareOptions = {
     host: authUrl,
     projectKey: projectKey,
     credentials: {
@@ -71,19 +84,36 @@ export const clientWithPassword = (email: string, password: string) => {
     return apiRoot;
 }
 
+export const clientWithAnonymousSessionFlow = () => {
+    const client = new ClientBuilder()
+        .withProjectKey(projectKey)
+        .withAnonymousSessionFlow(withAnonymousSessionFlowOptions)
+        .withHttpMiddleware(httpMiddlewareOptions)
+        .withLoggerMiddleware()
+        .build();
+
+    const apiRoot = createApiBuilderFromCtpClient(client)
+        .withProjectKey({ projectKey });
+
+    return apiRoot;
+}
+
+
 
 
 
 export const clientMaker = () => {
     let client: Client;
 
-    if (!isExist()) {
+    if (!isExist() && !isExistAnonymToken()) {
         client = new ClientBuilder()
             .withProjectKey(projectKey)
             .withClientCredentialsFlow(authMiddlewareOptions)
+            .withAnonymousSessionFlow(withAnonymousSessionFlowOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
             .withLoggerMiddleware()
             .build();
+        if (!isExistAnonymToken()) getMyToken();
     }
     else {
         const authorization: string = `Bearer ${getToken()}`;
