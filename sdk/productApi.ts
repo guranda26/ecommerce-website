@@ -1,4 +1,4 @@
-import { Product } from '../src/Interfaces/CustomerInterface';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import processProductData from '../src/components/processProductData/processProductData';
 import { clientMaker } from './createClient';
 
@@ -21,17 +21,17 @@ export const getProductDetails = async () => {
   }
 };
 
-export const getProductById = async (id: string): Promise<Product> => {
+export const getProductById = async (id: string): Promise<ProductProjection> => {
   const apiRoot = clientMaker();
   try {
     const response = await apiRoot
-      .products()
+      .productProjections()
       .withId({ ID: id })
       .get()
       .execute();
 
     const responseData = response.body;
-    return processProductData(responseData.masterData.current, responseData.id);
+    return responseData;
   } catch (error) {
     console.error('Error fetching product by ID:', error);
     throw error;

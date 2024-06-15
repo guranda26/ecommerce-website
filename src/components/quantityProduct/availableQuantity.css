@@ -1,0 +1,13 @@
+.number-pcs {
+  width: 100px;
+  font-size: 14px;
+  color: var(--brand-color);
+}
+
+.not-available {
+  color: var(--accent-color);
+}
+
+.price-basket-content .number-pcs {
+  font-size: 24px;
+}

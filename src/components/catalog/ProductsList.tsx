@@ -6,7 +6,6 @@ import ProductItem from './ProductItem';
 function PoductsList(props: {
   products: ProductProjection[];
 }): React.JSX.Element {
-
   const products = props.products;
 
   return (

@@ -23,6 +23,7 @@ const processProductData = (productData: ProductData, id: string): Product => {
   const price = priceFunction(centAmount, currencyCode);
 
   const discountPrice = priceFunction(discounted, currencyCode);
+  const availableQuantity = masterVariant.availability?.availableQuantity;
 
   return {
     id: id,
@@ -35,6 +36,7 @@ const processProductData = (productData: ProductData, id: string): Product => {
     images: images,
     price: price,
     discountPrice: discountPrice,
+    availableQuantity: availableQuantity,
   };
 };
 
