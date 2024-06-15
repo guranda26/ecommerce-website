@@ -98,6 +98,7 @@
 
 .products-description {
   width: 100%;
+  height: 80px;
   margin: 0;
   font-size: 14px;
   line-height: 1.2;
@@ -164,6 +165,24 @@
   position: absolute;
   bottom: 15px;
   right: 40px;
+}
+
+.basket-wrap {
+  width: 120px;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+}
+
+.num-wrap {
+  display: grid;
+  grid-template-columns: 22px 1fr 22px;
+  flex-wrap: nowrap;
+  color: var(--brand-color);
+}
+
+.num-btn {
+  padding: 5px;
+  background-color: transparent;
 }
 
 .bucket-btn {
