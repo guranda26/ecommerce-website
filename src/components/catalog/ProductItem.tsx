@@ -6,18 +6,16 @@ import { getPrice } from '../../components/priceFunction/getPrice';
 import { routes } from '../../modules/routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { addToBasket } from '../../../sdk/basketApi';
+import { addToBasket, isExistProductMyCart } from '../../../sdk/basketApi';
 
 function ProductItem(props: {
     product: ProductProjection;
 }): React.JSX.Element {
     const [number, setNumber] = useState(1);
-    const [isDisabled, setDisabled] = useState(false);
     const product = props.product;
+    const [isDisabled, setDisabled] = useState(isExistProductMyCart(product.id));
     const cutDescription = (text: string) => text.split('.')[0];
 
-
-    // TODO setDisableBTN
 
     const handleBasket = async (product: ProductProjection) => {
         const isAdded = await addToBasket(product, number);

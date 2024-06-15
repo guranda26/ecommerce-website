@@ -30,6 +30,10 @@ const setMyCartId = (cart: Cart) => {
     localStorage.setItem('myCartId', JSON.stringify(cart));
 }
 
+const getMyCart = () => {
+    const myCart = JSON.parse(localStorage.getItem('myCartId')!) as Cart
+    return myCart;
+}
 
 export const getCart = async (id: string) => {
     const apiRoot = clientMaker();
@@ -55,7 +59,6 @@ const isExistCart = () => {
 export const addProductToCard = async (product: ProductProjection, cardId: string, quantity: number, version: number) => {
     const apiRoot = clientMaker();
     try {
-        console.log(cardId);
         const response = await apiRoot
             .me()
             .carts()
@@ -75,7 +78,6 @@ export const addProductToCard = async (product: ProductProjection, cardId: strin
                 }
             })
             .execute();
-        console.log(response);
         if (response.body) {
             setMyCartId(response.body);
             return true;
@@ -95,9 +97,18 @@ export const addToBasket = async (product: ProductProjection, num: number) => {
         isCreatedCart = await createCart('EUR');
     }
     if (isCreatedCart) {
-        const myCart = JSON.parse(localStorage.getItem('myCartId')!) as Cart;
+        const myCart = getMyCart();
         isAddedProduct = await addProductToCard(product, myCart?.id, num, myCart?.version);
     }
     return isAddedProduct;
+}
+export const isExistProductMyCart = (productId: string) => {
+    const myCart = getMyCart();
+    let isExistProduct = false;
+    myCart.lineItems.forEach((product) => {
+        if (product.productId === productId) isExistProduct = true;
+    });
+
+    return isExistProduct;
 }
 
