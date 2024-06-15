@@ -2,8 +2,8 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import React, { useState } from 'react';
 import './basket.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { addToBasket, isExistProductMyCart } from '../../../sdk/basketApi';
+import { faCartPlus, faCartShopping, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { addToBasket, deleteProductInCard, isExistProductMyCart } from '../../../sdk/basketApi';
 
 function BasketButton(props: {
     product: ProductProjection;
@@ -17,6 +17,11 @@ function BasketButton(props: {
         setDisabled(true);
         console.log('Is Add Product:', isAdded);
     };
+
+    const deleteProduct = async (product: ProductProjection) => {
+        const deleteProduct = await deleteProductInCard(product);
+        if (deleteProduct) setDisabled(false);
+    }
 
     return (
         <>
@@ -57,18 +62,28 @@ function BasketButton(props: {
                         </div>
                         <button
                             className="basket-btn"
+                            title={`Add ${number} pcs ${product.name['en-US']} to basket`}
                             onClick={() => void handleBasket(product)}
                         >
                             <FontAwesomeIcon
-                                title={`Add ${number} pcs ${product.name['en-US']} in basket`}
                                 className="basket-image"
                                 icon={faCartPlus}
                             />
                         </button>
                     </div>
-                ) : (
-                    <button className="basket-btn disabled">
-                        <FontAwesomeIcon className="basket-image" icon={faCartPlus} />
+                ) : (!product.masterVariant.availability?.availableQuantity ?
+                    <button
+                        className="basket-btn disabled"
+                        title={`Cannot add ${product.name['en-US']} to basket`}
+                    >
+                        <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
+                    </button> :
+                    <button
+                        className="basket-btn disabled"
+                        title={`Remove ${number} pcs ${product.name['en-US']} from basket`}
+                        onClick={() => void deleteProduct(product)}
+                    >
+                        <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
                     </button>
                 )}
             </div>

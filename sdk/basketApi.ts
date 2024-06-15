@@ -97,52 +97,45 @@ export const findLineItem = (productId: string, cart: Cart) => {
 }
 
 
-// export const deleteProductInCard = async (product: ProductProjection, cart: Cart) => {
-//     const apiRoot = clientMaker();
-//     const lineItem = findLineItem(product.id, cart);
-//     try {
-//         const response = await apiRoot
-//             .me()
-//             .carts()
-//             .withId({ ID: cart.id })
-//             .post({
+export const deleteProductInCard = async (product: ProductProjection) => {
+    const apiRoot = clientMaker();
+    const cart = getMyCart();
+    const lineItem = findLineItem(product.id, cart);
+    try {
+        const response = await apiRoot
+            .me()
+            .carts()
+            .withId({ ID: cart.id })
+            .post({
 
-//                 body: {
-//                     version: cart.version,
-//                     actions: [
-//                         {
-//                             action: "removeLineItem",
-//                             lineItemId: lineItem?.id,
-//                             quantity: lineItem?.quantity,
-//                             externalPrice: {
-//                                 currencyCode: "EUR",
-//                                 centAmount: lineItem?.price.value.centAmount!,
-//                             },
-//                             shippingDetailsToRemove: {
-//                                 targets: [
-//                                     {
-//                                         addressKey: cart.shippingAddress?.key!,
-//                                         quantity: 0,
-//                                     }
-//                                 ]
-//                             }
-//                         }
+                body: {
+                    version: cart.version,
+                    actions: [
+                        {
+                            action: "removeLineItem",
+                            lineItemId: lineItem?.id,
+                            quantity: lineItem?.quantity,
+                            externalPrice: {
+                                currencyCode: "EUR",
+                                centAmount: lineItem?.price.value.centAmount || 0,
+                            },
+                        }
 
-//                     ]
-//                 }
-//             })
-//             .execute();
-//         if (response.body) {
-//             setMyCartId(response.body);
-//             return true;
-//         }
-//         return false;
+                    ]
+                }
+            })
+            .execute();
+        if (response.body) {
+            setMyCartId(response.body);
+            return true;
+        }
+        return false;
 
-//     } catch (error) {
-//         console.error('Error fetching product :', error);
-//         return false;
-//     }
-// }
+    } catch (error) {
+        console.error('Error fetching product :', error);
+        return false;
+    }
+}
 
 
 export const addToBasket = async (product: ProductProjection, num: number) => {
