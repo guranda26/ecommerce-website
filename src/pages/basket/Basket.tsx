@@ -4,30 +4,8 @@ import { Link } from 'react-router-dom';
 import './Basket.css';
 import { routes } from '../../modules/routes';
 
-// const Basket = () => {
-//   return (
-//     <section className="shopping-cart">
-//       <h1 className="shopping-heading">Shopping Cart</h1>
-//       <div className="shopping-cart__items">
-//         <img src={shoppingCart} alt="shopping cart" className="basket-img" />
-//         <div className="text-content">
-//           <h3 className="empty-cart">Your cart is empty</h3>
-//           <p className="empty-cart empty-cart-msg">
-//             <Link to={routes.catalog} className="cart-link">
-//               Discover
-//             </Link>{' '}
-//             what you really want
-//           </p>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default Basket;
-
 import React, { useEffect, useState } from 'react';
-import { Cart, LineItem } from '@commercetools/platform-sdk';
+import { LineItem } from '@commercetools/platform-sdk';
 import { getMyCart, getCart } from '../../../sdk/basketApi';
 
 interface CartItem {
@@ -62,7 +40,7 @@ const BasketPage: React.FC = () => {
         const formattedItems = items?.map((item: LineItem) => ({
           id: item.id,
           name: item.name['en-US'],
-          imageUrl: item?.variant?.images[0]?.url || '',
+          imageUrl: item?.variant?.images?.[0]?.url || '',
           // price: item.price.value.centAmount / 100,
           price: calculateDiscountedPrice(item),
           discounted: calculateDiscountedPrice(item),
@@ -72,7 +50,7 @@ const BasketPage: React.FC = () => {
         }));
         setCartItems(formattedItems);
       } catch (err) {
-        console.error('Error loading cart items:', err.message);
+        console.error('Error loading cart items:', (err as Error)?.message);
         setError('Failed to fetch cart items. Please try again later.');
       } finally {
         setLoading(false);
@@ -103,18 +81,20 @@ const BasketPage: React.FC = () => {
 
   if (cartItems.length === 0) {
     return (
-      <div className="shopping-cart__items">
-        <img src={shoppingCart} alt="shopping cart" className="basket-img" />
-        <div className="text-content">
-          <h3 className="empty-cart">Your cart is empty</h3>
-          <p className="empty-cart empty-cart-msg">
-            <Link to={routes.catalog} className="cart-link">
-              Discover
-            </Link>{' '}
-            what you really want
-          </p>
+      <section className="shopping-cart">
+        <div className="shopping-cart__items">
+          <img src={shoppingCart} alt="shopping cart" className="basket-img" />
+          <div className="text-content">
+            <h3 className="empty-cart">Your cart is empty</h3>
+            <p className="empty-cart empty-cart-msg">
+              <Link to={routes.catalog} className="cart-link">
+                Discover
+              </Link>{' '}
+              what you really want
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
     );
   }
 
