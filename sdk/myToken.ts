@@ -24,21 +24,19 @@ export const getMyToken = (bodyInit?: {
     const myHeaders = new Headers();
     let raw: string | BodyInit = '';
     let grant_type = 'client_credentials';
-    let endpoint = `${authUrl}/oauth/${projectKey}/anonymous/token`;
-
+    let projectkey = '';
     myHeaders.append(
       'Authorization',
       `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`
     );
-
     if (bodyInit) {
       raw = JSON.stringify(bodyInit);
       grant_type = `password&username=${bodyInit.username}&password=${bodyInit.password}`;
-      endpoint = `${authUrl}/oauth/${projectKey}/customers/token`;
+      projectkey = `/${projectKey}/customers`;
     }
 
     const isAccessToken: boolean = await fetch(
-      `${endpoint}?grant_type=${grant_type}`,
+      `${authUrl}/oauth${projectkey}/token?grant_type=${grant_type}`,
       {
         method: 'POST',
         headers: myHeaders,
