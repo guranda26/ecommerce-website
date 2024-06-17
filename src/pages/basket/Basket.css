@@ -72,6 +72,20 @@
   color: var(--accent-color);
 }
 
+.remove-cart {
+  font-weight: bold;
+  color: var(--brand-color);
+  cursor: pointer;
+  padding: 7px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--accent-color);
+  color: #fff;
+}
+.remove-cart:hover {
+  background-color: #b9b3b3;
+}
+
 @media only screen and (max-width: 600px) {
   .shopping-heading {
     font-size: 30px;

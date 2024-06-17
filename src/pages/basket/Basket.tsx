@@ -5,8 +5,12 @@ import './Basket.css';
 import { routes } from '../../modules/routes';
 
 import React, { useEffect, useState } from 'react';
-import { LineItem } from '@commercetools/platform-sdk';
-import { getMyCart, getCart } from '../../../sdk/basketApi';
+import { Cart, LineItem } from '@commercetools/platform-sdk';
+import {
+  getMyCart,
+  getCart,
+  removeProductFromCart,
+} from '../../../sdk/basketApi';
 
 interface CartItem {
   id: string;
@@ -16,6 +20,7 @@ interface CartItem {
   discounted?: number;
   quantity: number;
   totalPrice: number;
+  lineItemId: string;
 }
 
 const BasketPage: React.FC = () => {
@@ -47,6 +52,7 @@ const BasketPage: React.FC = () => {
           quantity: item.quantity,
           // totalPrice: (item.price.value.centAmount / 100) * item.quantity,
           totalPrice: calculateDiscountedPrice(item) * (item.quantity || 0),
+          lineItemId: item.id,
         }));
         setCartItems(formattedItems);
       } catch (err) {
@@ -59,6 +65,31 @@ const BasketPage: React.FC = () => {
 
     void loadCartItems();
   }, []);
+
+  const handleRemoveFromCart = async (lineItemId: string) => {
+    try {
+      const cart: Cart | null = getMyCart();
+      if (!cart) {
+        setError('No cart found in local storage.');
+        return;
+      }
+      const success = await removeProductFromCart(
+        cart.id,
+        cart.version,
+        lineItemId
+      );
+      if (success) {
+        setCartItems(
+          cartItems.filter((item) => item.lineItemId !== lineItemId)
+        );
+      } else {
+        setError('Failed to remove item from cart.');
+      }
+    } catch (err) {
+      console.error('Error removing item from cart:', err);
+      setError('Failed to remove item from cart.');
+    }
+  };
 
   const calculateDiscountedPrice = (item: LineItem): number => {
     const basePrice = item.price.value.centAmount / 100;
@@ -110,6 +141,12 @@ const BasketPage: React.FC = () => {
               className="cart-item-image"
             />
             <div className="cart-item-details">
+              <button
+                onClick={() => void handleRemoveFromCart(item.lineItemId)}
+                className="remove-cart"
+              >
+                Remove from Cart
+              </button>
               <h3>{item.name}</h3>
               <p>Price: ${item.price.toFixed(2)}</p>
               <p>Quantity: {item.quantity}</p>

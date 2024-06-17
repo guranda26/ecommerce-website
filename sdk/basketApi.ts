@@ -49,35 +49,11 @@ export const getCart = async (id: string) => {
     if (!response.body) {
       throw new Error('No carts found for the current user.');
     }
-    console.log(response.body.lineItems);
     return response.body.lineItems;
   } catch (error) {
     console.error('Error fetching product :', error);
   }
 };
-
-// export const fetchCartItems = async (cartId: string) => {
-//   const apiRoot = clientMaker();
-//   try {
-//     const response = await apiRoot
-//       // .me()
-//       .carts()
-//       .withId({
-//         ID: cartId,
-//       })
-//       .get()
-//       .execute();
-
-//     if (!response.body) {
-//       throw new Error('No carts found for the current user.');
-//     }
-
-//     return response.body.lineItems;
-//   } catch (error) {
-//     console.error('Error fetching cart items:', error);
-//     throw error;
-//   }
-// };
 
 const isExistCart = () => {
   return !!localStorage.getItem('myCartId');
@@ -160,6 +136,39 @@ export const deleteProductInCard = async (product: ProductProjection) => {
     return false;
   } catch (error) {
     console.error('Error fetching product :', error);
+    return false;
+  }
+};
+
+export const removeProductFromCart = async (
+  cartId: string,
+  version: number,
+  lineItemId: string
+) => {
+  const apiRoot = clientMaker();
+  try {
+    const response = await apiRoot
+      .carts()
+      .withId({ ID: cartId })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: lineItemId,
+            },
+          ],
+        },
+      })
+      .execute();
+    if (response.body) {
+      setMyCartId(response.body); // Update the cart in local storage
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error removing product from cart:', error);
     return false;
   }
 };
