@@ -2,6 +2,7 @@ import React from 'react';
 import about_GurandaL from '../../assets/images/about_GurandaL.jpeg';
 import about_SabohatS from '../../assets/images/about_SabohatS.jpeg';
 import about_InaFK from '../../assets/images/about_InaFK.jpg';
+import rsschool from '../../assets/images/logo-rsschool3.png';
 import './About.css';
 
 function About(): React.JSX.Element {
@@ -50,7 +51,11 @@ function About(): React.JSX.Element {
           <h2>Contributions</h2>
           <p>Our React team, comprising Sabohat Sobirova, Guranda Lemonjava, and Ina Flaryanovich-Kukharava, has demonstrated exceptional dedication and technical prowess throughout the development process. By leveraging the React library, CommerceTools, and a well-configured development environment, we have created a successful product that meets the highest standards of quality and performance.</p>
       </section>
-
+      <section className="school-section">
+        <a href="https://rs.school/" target="_blank">
+          <img src={rsschool} alt="RS School" className="rs-school-logo" />
+        </a>
+      </section>
     </>
   );
 }
