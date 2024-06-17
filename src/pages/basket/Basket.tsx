@@ -1,27 +1,20 @@
-// import React from 'react';
 import shoppingCart from '../../assets/images/shopping-cart.png';
 import { Link } from 'react-router-dom';
 import './Basket.css';
 import { routes } from '../../modules/routes';
 
 import React, { useEffect, useState } from 'react';
-import { Cart, LineItem } from '@commercetools/platform-sdk';
+import { Cart } from '@commercetools/platform-sdk';
 import {
   getMyCart,
   getCart,
   removeProductFromCart,
+  updateProductQuantity,
 } from '../../../sdk/basketApi';
-
-interface CartItem {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
-  discounted?: number;
-  quantity: number;
-  totalPrice: number;
-  lineItemId: string;
-}
+import { formatCartItem } from './utils/formatCartItem';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CartItem } from 'src/Interfaces/CustomerInterface';
 
 const BasketPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -42,18 +35,8 @@ const BasketPage: React.FC = () => {
           setCartItems([]);
           return;
         }
-        const formattedItems = items?.map((item: LineItem) => ({
-          id: item.id,
-          name: item.name['en-US'],
-          imageUrl: item?.variant?.images?.[0]?.url || '',
-          // price: item.price.value.centAmount / 100,
-          price: calculateDiscountedPrice(item),
-          discounted: calculateDiscountedPrice(item),
-          quantity: item.quantity,
-          // totalPrice: (item.price.value.centAmount / 100) * item.quantity,
-          totalPrice: calculateDiscountedPrice(item) * (item.quantity || 0),
-          lineItemId: item.id,
-        }));
+
+        const formattedItems = items.map(formatCartItem);
         setCartItems(formattedItems);
       } catch (err) {
         console.error('Error loading cart items:', (err as Error)?.message);
@@ -91,15 +74,48 @@ const BasketPage: React.FC = () => {
     }
   };
 
-  const calculateDiscountedPrice = (item: LineItem): number => {
-    const basePrice = item.price.value.centAmount / 100;
-
-    if (item.price.discounted) {
-      const discountedPrice = item.price.discounted.value.centAmount / 100;
-      return discountedPrice;
+  const handleQuantityChange = async (
+    lineItemId: string,
+    newQuantity: number
+  ) => {
+    try {
+      const cart: Cart | null = getMyCart();
+      if (!cart) {
+        setError('No cart found in local storage.');
+        return;
+      }
+      const updatedCart = await updateProductQuantity(
+        cart.id,
+        cart.version,
+        lineItemId,
+        newQuantity
+      );
+      if (updatedCart) {
+        const updatedItems = updatedCart.lineItems.map(formatCartItem);
+        setCartItems(updatedItems);
+      } else {
+        setError('Failed to update item quantity.');
+      }
+    } catch (err) {
+      console.error('Error updating item quantity:', err);
+      setError('Failed to update item quantity.');
     }
+  };
 
-    return basePrice;
+  const handleIncreaseQuantity = (
+    lineItemId: string,
+    currentQuantity: number
+  ) => {
+    void handleQuantityChange(lineItemId, currentQuantity + 1);
+  };
+
+  const handleDecreaseQuantity = (
+    lineItemId: string,
+    currentQuantity: number
+  ) => {
+    if (currentQuantity > 1) {
+      void handleQuantityChange(lineItemId, currentQuantity - 1);
+    }
   };
 
   if (loading) {
@@ -149,6 +165,25 @@ const BasketPage: React.FC = () => {
               </button>
               <h3>{item.name}</h3>
               <p>Price: ${item.price.toFixed(2)}</p>
+              <div className="quantity-control num-wrap">
+                <button
+                  onClick={() =>
+                    handleDecreaseQuantity(item.lineItemId, item.quantity)
+                  }
+                  className="num-btn"
+                >
+                  <FontAwesomeIcon className="basket-image" icon={faMinus} />
+                </button>
+                <span>{item.quantity}</span>
+                <button
+                  onClick={() =>
+                    handleIncreaseQuantity(item.lineItemId, item.quantity)
+                  }
+                  className="num-btn"
+                >
+                  <FontAwesomeIcon className="basket-image" icon={faPlus} />
+                </button>
+              </div>
               <p>Quantity: {item.quantity}</p>
               <p>Total: ${item.totalPrice.toFixed(2)}</p>
             </div>

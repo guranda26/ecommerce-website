@@ -202,3 +202,37 @@ export const isExistProductMyCart = (productId: string) => {
 
   return isExistProduct;
 };
+
+export const updateProductQuantity = async (
+  cartId: string,
+  version: number,
+  lineItemId: string,
+  quantity: number
+) => {
+  const apiRoot = clientMaker();
+  try {
+    const response = await apiRoot
+      .carts()
+      .withId({ ID: cartId })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'changeLineItemQuantity',
+              lineItemId: lineItemId,
+              quantity: quantity,
+            },
+          ],
+        },
+      })
+      .execute();
+    if (response.body) {
+      setMyCartId(response.body);
+      return response.body;
+    }
+  } catch (error) {
+    console.error('Error updating product quantity:', error);
+  }
+  return null;
+};
