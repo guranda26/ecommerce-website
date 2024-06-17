@@ -29,7 +29,7 @@ function Categories(props: {
   }, [fetchData]);
 
   return (
-    <div className='categories'>
+    <div className="categories">
       <CategoriesList
         categories={response}
         setProducts={props.setProducts}

@@ -4,14 +4,12 @@ import { Customer } from '@commercetools/platform-sdk';
 import './Profile.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { handleEditBtn, handlechange } from './updateProfile';
 import {
   updateProfile,
   updatePassword,
   getUser,
 } from '../../../sdk/profileApi';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<Customer | null>(null);
