@@ -20,6 +20,7 @@ const BasketPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [totalCost, setTotalCost] = useState<number>(0);
 
   useEffect(() => {
     const loadCartItems = async () => {
@@ -48,6 +49,17 @@ const BasketPage: React.FC = () => {
 
     void loadCartItems();
   }, []);
+
+  useEffect(() => {
+    const calculateTotalCost = () => {
+      let total = 0;
+      cartItems.forEach((item) => {
+        total += item.totalPrice;
+      });
+      setTotalCost(total);
+    };
+    calculateTotalCost();
+  }, [cartItems]);
 
   const handleRemoveFromCart = async (lineItemId: string) => {
     try {
@@ -189,6 +201,10 @@ const BasketPage: React.FC = () => {
             </div>
           </div>
         ))}
+        <div className="total-cost">
+          <h3>Total:</h3>
+          <p>${totalCost.toFixed(2)}</p>
+        </div>
       </div>
     </section>
   );
