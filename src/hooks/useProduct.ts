@@ -49,18 +49,6 @@ const useProducts = (id: string | null) => {
     void fetchDataAsync();
   }, [id, fetchData]);
 
-  // useEffect(() => {
-  //   const fetchDataAsync = async () => {
-  //     await fetchData<Product[]>(
-  //       getProductDetails,
-  //       setProducts,
-  //       'Error fetching products'
-  //     );
-  //   };
-
-  //   void fetchDataAsync();
-  // }, [fetchData]);
-
   return { product, loading, error };
 };
 
