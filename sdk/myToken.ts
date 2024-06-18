@@ -1,81 +1,70 @@
-import { TokenInfo } from "@commercetools/sdk-client-v2";
-import { authUrl, clientId, clientSecret } from "./createClient";
-import { projectKey } from "./createClient";
+import { TokenCache, TokenStore } from "@commercetools/sdk-client-v2";
+import { cacheName } from "../src/modules/constantLocalStorage";
 
-export type CacheType = {
-    access_token: string;
-    expires_in: number;
-    scope: string;
-    token_type: string;
-}
+export class MyTokenCache implements TokenCache {
+
+    cacheName: string;
 
 
-export const getMyToken = (bodyInit?: { username: string; password?: string }) => {
-    const changeToken = async () => {
-        const myCache = {
-            access_token: "",
-            expires_in: 0,
-            scope: "manage_project:furniture",
-            token_type: "Bearer"
+    private myCache: TokenStore = {
+        token: '',
+        expirationTime: 0,
+        refreshToken: undefined,
+    }
+
+    constructor(cacheName: string) {
+        this.cacheName = cacheName;
+    }
+
+
+    saveToken() {
+        if (this.cacheName === cacheName.AnonymUser) {
+            localStorage.removeItem(cacheName.Login);
         }
-
-        const myHeaders = new Headers();
-        let raw: string | BodyInit = "";
-        let grant_type = 'client_credentials';
-        let projectkey = '';
-        myHeaders.append("Authorization", `Basic ${Buffer.from(`${clientId}:${clientSecret}`).toString('base64')}`);
-        if (bodyInit) {
-            raw = JSON.stringify(bodyInit);
-            grant_type = `password&username=${bodyInit.username}&password=${bodyInit.password}`
-            projectkey = `/${projectKey}/customers`;
+        if (this.cacheName === cacheName.Login) {
+            localStorage.removeItem(cacheName.AnonymUser);
         }
+        localStorage.setItem(this.cacheName, JSON.stringify(this.myCache));
+    }
 
-        const isAccessToken: boolean = await fetch(`${authUrl}/oauth${projectkey}/token?grant_type=${grant_type}`,
-            {
-                method: "POST",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow"
-            }
-        )
-            .then((response) => response.json())
-            .then((result: CacheType) => {
-                Object.assign(myCache, result);
-                return true;
-            })
-            .catch((error) => {
-                console.error(error);
-                return false;
-            });
+    public get(): TokenStore {
+        return this.myCache;
+    }
 
-        if (isAccessToken) {
-
-            if (!bodyInit) {
-                localStorage.setItem('anonymCache', JSON.stringify(myCache));
-                localStorage.removeItem('myCache');
-            }
-
-            else {
-                localStorage.setItem('myCache', JSON.stringify(myCache));
-                localStorage.removeItem('anonymCache');
-            }
-        }
-    };
-
-    void changeToken();
-}
-
-export function getToken() {
-    const myToken = localStorage.getItem('myCache');
-    if (myToken) {
-        const token: TokenInfo = JSON.parse(myToken) as TokenInfo;
-        return token.access_token;
+    public set(newCache: TokenStore): void {
+        Object.assign(this.myCache, newCache);
+        this.saveToken();
     }
 }
 
+export function getToken() {
+    const myToken = localStorage.getItem(cacheName.Login) || localStorage.getItem(cacheName.AnonymUser);
+    if (myToken) {
+        const token: TokenStore = JSON.parse(myToken) as TokenStore;
+        return token?.token;
+    }
+    return null;
+}
+
+export function getRefreshToken() {
+    const myToken = localStorage.getItem(cacheName.Login) || localStorage.getItem(cacheName.AnonymUser);
+    if (myToken) {
+        const token: TokenStore = JSON.parse(myToken) as TokenStore;
+        return token?.refreshToken;
+    }
+    return null;
+}
+
 export function isExist() {
-    const myCash = localStorage.getItem('myCache');
+    const myCash = localStorage.getItem(cacheName.Login);
     return !!myCash;
 }
+
+export function isExistAnonymToken() {
+    const myCash = localStorage.getItem(cacheName.AnonymUser);
+    return !!myCash;
+}
+
+
 
 

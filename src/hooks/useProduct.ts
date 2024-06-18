@@ -1,13 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getProductById, getProductDetails } from '../../sdk/productApi';
-import { Product } from 'src/Interfaces/CustomerInterface';
+import { getProductById } from '../../sdk/productApi';
+import { ProductProjection } from '@commercetools/platform-sdk';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
 type FetchFunction<T> = () => Promise<T>;
 type SetDataFunction<T> = (data: T) => void;
 
-const useProducts = (id: string | null) => {
-  const [product, setProduct] = useState<Product | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
+const useProducts = (
+  id: string | null,
+  apiRoot: ByProjectKeyRequestBuilder
+) => {
+  const [product, setProduct] = useState<ProductProjection | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,8 +38,8 @@ const useProducts = (id: string | null) => {
   useEffect(() => {
     const fetchDataAsync = async () => {
       if (id) {
-        await fetchData<Product>(
-          () => getProductById(id || ''),
+        await fetchData<ProductProjection>(
+          () => getProductById(id || '', apiRoot),
           setProduct,
           'Error fetching product details.'
         );
@@ -47,21 +50,9 @@ const useProducts = (id: string | null) => {
     };
 
     void fetchDataAsync();
-  }, [id, fetchData]);
+  }, [id, fetchData, apiRoot]);
 
-  useEffect(() => {
-    const fetchDataAsync = async () => {
-      await fetchData<Product[]>(
-        getProductDetails,
-        setProducts,
-        'Error fetching products'
-      );
-    };
-
-    void fetchDataAsync();
-  }, [fetchData]);
-
-  return { product, products, loading, error };
+  return { product, loading, error };
 };
 
 export default useProducts;

@@ -93,6 +93,7 @@ export type Product = {
   images?: string[];
   price?: string;
   discountPrice?: string;
+  availableQuantity?: number;
 };
 
 export interface ProductsProps {

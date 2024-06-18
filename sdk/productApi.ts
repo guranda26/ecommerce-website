@@ -1,10 +1,9 @@
-import { Product } from '../src/Interfaces/CustomerInterface';
+import { ProductProjection } from '@commercetools/platform-sdk';
 import processProductData from '../src/components/processProductData/processProductData';
-import { clientMaker } from './createClient';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
-export const getProductDetails = async () => {
-  const apiRoot = clientMaker();
 
+export const getProductDetails = async (apiRoot: ByProjectKeyRequestBuilder) => {
   try {
     const response = await apiRoot
       .products()
@@ -21,17 +20,17 @@ export const getProductDetails = async () => {
   }
 };
 
-export const getProductById = async (id: string): Promise<Product> => {
-  const apiRoot = clientMaker();
+export const getProductById = async (id: string, apiRoot: ByProjectKeyRequestBuilder): Promise<ProductProjection> => {
+
   try {
     const response = await apiRoot
-      .products()
+      .productProjections()
       .withId({ ID: id })
       .get()
       .execute();
 
     const responseData = response.body;
-    return processProductData(responseData.masterData.current, responseData.id);
+    return responseData;
   } catch (error) {
     console.error('Error fetching product by ID:', error);
     throw error;

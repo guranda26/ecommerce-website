@@ -1,19 +1,20 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Category, ProductProjection } from '@commercetools/platform-sdk';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { Category } from '@commercetools/platform-sdk';
 import CategoriesList from './CategoriesList';
 import SubCategory from './SubCategory';
 import { getCategories } from '../../../../sdk/categoryApi';
+import { UserContext } from '../../../context/userContext';
+import { ProductsInterface } from '../../../Interfaces/productsInterface';
 
-function Categories(props: {
-  setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
-}): React.JSX.Element {
+function Categories(props: ProductsInterface): React.JSX.Element {
   const [response, setResponse] = useState<Category[]>([]);
   const [parentId, setParentId] = useState('');
   const [subParentId, setSubParentId] = useState('');
+  const { apiRoot } = useContext(UserContext);
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await getCategories();
+      const res = await getCategories(apiRoot!);
       if (res.statusCode === 200) {
         setResponse(() => [...res.body.results]);
       }
@@ -22,14 +23,14 @@ function Categories(props: {
       if (error instanceof Error) message = error.message;
       console.log(message);
     }
-  }, []);
+  }, [apiRoot]);
 
   useEffect(() => {
     void fetchData();
   }, [fetchData]);
 
   return (
-    <div className='categories'>
+    <div className="categories">
       <CategoriesList
         categories={response}
         setProducts={props.setProducts}

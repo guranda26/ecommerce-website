@@ -1,0 +1,30 @@
+.price-content {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
+}
+
+.price {
+  color: var(--brand-color);
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.discount-price {
+  position: relative;
+  font-size: 18px;
+}
+
+.discount-price::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  width: 50%;
+  height: 2px;
+  background-color: var(--accent-color);
+  transform: rotate(15deg);
+}
+
+.discount {
+  color: var(--accent-color);
+}

@@ -25,6 +25,7 @@
   flex-direction: column;
   align-items: last baseline;
 }
+
 .product-content {
   display: flex;
   /* flex-wrap: wrap; */
@@ -33,6 +34,7 @@
 }
 
 .product-name {
+  margin-bottom: 40px;
   font-size: 30px;
   color: var(--brand-color);
   font-weight: 800;
@@ -66,6 +68,7 @@
 .swiper-pagination-bullet-active {
   background: #000;
 }
+
 .description-heading {
   display: block;
   text-align: left;
@@ -86,6 +89,7 @@
   /* overflow-wrap: break-word; */
   overflow-x: hidden;
 }
+
 .delivery-return-info tr th {
   font-size: 16px;
   font-weight: 500;
@@ -141,10 +145,15 @@
   display: none;
 }
 
-@media only screen and (max-width: 768px) {
+.price-basket-label {
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 968px) {
   .swiper {
     max-width: 100%;
   }
+
   .product-img {
     max-width: 100vw;
   }

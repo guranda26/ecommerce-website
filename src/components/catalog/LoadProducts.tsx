@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import ProductsList from './ProductsList';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getProducts } from '../../../sdk/productsApi';
+import { UserContext } from '../../context/userContext';
+
 function LoadProducts(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -11,10 +13,11 @@ function LoadProducts(): React.JSX.Element {
   const [total, setTotal] = useState(0);
 
   const [response, setResponse] = useState<ProductProjection[]>([]);
+  const { apiRoot } = useContext(UserContext);
 
   const fetchData = useCallback(async () => {
     try {
-      const res = await getProducts(page);
+      const res = await getProducts(page, apiRoot!);
       if (res.statusCode === 200) {
         setResponse(() => [...res.body.results]);
         setTotal(() => res.body.total || 0);
@@ -27,7 +30,7 @@ function LoadProducts(): React.JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page]);
+  }, [page, apiRoot]);
 
   useEffect(() => {
     void fetchData();
