@@ -140,6 +140,35 @@ export const deleteProductInCard = async (product: ProductProjection) => {
   }
 };
 
+export const clearCart = async (cartId: string, version: number) => {
+  const apiRoot = clientMaker(); // Ensure clientMaker is properly set up
+
+  try {
+    console.log('Making API call to clear cart:', cartId, version);
+
+    const response = await apiRoot
+      .carts()
+      .withId({ ID: cartId })
+      .delete({
+        queryArgs: {
+          version: version, // Use the correct version
+        },
+      })
+      .execute();
+
+    console.log('API response:', response);
+
+    if (response.statusCode !== 204) {
+      throw new Error('Failed to clear the cart.');
+    }
+
+    console.log('Cart cleared successfully');
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    throw new Error('Failed to clear the cart. Please try again later.');
+  }
+};
+
 export const removeProductFromCart = async (
   cartId: string,
   version: number,
