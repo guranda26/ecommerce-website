@@ -45,7 +45,7 @@ const BasketPage: React.FC = () => {
     };
 
     void loadCart();
-  }, [apiRoot, setCart]); 
+  }, [apiRoot, setCart]);
 
   useEffect(() => {
     const calculateTotalCost = () => {
@@ -74,7 +74,7 @@ const BasketPage: React.FC = () => {
       if (success) {
         const updatedCart = await getMyCart(apiRoot);
         if (updatedCart) {
-          setCart(updatedCart); 
+          setCart(updatedCart);
           const updatedItems = updatedCart.lineItems.map(formatCartItem);
           setCartItems(updatedItems);
         }

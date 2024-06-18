@@ -21,17 +21,19 @@ export const createCart = async (
 
 export const getMyCart = async (apiRoot: ByProjectKeyRequestBuilder) => {
   let myCart: Cart | null = null;
+
+  if (isExist()) {
+    const response = await apiRoot.me().activeCart().get().execute();
+    myCart = response.body;
+  }
   try {
-    if (isExist()) {
-      const response = await apiRoot.me().activeCart().get().execute();
-      myCart = response.body;
-    }
     if (isExistAnonymToken()) {
       const response = await apiRoot.me().carts().get().execute();
-      if (response.statusCode === 200) {
+      if (response.statusCode === 200 && response.body.results.length > 0) {
         myCart = response.body.results[0];
       }
     }
+
     if (!myCart) {
       myCart = await createCart('EUR', apiRoot);
     }
@@ -213,10 +215,6 @@ export const updateProductQuantity = async (
 };
 
 export const isExistProductMyCart = (productId: string, cart: Cart) => {
-  const myCart = cart;
-  const product = myCart.lineItems.find(
-    (product) => product.productId === productId
-  );
-  if (product) return true;
-  return false;
+  const product = findLineItem(productId, cart);
+  return product !== undefined;
 };
