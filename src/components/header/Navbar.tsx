@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBook,
   faHouse,
-  faMagnifyingGlass,
+  faUsers,
   faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
 import { routes } from '../../modules/routes';
@@ -42,7 +42,7 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
             to={routes.about}
             onClick={props.handleBurgerBtn}
           >
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <FontAwesomeIcon icon={faUsers} />
             About us
           </NavLink>
         </li>
