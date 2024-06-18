@@ -1,0 +1,72 @@
+
+.school-section {
+    color: white; 
+    background-color: #ffda1f;
+    margin-bottom: 20px;
+    padding: 20px 0;
+    position: relative;
+}
+.school-section a {
+    display: inline-block;
+}
+.rs-school-logo {
+    height: auto;
+    left: 20px;
+    position: absolute;
+    top: 15px;
+    width: 100px;    
+}
+.team-section, .collaboration-section, .conclusion-section {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.team-member {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.team-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: contain;
+}
+
+.team-info {
+    max-width: 800px;
+}
+
+.team-info h3 {
+    margin: 0 0 10px 0;
+}
+
+.team-info .role {
+    font-style: italic;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.team-info .bio {
+    margin: 10px 0;
+}
+
+.team-info .contributions {
+    margin: 10px 0;
+}
+
+.github-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.github-link:hover {
+    text-decoration: underline;
+}
