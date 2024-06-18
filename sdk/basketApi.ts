@@ -1,146 +1,165 @@
 import { Cart, ProductProjection } from '@commercetools/platform-sdk';
-import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
-import { isExist, isExistAnonymToken } from './myToken';
+import { clientMaker } from './createClient';
 
-
-export const createCart = async (currency: string, apiRoot: ByProjectKeyRequestBuilder) => {
+export const createCart = async (currency: string) => {
+  const apiRoot = clientMaker();
+  try {
     const response = await apiRoot
-        .me()
-        .carts()
-        .post({
-            body: {
-                currency: currency,
-                country: 'DE',
-            }
-        })
-        .execute();
+      .me()
+      .carts()
+      .post({
+        body: {
+          currency: currency,
+          country: 'DE',
+        },
+      })
+      .execute();
+    console.log('Cart: ', response);
+    if (response.body) {
+      setMyCartId(response.body);
+    }
+    return true;
+  } catch (error) {
+    console.error('Error fetching product :', error);
+    return false;
+  }
+};
+
+const setMyCartId = (cart: Cart) => {
+  localStorage.setItem('myCartId', JSON.stringify(cart));
+};
+
+const getMyCart = () => {
+  const myCart = JSON.parse(localStorage.getItem('myCartId')!) as Cart;
+  return myCart;
+};
+
+export const getCart = async (id: string) => {
+  const apiRoot = clientMaker();
+  try {
+    const response = await apiRoot
+      .me()
+      .carts()
+      .withId({
+        ID: id,
+      })
+      .get()
+      .execute();
     return response.body;
-}
+  } catch (error) {
+    console.error('Error fetching product :', error);
+  }
+};
 
-export const getMyCart = async (apiRoot: ByProjectKeyRequestBuilder) => {
-    let myCart: Cart | null = null;
-    try {
-        if (isExist()) {
-            const response = await apiRoot
-                .me()
-                .activeCart()
-                .get()
-                .execute();
-            myCart = response.body;
-        }
-        if (isExistAnonymToken()) {
-            const response = await apiRoot
-                .me()
-                .carts()
-                .get()
-                .execute();
-            if (response.statusCode === 200) {
-                myCart = response.body.results[0];
-            }
-        }
-        if (!myCart) {
-            myCart = await createCart('EUR', apiRoot);
-        }
-    } catch (error) {
-        console.error('Error getting Cart :', error);
+const isExistCart = () => {
+  return !!localStorage.getItem('myCartId');
+};
+
+export const addProductToCard = async (
+  product: ProductProjection,
+  cardId: string,
+  quantity: number,
+  version: number
+) => {
+  const apiRoot = clientMaker();
+  try {
+    const response = await apiRoot
+      .me()
+      .carts()
+      .withId({ ID: cardId })
+      .post({
+        body: {
+          version: version,
+          actions: [
+            {
+              action: 'addLineItem',
+              productId: product.id,
+              variantId: product.masterVariant.id,
+              quantity: quantity,
+            },
+          ],
+        },
+      })
+      .execute();
+    if (response.body) {
+      setMyCartId(response.body);
+      return true;
     }
-    return myCart;
-}
-
-// export const getCart = async (id: string) => {
-//     console.log("getCart...");
-//     const apiRoot = clientMaker();
-//     try {
-//         const response = await apiRoot
-//             .me()
-//             .carts()
-//             .withId({
-//                 ID: id
-//             })
-//             .get()
-//             .execute();
-//         return response.body;
-//     } catch (error) {
-//         console.error('Error fetching product :', error);
-//     }
-// }
-
-export const addProductToCart = async (product: ProductProjection, quantity: number, cart: Cart, apiRoot: ByProjectKeyRequestBuilder) => {
-    try {
-        const response = await apiRoot
-            .me()
-            .carts()
-            .withId({
-                ID: cart.id
-            })
-            .post({
-
-                body: {
-                    version: cart.version,
-                    actions: [
-                        {
-                            action: "addLineItem",
-                            productId: product.id,
-                            variantId: product.masterVariant.id,
-                            quantity: quantity
-                        }
-                    ]
-                }
-            })
-            .execute();
-        return response;
-
-    } catch (error) {
-        console.error('Error adding product :', error);
-    }
-}
-
+    return false;
+  } catch (error) {
+    console.error('Error fetching product :', error);
+    return false;
+  }
+};
 
 export const findLineItem = (productId: string, cart: Cart) => {
-    const lineItem = cart.lineItems.find((element) => element.productId === productId);
-    return lineItem;
-}
+  const lineItem = cart.lineItems.find(
+    (element) => element.productId === productId
+  );
+  return lineItem;
+};
 
-
-export const deleteProductInCart = async (product: ProductProjection, cart: Cart, apiRoot: ByProjectKeyRequestBuilder) => {
-    if (cart) {
-        const lineItem = findLineItem(product.id, cart);
-        try {
-            const response = await apiRoot
-                .me()
-                .carts()
-                .withId({ ID: cart.id })
-                .post({
-
-                    body: {
-                        version: cart.version,
-                        actions: [
-                            {
-                                action: "removeLineItem",
-                                lineItemId: lineItem?.id,
-                                quantity: lineItem?.quantity,
-                                externalPrice: {
-                                    currencyCode: "EUR",
-                                    centAmount: lineItem?.price.value.centAmount || 0,
-                                },
-                            }
-
-                        ]
-                    }
-                })
-                .execute();
-            return response;
-        } catch (error) {
-            console.error('Error deleting product :', error);
-        }
+export const deleteProductInCard = async (product: ProductProjection) => {
+  const apiRoot = clientMaker();
+  const cart = getMyCart();
+  const lineItem = findLineItem(product.id, cart);
+  try {
+    const response = await apiRoot
+      .me()
+      .carts()
+      .withId({ ID: cart.id })
+      .post({
+        body: {
+          version: cart.version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: lineItem?.id,
+              quantity: lineItem?.quantity,
+              externalPrice: {
+                currencyCode: 'EUR',
+                centAmount: lineItem?.price.value.centAmount || 0,
+              },
+            },
+          ],
+        },
+      })
+      .execute();
+    if (response.body) {
+      setMyCartId(response.body);
+      return true;
     }
-}
-
-export const isExistProductMyCart = (productId: string, cart: Cart) => {
-    const myCart = cart;
-    const product = myCart.lineItems.find((product) => product.productId === productId);
-    if (product) return true;
     return false;
-}
+  } catch (error) {
+    console.error('Error fetching product :', error);
+    return false;
+  }
+};
 
+export const addToBasket = async (product: ProductProjection, num: number) => {
+  let isCreatedCart = true;
+  let isAddedProduct = false;
+  if (!isExistCart()) {
+    isCreatedCart = await createCart('EUR');
+  }
+  if (isCreatedCart) {
+    const myCart = getMyCart();
+    isAddedProduct = await addProductToCard(
+      product,
+      myCart?.id,
+      num,
+      myCart?.version
+    );
+  }
+  return isAddedProduct;
+};
 
+export const isExistProductMyCart = (productId: string) => {
+  const myCart = getMyCart();
+  let isExistProduct = false;
+  myCart.lineItems.forEach((product) => {
+    if (product.productId === productId) isExistProduct = true;
+  });
+
+  return isExistProduct;
+};

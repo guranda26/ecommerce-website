@@ -9,12 +9,13 @@ import {
   getMyCart,
   getCart,
   removeProductFromCart,
+  deleteProductInCart,
   updateProductQuantity,
 } from '../../../sdk/basketApi';
 import { formatCartItem } from './utils/formatCartItem';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CartItem } from 'src/Interfaces/CustomerInterface';
+import { CartItem } from '../../Interfaces/cartsInterface';
 
 const BasketPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
