@@ -16,7 +16,7 @@ const teamMembers = [
   {
     name: 'Guranda Lemonjava',
     role: 'Frontend Developer',
-    bio: "Hello! I am Guranda, a Junior Frontend Developer with a passion for user-centric experiences in React. I'm also building my skills in backend (Node.js, Express, MongoDB) and cloud (SAP CAP) to grasp data flow and explore cloud options. This lets me collaborate seamlessly and build adaptable apps.",
+    bio: "Hello! I am Guranda, a Junior Frontend Developer with 2 years of experience building dynamic, responsive user interfaces using HTML, CSS, JavaScript, React, TypeScript, and Sass. I'm also building my skills in backend (Node.js, Express, MongoDB) and cloud (SAP CAP) to grasp data flow and explore cloud options. This lets me collaborate seamlessly and build adaptable apps. I am eager to contribute to challenging projects and expand my knowledge base in a collaborative environment.",
     github: 'https://github.com/guranda26',
     photo: about_GurandaL,
   },

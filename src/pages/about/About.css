@@ -20,6 +20,7 @@
 .collaboration-section,
 .conclusion-section {
   background: #fff;
+  font-family: auto;
   padding: 20px;
   margin: 20px 0;
   border-radius: 8px;
