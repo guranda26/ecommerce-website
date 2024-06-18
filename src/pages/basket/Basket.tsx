@@ -3,43 +3,39 @@ import { Link } from 'react-router-dom';
 import './Basket.css';
 import { routes } from '../../modules/routes';
 
-import React, { useEffect, useState } from 'react';
-import { Cart } from '@commercetools/platform-sdk';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   getMyCart,
-  getCart,
   removeProductFromCart,
-  deleteProductInCart,
   updateProductQuantity,
 } from '../../../sdk/basketApi';
 import { formatCartItem } from './utils/formatCartItem';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CartItem } from '../../Interfaces/cartsInterface';
+import { UserContext } from '../../context/userContext';
 
 const BasketPage: React.FC = () => {
+  const { apiRoot, cart, setCart } = useContext(UserContext); // Access apiRoot and cart from context
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [totalCost, setTotalCost] = useState<number>(0);
 
   useEffect(() => {
-    const loadCartItems = async () => {
+    const loadCart = async () => {
       try {
-        const cart = getMyCart();
-        if (!cart) {
-          setCartItems([]);
-          return;
+        if (apiRoot) {
+          const myCart = await getMyCart(apiRoot);
+          if (!myCart) {
+            setCartItems([]);
+            setLoading(false);
+            return;
+          }
+          setCart(myCart);
+          const items = myCart.lineItems.map(formatCartItem);
+          setCartItems(items);
         }
-
-        const items = await getCart(cart.id);
-        if (!items || items.length === 0) {
-          setCartItems([]);
-          return;
-        }
-
-        const formattedItems = items.map(formatCartItem);
-        setCartItems(formattedItems);
       } catch (err) {
         console.error('Error loading cart items:', (err as Error)?.message);
         setError('Failed to fetch cart items. Please try again later.');
@@ -48,8 +44,8 @@ const BasketPage: React.FC = () => {
       }
     };
 
-    void loadCartItems();
-  }, []);
+    void loadCart();
+  }, [apiRoot, setCart]); 
 
   useEffect(() => {
     const calculateTotalCost = () => {
@@ -63,21 +59,25 @@ const BasketPage: React.FC = () => {
   }, [cartItems]);
 
   const handleRemoveFromCart = async (lineItemId: string) => {
+    if (!apiRoot || !cart) {
+      setError('No apiRoot or cart found.');
+      return;
+    }
+
     try {
-      const cart: Cart | null = getMyCart();
-      if (!cart) {
-        setError('No cart found in local storage.');
-        return;
-      }
       const success = await removeProductFromCart(
+        apiRoot,
         cart.id,
         cart.version,
         lineItemId
       );
       if (success) {
-        setCartItems(
-          cartItems.filter((item) => item.lineItemId !== lineItemId)
-        );
+        const updatedCart = await getMyCart(apiRoot);
+        if (updatedCart) {
+          setCart(updatedCart); 
+          const updatedItems = updatedCart.lineItems.map(formatCartItem);
+          setCartItems(updatedItems);
+        }
       } else {
         setError('Failed to remove item from cart.');
       }
@@ -91,19 +91,21 @@ const BasketPage: React.FC = () => {
     lineItemId: string,
     newQuantity: number
   ) => {
+    if (!apiRoot || !cart) {
+      setError('No apiRoot or cart found.');
+      return;
+    }
+
     try {
-      const cart: Cart | null = getMyCart();
-      if (!cart) {
-        setError('No cart found in local storage.');
-        return;
-      }
       const updatedCart = await updateProductQuantity(
+        apiRoot,
         cart.id,
         cart.version,
         lineItemId,
         newQuantity
       );
       if (updatedCart) {
+        setCart(updatedCart);
         const updatedItems = updatedCart.lineItems.map(formatCartItem);
         setCartItems(updatedItems);
       } else {
