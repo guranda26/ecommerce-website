@@ -19,18 +19,20 @@ export const createCart = async (
   return response.body;
 };
 
-export const getMyCart = async (apiRoot: ByProjectKeyRequestBuilder) => {
+export const getMyCart = async (
+  apiRoot: ByProjectKeyRequestBuilder
+): Promise<Cart | null> => {
   let myCart: Cart | null = null;
-
-  if (isExist()) {
-    const response = await apiRoot.me().activeCart().get().execute();
-    myCart = response.body;
-  }
   try {
     if (isExistAnonymToken()) {
       const response = await apiRoot.me().carts().get().execute();
       if (response.statusCode === 200 && response.body.results.length > 0) {
         myCart = response.body.results[0];
+      }
+    } else if (isExist()) {
+      const response = await apiRoot.me().activeCart().get().execute();
+      if (response.statusCode === 200) {
+        myCart = response.body;
       }
     }
 
