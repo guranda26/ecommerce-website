@@ -1,8 +1,7 @@
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
-import { clientMaker } from './createClient';
-
-export const getProductsByCategory = async (id: string) => {
-    const apiRoot = clientMaker();
+export const getProductsByCategory = async (id: string,apiRoot:ByProjectKeyRequestBuilder) => {
+    
     try {
         const response = await apiRoot
             .productProjections()
@@ -23,8 +22,8 @@ export const getProductsByCategory = async (id: string) => {
     }
 }
 
-export const getByParentCategory = async (id: string) => {
-    const apiRoot = clientMaker();
+export const getByParentCategory = async (id: string,apiRoot:ByProjectKeyRequestBuilder) => {
+    
     try {
         const response = await apiRoot
             .categories()
@@ -44,8 +43,8 @@ export const getByParentCategory = async (id: string) => {
 }
 
 
-export const getCategories = async () => {
-    const apiRoot = clientMaker();
+export const getCategories = async (apiRoot:ByProjectKeyRequestBuilder) => {
+    
     try {
         const response = await apiRoot
             .categories()

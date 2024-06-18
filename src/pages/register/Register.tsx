@@ -48,7 +48,6 @@ export const countryNames: { [key in CountryCode]: string } = {
 import './Register.css';
 import { isExist } from '../../../sdk/myToken';
 import { UserContext } from '../../context/userContext';
-import { getMyToken } from '../../../sdk/myToken';
 import { clientWithPassword } from '../../../sdk/createClient';
 import { routes } from '../../modules/routes';
 
@@ -56,7 +55,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import ErrorInput from '../../components/ErrorInput/ErrorInput';
 
 const RegistrationForm = () => {
-  const userContext = useContext(UserContext);
+  const {apiRoot,setApiRoot} = useContext(UserContext);
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -218,7 +217,7 @@ const RegistrationForm = () => {
       ...prevData,
       [addressType === 'billing' ? 'billingAddress' : 'shippingAddress']: {
         ...prevData[
-          addressType === 'billing' ? 'billingAddress' : 'shippingAddress'
+        addressType === 'billing' ? 'billingAddress' : 'shippingAddress'
         ],
         [name]: value,
       },
@@ -278,18 +277,13 @@ const RegistrationForm = () => {
         return;
       }
 
-      createCustomer(customerData)
+      createCustomer(customerData,apiRoot!)
         .then((response: CustomerSignInResult) => {
           console.log('Customer created:', response);
-          userContext.apiRoot = clientWithPassword(
+          setApiRoot(clientWithPassword(
             customerData.email,
             customerData.password
-          );
-          const bodyInit = {
-            username: customerData.email,
-            password: customerData.password,
-          };
-          getMyToken(bodyInit);
+          ));
           setErrors({});
           setSuccess(true);
           setToastShown(false);
@@ -471,10 +465,7 @@ const RegistrationForm = () => {
                 className={errors.billingAddress?.city ? 'error-input' : ''}
               />
               {errors.billingAddress?.city && (
-                <ErrorInput
-                  className="error-zip"
-                  error={errors.billingAddress.city}
-                />
+                <ErrorInput error={errors.billingAddress.city} />
               )}
             </div>
             <div className="input-container">

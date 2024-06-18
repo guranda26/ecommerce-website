@@ -1,9 +1,12 @@
 
 import { Customer, MyCustomerChangePassword, MyCustomerUpdate } from '@commercetools/platform-sdk';
-import { clientMaker } from './createClient';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
-export const updateProfile = async (user: Customer) => {
-    const apiRoot = clientMaker();
+
+export const updateProfile = async (
+    user: Customer,
+    apiRoot: ByProjectKeyRequestBuilder,
+) => {
     const customerData: MyCustomerUpdate = {
         version: user.version,
         actions: [
@@ -62,11 +65,15 @@ export const updateProfile = async (user: Customer) => {
 }
 
 
-export const updatePassword = async (user: Customer, password: {
-    currentPassword: string;
-    newPassword: string;
-}) => {
-    const apiRoot = clientMaker();
+export const updatePassword = async (
+    user: Customer,
+    password: {
+        currentPassword: string;
+        newPassword: string;
+    },
+    apiRoot: ByProjectKeyRequestBuilder,
+) => {
+
     const customerData: MyCustomerChangePassword = {
         version: user.version,
         currentPassword: password.currentPassword,
@@ -89,8 +96,10 @@ export const updatePassword = async (user: Customer, password: {
     }
 }
 
-export const getUser = async () => {
-    const apiRoot = clientMaker();
+export const getUser = async (
+    apiRoot: ByProjectKeyRequestBuilder,
+) => {
+
     try {
         const response = await apiRoot
             .me()

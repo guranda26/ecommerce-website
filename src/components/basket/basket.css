@@ -1,0 +1,83 @@
+.basket {
+  position: absolute;
+  bottom: 15px;
+  right: 40px;
+}
+
+.basket-wrap {
+  width: 120px;
+  display: grid;
+  grid-template-columns: 70px 1fr;
+}
+
+.num-wrap {
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  color: var(--brand-color);
+}
+
+.num-btn {
+  padding: 5px;
+  background-color: transparent;
+}
+
+.num-image {
+  width: 20px;
+  height: 20px;
+}
+
+.basket-btn {
+  background-color: transparent;
+  padding: 1px;
+}
+
+.basket-image {
+  width: 25px;
+  height: 25px;
+  color: var(--brand-color);
+}
+
+.basket-btn.disabled .basket-image,
+.basket-btn.disabled:hover .basket-image {
+  color: var(--dark-color);
+}
+
+.basket-btn:hover .basket-image {
+  color: var(--accent-color);
+}
+
+.price-basket-content {
+  display: flex;
+  gap: 10px;
+}
+
+.price-basket {
+  position: relative;
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.price-basket .basket {
+  position: static;
+  margin-left: auto;
+}
+
+.price-basket-content .basket-wrap {
+  width: 180px;
+  grid-template-columns: 100px 40px;
+  gap: 40px;
+}
+
+.price-basket-content .basket-image {
+  width: 35px;
+  height: 35px;
+}
+
+.price-basket-content .num {
+  font-size: 32px;
+}

@@ -1,19 +1,12 @@
-import { Category, ProductProjection } from '@commercetools/platform-sdk';
-import React from 'react';
+import React, { useContext } from 'react';
 import { getProductsByCategory } from '../../../../sdk/categoryApi';
+import { UserContext } from '../../../context/userContext';
+import { CategoryType } from '../../../Interfaces/categoriesInterface';
 
-function CategoriesItem(props: {
-  category: Category;
-  setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
-  parentId?: {
-    parentId: string;
-    setParentId: React.Dispatch<React.SetStateAction<string>>;
-  };
-  subParentId?: {
-    parentId: string;
-    setParentId: React.Dispatch<React.SetStateAction<string>>;
-  };
-}): React.JSX.Element {
+function CategoriesItem(props: CategoryType): React.JSX.Element {
+  const { apiRoot } = useContext(UserContext);
+  const { category, parentId, subParentId, setProducts } = props;
+
   const removeActiveClass = (element: HTMLLIElement) => {
     element.parentElement?.childNodes.forEach((el) => {
       const liElement = el as HTMLLIElement;
@@ -24,23 +17,27 @@ function CategoriesItem(props: {
   const handleCategory = async (id: string, element: HTMLLIElement) => {
     removeActiveClass(element);
     element.classList.add('active');
-    if (props.parentId) {
-      props.parentId.setParentId(id);
-      if (props.subParentId) props.subParentId.setParentId('');
-    }
-    const products = await getProductsByCategory(id);
+    if (parentId) {
+      parentId.setParentId(id);
 
-    props.setProducts(products.body.results);
+      if (subParentId) {
+        subParentId.setParentId('');
+      }
+    }
+
+    const products = await getProductsByCategory(id, apiRoot!);
+
+    setProducts(products.body.results);
   };
 
   return (
     <li
       className="category-item"
       onClick={(e) =>
-        void handleCategory(props.category.id, e.target as HTMLLIElement)
+        void handleCategory(category.id, e.target as HTMLLIElement)
       }
     >
-      {props.category.name['en-US']}
+      {category.name['en-US']}
     </li>
   );
 }

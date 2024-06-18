@@ -1,18 +1,21 @@
 import {
+    AnonymousAuthMiddlewareOptions,
     AuthMiddlewareOptions,
     Client,
     ClientBuilder,
     ExistingTokenMiddlewareOptions,
     HttpMiddlewareOptions,
-    UserAuthOptions
+    RefreshAuthMiddlewareOptions,
+    UserAuthOptions,
 } from '@commercetools/sdk-client-v2';
 
 import {
     createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 
+import { MyTokenCache, getRefreshToken, getToken, isExist, isExistAnonymToken } from './myToken';
+import { cacheName } from '../src/modules/constantLocalStorage';
 
-import { getToken, isExist } from './myToken';
 
 
 export const projectKey: string = import.meta.env
@@ -23,6 +26,10 @@ export const authUrl: string = import.meta.env.VITE_CTP_AUTH_URL as string;
 export const apiUrl: string = import.meta.env.VITE_CTP_API_URL as string;
 export const scopes: string[] = (import.meta.env.VITE_CTP_SCOPES as string).split(',');
 
+const tokenStoreForLogin = new MyTokenCache(cacheName.Login);
+const tokenStoreForAnonym = new MyTokenCache(cacheName.AnonymUser);
+
+
 export const authMiddlewareOptions: AuthMiddlewareOptions = {
     host: authUrl,
     projectKey: projectKey,
@@ -31,6 +38,19 @@ export const authMiddlewareOptions: AuthMiddlewareOptions = {
         clientSecret: clientSecret,
     },
     scopes: scopes,
+    fetch,
+};
+
+
+export const withAnonymousSessionFlowOptions: AnonymousAuthMiddlewareOptions = {
+    host: authUrl,
+    projectKey: projectKey,
+    credentials: {
+        clientId: clientId,
+        clientSecret: clientSecret,
+    },
+    scopes: scopes,
+    tokenCache: tokenStoreForAnonym,
     fetch,
 };
 
@@ -51,10 +71,12 @@ const createOption = (user?: UserAuthOptions) => {
                 user: user
             },
             scopes: scopes,
+            tokenCache: tokenStoreForLogin,
             fetch,
         };
     }
 }
+
 
 export const clientWithPassword = (email: string, password: string) => {
     const passwordOptions = createOption({ username: email, password: password });
@@ -71,14 +93,26 @@ export const clientWithPassword = (email: string, password: string) => {
     return apiRoot;
 }
 
+const refreshOption: RefreshAuthMiddlewareOptions = {
+    host: authUrl,
+    projectKey: projectKey,
+    credentials: {
+        clientId: clientId,
+        clientSecret: clientSecret,
+    },
+    refreshToken: getRefreshToken() || '',
+    tokenCache: tokenStoreForAnonym,
+    fetch,
+}
 
 export const clientMaker = () => {
     let client: Client;
 
-    if (!isExist()) {
+    if (!isExist() && !isExistAnonymToken()) {
         client = new ClientBuilder()
             .withProjectKey(projectKey)
             .withClientCredentialsFlow(authMiddlewareOptions)
+            .withAnonymousSessionFlow(withAnonymousSessionFlowOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
             .withLoggerMiddleware()
             .build();
@@ -88,9 +122,9 @@ export const clientMaker = () => {
         const existTokenOptions: ExistingTokenMiddlewareOptions = {
             force: true,
         };
-
         client = new ClientBuilder()
             .withProjectKey(projectKey)
+            .withRefreshTokenFlow(refreshOption)
             .withExistingTokenFlow(authorization, existTokenOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
             .withLoggerMiddleware()

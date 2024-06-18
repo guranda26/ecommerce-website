@@ -8,6 +8,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { Image } from '@commercetools/platform-sdk';
 
 const style = {
   position: 'absolute',
@@ -29,7 +30,7 @@ const style = {
 };
 
 interface ImageModalProps {
-  imageUrls: string[];
+  imageUrls: Image[];
   onClose: () => void;
 }
 
@@ -66,7 +67,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ imageUrls, onClose }) => {
             <SwiperSlide key={index}>
               <Box
                 component="img"
-                src={imageUrl}
+                src={imageUrl.url}
                 alt={`Product Image ${index + 1}`}
                 sx={{
                   width: '100%',

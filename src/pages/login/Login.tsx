@@ -6,25 +6,15 @@ import './Login.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../../context/userContext';
-import { getMyToken, isExist } from '../../../sdk/myToken';
-import { clientWithPassword } from '../../../sdk/createClient';
+import { isExist } from '../../../sdk/myToken';
+import { authenticateUser } from '../../../sdk/userApi';
 import { routes } from '../../modules/routes';
 import { useFormik } from 'formik';
+import { LoginFormErrors, LoginFormValues } from '../../Interfaces/loginInterface';
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-  submit?: string;
-}
-
-interface LoginFormErrors {
-  email?: string;
-  password?: string;
-  submit?: string;
-}
 
 const Login: React.FC = () => {
-  const userContext = useContext(UserContext);
+  const { apiRoot, setApiRoot } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,7 +59,9 @@ const Login: React.FC = () => {
         const authSuccess = await authenticateUser(
           values.email,
           values.password,
-          setErrors
+          setErrors,
+          apiRoot!,
+          setApiRoot
         );
 
         if (authSuccess) {
@@ -90,46 +82,6 @@ const Login: React.FC = () => {
     handlePasswordChange(password).catch((error) => {
       console.error(error);
     });
-  };
-
-  const authenticateUser = async (
-    email: string,
-    password: string,
-    setErrors: (errors: LoginFormErrors) => void
-  ) => {
-    try {
-      const response = await userContext.apiRoot
-        .me()
-        .login()
-        .post({
-          body: {
-            email,
-            password,
-          },
-        })
-        .execute();
-
-      if (response.body) {
-        userContext.setApiRoot(clientWithPassword(email, password));
-        const bodyInit = {
-          username: email,
-          password: password,
-        };
-        getMyToken(bodyInit);
-        return true;
-      } else {
-        setErrors({
-          submit: 'Login failed. Please check your email and password.',
-        });
-        return false;
-      }
-    } catch (error) {
-      console.error(error);
-      setErrors({
-        submit: 'Login failed. Please check your email and password.',
-      });
-      return false;
-    }
   };
 
   return (

@@ -1,22 +1,13 @@
 import React from 'react';
 import CategoriesItem from './CategoryItem';
-import { Category, ProductProjection } from '@commercetools/platform-sdk';
+import { CategoriesType } from 'src/Interfaces/categoriesInterface';
 
-function CategoriesList(props: {
-  categories: Category[];
-  setProducts: React.Dispatch<React.SetStateAction<ProductProjection[] | null>>;
-  parentId: {
-    parentId: string;
-    setParentId: React.Dispatch<React.SetStateAction<string>>;
-  };
-  subParentId: {
-    parentId: string;
-    setParentId: React.Dispatch<React.SetStateAction<string>>;
-  };
-}): React.JSX.Element {
+function CategoriesList(props: CategoriesType): React.JSX.Element {
+  const { setProducts, parentId, categories, subParentId } = props;
+
   const handleAllItem = (element: HTMLLIElement) => {
-    props.setProducts(null);
-    props.parentId.setParentId('');
+    setProducts(null);
+    parentId.setParentId('');
     element.parentElement?.childNodes.forEach((el) => {
       const liElement = el as HTMLLIElement;
       liElement.classList.remove('active');
@@ -32,15 +23,15 @@ function CategoriesList(props: {
       >
         All
       </li>
-      {props.categories.map((category) => {
+      {categories.map((category) => {
         if (category.ancestors.length === 0)
           return (
             <CategoriesItem
               category={category}
-              setProducts={props.setProducts}
+              setProducts={setProducts}
               key={category.id}
-              parentId={props.parentId}
-              subParentId={props.subParentId}
+              parentId={parentId}
+              subParentId={subParentId}
             />
           );
       })}

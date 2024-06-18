@@ -1,11 +1,12 @@
 import { CustomerSignInResult, MyCustomerDraft } from '@commercetools/platform-sdk';
 import { CustomerData } from '../src/Interfaces/CustomerInterface';
-import { clientMaker } from './createClient';
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 
 export const createCustomer = async (
-  customerData: CustomerData
+  customerData: CustomerData,
+  apiRoot:ByProjectKeyRequestBuilder
 ): Promise<CustomerSignInResult> => {
-  const apiRoot = clientMaker();
+ 
   
   const {
     firstName,
