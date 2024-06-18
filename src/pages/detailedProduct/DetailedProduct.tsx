@@ -9,13 +9,15 @@ import useProducts from '../../hooks/useProduct';
 import './DetailedProduct.css';
 import ImageModal from '../../modules/modal/modal';
 import { routes } from '../../modules/routes';
+import BasketButton from '../../components/basket/BasketButton';
+import PriceContent from '../../components/priceFunction/PriceContent';
+import AvailableQuantity from '../../components/quantityProduct/AvailableQuantity';
 
 function DetailedProduct(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
   const { product, loading, error } = useProducts(id || null);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const handleClick = () => {
     navigate(routes.catalog);
   };
@@ -54,10 +56,10 @@ function DetailedProduct(): React.JSX.Element {
             spaceBetween={50}
             slidesPerView={1}
           >
-            {product.images?.map((image, index) => (
+            {product.masterVariant.images?.map((image, index) => (
               <SwiperSlide key={index} className="swiper-img">
                 <img
-                  src={image}
+                  src={image.url}
                   alt={`Image ${index + 1}`}
                   onClick={handleImageClick}
                   style={{ cursor: 'pointer' }}
@@ -66,29 +68,31 @@ function DetailedProduct(): React.JSX.Element {
             ))}
           </Swiper>
 
-          {isModalOpen && product.images && (
-            <ImageModal imageUrls={product.images} onClose={handleCloseModal} />
+          {isModalOpen && product.masterVariant.images && (
+            <ImageModal
+              imageUrls={product.masterVariant.images}
+              onClose={handleCloseModal}
+            />
           )}
         </div>
         <div className="product-info">
-          <h3 className="product-name">{product.name}</h3>
-          <p className="product-price">
-            {product.discountPrice ? (
-              <>
-                <span
-                  style={{
-                    textDecoration: 'line-through',
-                    textDecorationColor: '#3333338f',
-                  }}
-                >
-                  {product.price}
-                </span>
-                <span>{product.discountPrice}</span>
-              </>
-            ) : (
-              product.price
-            )}
-          </p>
+          <h3 className="product-name">{product.name['en-US']}</h3>
+
+          <div className="price-basket">
+            <div className="price-basket-content">
+              <span className="price-basket-label">Price:</span>
+              <PriceContent product={product} />
+            </div>
+
+            <div className="price-basket-content">
+              <span className="price-basket-label">Available Products:</span>
+              <AvailableQuantity product={product} />
+            </div>
+            <div className="price-basket-content">
+              <BasketButton product={product} />
+            </div>
+          </div>
+
           <table className="delivery-return-info">
             <tbody>
               <tr>
@@ -113,7 +117,9 @@ function DetailedProduct(): React.JSX.Element {
         <tbody>
           <tr>
             <th className="description-heading">Description of the product:</th>
-            <td className="product-description">{product.description}</td>
+            <td className="product-description">
+              {product.description!['en-US']}
+            </td>
           </tr>
         </tbody>
       </table>

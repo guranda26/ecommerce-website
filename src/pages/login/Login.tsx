@@ -132,6 +132,32 @@ const Login: React.FC = () => {
     }
   };
 
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const message =
+  //     'User is already logged in. Do you want to log out and then log in again?';
+
+  //   if (!isExist() || window.confirm(message) == true) {
+  //     validateField('email', email);
+  //     validateField('password', password);
+
+  //     if (errors.email || errors.password) {
+  //       console.log('Form validation failed:', errors);
+  //       return;
+  //     }
+
+  //     const authSuccess = await authenticateUser(email, password);
+
+  //     if (authSuccess) {
+  //       setSuccess(true);
+  //       setGeneralError('');
+  //       navigate(routes.home, { replace: true });
+  //     }
+  //   } else {
+  //     navigate(routes.home, { replace: true });
+  //   }
+  // };
+
   return (
     <div className="login-form-container">
       <ToastContainer />
