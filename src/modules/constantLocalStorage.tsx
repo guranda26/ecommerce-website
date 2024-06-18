@@ -1,4 +1,4 @@
 export const cacheName = {
-    Login: 'myCache',
-    AnonymUser: 'anonymCache'
-}
+  Login: 'myCache',
+  AnonymUser: 'anonymCache',
+};

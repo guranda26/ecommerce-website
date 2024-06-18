@@ -7,7 +7,6 @@ import { getProducts } from '../../../sdk/productsApi';
 import { UserContext } from '../../context/userContext';
 
 function LoadProducts(): React.JSX.Element {
-
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [page, setPage] = useState(1);
@@ -15,7 +14,6 @@ function LoadProducts(): React.JSX.Element {
 
   const [response, setResponse] = useState<ProductProjection[]>([]);
   const { apiRoot } = useContext(UserContext);
-
 
   const fetchData = useCallback(async () => {
     try {

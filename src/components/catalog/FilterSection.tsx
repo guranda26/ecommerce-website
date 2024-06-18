@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import './filterSection.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -13,9 +19,7 @@ import { UserContext } from '../../context/userContext';
 import { colors } from '../../modules/colors';
 import { ProductsInterface } from '../../Interfaces/productsInterface';
 
-
 function FilterSection(props: ProductsInterface): React.JSX.Element {
-
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [debounceValue] = useDebounce(searchText, 500);
@@ -29,7 +33,7 @@ function FilterSection(props: ProductsInterface): React.JSX.Element {
 
   const handleSearchName = (text: string) => {
     if (text) setSearchText(text);
-  }
+  };
 
   const searchName = useCallback(async () => {
     if (debounceValue) {
@@ -38,7 +42,7 @@ function FilterSection(props: ProductsInterface): React.JSX.Element {
       setProducts([...products]);
       setLoading(false);
     }
-  }, [debounceValue, apiRoot, setProducts])
+  }, [debounceValue, apiRoot, setProducts]);
 
   useEffect(() => {
     void searchName();
@@ -140,13 +144,15 @@ function FilterSection(props: ProductsInterface): React.JSX.Element {
             }}
           >
             <option defaultValue={''}>Choose color</option>
-            {
-              colors.map((color, index) => (
-                <option style={{ backgroundColor: color.hex }} key={index} value={color.hex}>
-                  {color.name}
-                </option>
-              ))
-            }
+            {colors.map((color, index) => (
+              <option
+                style={{ backgroundColor: color.hex }}
+                key={index}
+                value={color.hex}
+              >
+                {color.name}
+              </option>
+            ))}
           </select>
 
           <button

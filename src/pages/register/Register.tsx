@@ -55,7 +55,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import ErrorInput from '../../components/ErrorInput/ErrorInput';
 
 const RegistrationForm = () => {
-  const {apiRoot,setApiRoot} = useContext(UserContext);
+  const { apiRoot, setApiRoot } = useContext(UserContext);
   const [customerData, setCustomerData] = useState<CustomerData>({
     firstName: '',
     lastName: '',
@@ -217,7 +217,7 @@ const RegistrationForm = () => {
       ...prevData,
       [addressType === 'billing' ? 'billingAddress' : 'shippingAddress']: {
         ...prevData[
-        addressType === 'billing' ? 'billingAddress' : 'shippingAddress'
+          addressType === 'billing' ? 'billingAddress' : 'shippingAddress'
         ],
         [name]: value,
       },
@@ -277,13 +277,12 @@ const RegistrationForm = () => {
         return;
       }
 
-      createCustomer(customerData,apiRoot!)
+      createCustomer(customerData, apiRoot!)
         .then((response: CustomerSignInResult) => {
           console.log('Customer created:', response);
-          setApiRoot(clientWithPassword(
-            customerData.email,
-            customerData.password
-          ));
+          setApiRoot(
+            clientWithPassword(customerData.email, customerData.password)
+          );
           setErrors({});
           setSuccess(true);
           setToastShown(false);

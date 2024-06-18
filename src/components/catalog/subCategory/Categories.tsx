@@ -7,7 +7,6 @@ import { UserContext } from '../../../context/userContext';
 import { ProductsInterface } from '../../../Interfaces/productsInterface';
 
 function Categories(props: ProductsInterface): React.JSX.Element {
-
   const [response, setResponse] = useState<Category[]>([]);
   const [parentId, setParentId] = useState('');
   const [subParentId, setSubParentId] = useState('');

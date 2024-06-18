@@ -1,4 +1,10 @@
-import React, { createContext, useState, ReactNode, useCallback, useEffect } from 'react';
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from 'react';
 import { clientMaker } from '../../sdk/createClient';
 import { getMyCart } from '../../sdk/basketApi';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
@@ -13,9 +19,9 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType>({
   apiRoot: null,
-  setApiRoot: () => { },
+  setApiRoot: () => {},
   cart: null,
-  setCart: () => { },
+  setCart: () => {},
 });
 
 interface UserProviderProps {
@@ -28,10 +34,10 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [apiRoot, setApiRoot] = useState(initialValue);
   const [cart, setCart] = useState<Cart | null>(null);
 
-  const fetchData = useCallback((async () => {
+  const fetchData = useCallback(async () => {
     const myCart = await getMyCart(apiRoot);
     if (myCart) setCart(myCart);
-  }), [apiRoot]);
+  }, [apiRoot]);
 
   useEffect(() => {
     void fetchData();

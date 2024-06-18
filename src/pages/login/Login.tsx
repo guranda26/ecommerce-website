@@ -10,8 +10,10 @@ import { isExist } from '../../../sdk/myToken';
 import { authenticateUser } from '../../../sdk/userApi';
 import { routes } from '../../modules/routes';
 import { useFormik } from 'formik';
-import { LoginFormErrors, LoginFormValues } from '../../Interfaces/loginInterface';
-
+import {
+  LoginFormErrors,
+  LoginFormValues,
+} from '../../Interfaces/loginInterface';
 
 const Login: React.FC = () => {
   const { apiRoot, setApiRoot } = useContext(UserContext);
