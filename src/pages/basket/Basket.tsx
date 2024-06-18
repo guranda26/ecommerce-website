@@ -158,7 +158,7 @@ const BasketPage: React.FC = () => {
   }
 
   return (
-    <section className="shopping-cart">
+    <section className="shopping-cart items">
       <h2 className="shopping-heading">Your Shopping Cart</h2>
       <div className="cart-items">
         {cartItems.map((item) => (
@@ -175,7 +175,7 @@ const BasketPage: React.FC = () => {
               >
                 Remove from Cart
               </button>
-              <h3>{item.name}</h3>
+              <h3 className="item-heading">{item.name}</h3>
               <p>Price: ${item.price.toFixed(2)}</p>
               <div className="quantity-control num-wrap">
                 <button
@@ -196,8 +196,9 @@ const BasketPage: React.FC = () => {
                   <FontAwesomeIcon className="basket-image" icon={faPlus} />
                 </button>
               </div>
-              <p>Quantity: {item.quantity}</p>
-              <p>Total: ${item.totalPrice.toFixed(2)}</p>
+              <p className="total-price">
+                Total: ${item.totalPrice.toFixed(2)}
+              </p>
             </div>
           </div>
         ))}
