@@ -10,12 +10,13 @@ import {
   removeProductFromCart,
   updateProductQuantity,
 } from '../../../sdk/basketApi';
-import { formatCartItem } from './utils/formatCartItem';
+import { setFormat } from './utils/formatCartItem';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CartItem } from '../../Interfaces/cartsInterface';
 import { UserContext } from '../../context/userContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import ClearBasketButton from '../../components/basket/ClearCartButton';
 
 const BasketPage: React.FC = () => {
   const { apiRoot, cart, setCart } = useContext(UserContext);
@@ -37,10 +38,7 @@ const BasketPage: React.FC = () => {
             setLoading(false);
             return;
           }
-          setCart(myCart);
-          const items = myCart.lineItems.map(formatCartItem);
-          setCartItems(items);
-          setTotalCost(myCart.totalPrice.centAmount / 100);
+          setFormat(myCart, setCart, setCartItems, setTotalCost);
         }
       } catch (err) {
         console.error('Error loading cart items:', (err as Error)?.message);
@@ -80,10 +78,7 @@ const BasketPage: React.FC = () => {
       if (success) {
         const updatedCart = await getMyCart(apiRoot);
         if (updatedCart) {
-          setCart(updatedCart);
-          const updatedItems = updatedCart.lineItems.map(formatCartItem);
-          setCartItems(updatedItems);
-          setTotalCost(updatedCart.totalPrice.centAmount / 100);
+          setFormat(updatedCart, setCart, setCartItems, setTotalCost);
         }
       } else {
         setError('Failed to remove item from cart.');
@@ -112,10 +107,7 @@ const BasketPage: React.FC = () => {
         newQuantity
       );
       if (updatedCart) {
-        setCart(updatedCart);
-        const updatedItems = updatedCart.lineItems.map(formatCartItem);
-        setCartItems(updatedItems);
-        setTotalCost(updatedCart.totalPrice.centAmount / 100);
+        setFormat(updatedCart, setCart, setCartItems, setTotalCost);
       } else {
         setError('Failed to update item quantity.');
       }
@@ -155,14 +147,13 @@ const BasketPage: React.FC = () => {
         promoCode
       );
       if (updatedCart) {
-        setCart(updatedCart);
-        const updatedItems = updatedCart.lineItems.map(formatCartItem);
-        setCartItems(updatedItems);
-        setTotalCost(updatedCart.totalPrice.centAmount / 100);
+        setFormat(updatedCart, setCart, setCartItems, setTotalCost);
         setPromoCodeApplied(true);
         setPromoCodeError(null);
       } else {
-        setPromoCodeError('Not valid promo code');
+        setPromoCodeError(
+          'Not valid promo code (For reviewers: please enter BOGO)'
+        );
       }
     } catch (err) {
       console.error('Error applying promo code:', err);
@@ -289,6 +280,8 @@ const BasketPage: React.FC = () => {
           )}
         </div>
       </div>
+
+      <ClearBasketButton setCartItems={setCartItems} />
     </section>
   );
 };

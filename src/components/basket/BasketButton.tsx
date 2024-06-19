@@ -64,7 +64,7 @@ function BasketButton(props: {
   return (
     <>
       {loading ? (
-        <CircularProgress className='progress' disableShrink />
+        <CircularProgress className="progress" disableShrink />
       ) : errorMessage ? (
         <p className="basket-error">There are some error</p>
       ) : (

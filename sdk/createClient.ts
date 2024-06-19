@@ -120,8 +120,6 @@ export const clientMaker = () => {
         fetch,
     };
 
-
-
     if (isExist()) {
         const authorization: string = `Bearer ${getToken()}`;
         const existTokenOptions: ExistingTokenMiddlewareOptions = {
