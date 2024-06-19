@@ -147,7 +147,7 @@ export const clientMaker = () => {
             .withLoggerMiddleware()
             .build();
     }
-    else {
+    if (!isExistAnonymToken() && !isExist()) {
         client = new ClientBuilder()
             .withProjectKey(projectKey)
             .withClientCredentialsFlow(authMiddlewareOptions)

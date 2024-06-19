@@ -25,6 +25,7 @@ export class MyTokenCache implements TokenCache {
     }
 
     saveToken() {
+        console.log(this.cacheName);
         if (this.cacheName === cacheName.AnonymUser) {
             localStorage.removeItem(cacheName.Login);
         }

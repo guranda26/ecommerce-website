@@ -70,7 +70,7 @@ function BasketButton(props: {
       ) : (
         <div className="basket">
           {product.masterVariant.availability?.availableQuantity &&
-            !isDisabled ? (
+          !isDisabled ? (
             <div className="basket-wrap">
               <div className="num-wrap">
                 <button
@@ -95,7 +95,7 @@ function BasketButton(props: {
                         product.masterVariant?.availability
                           ?.availableQuantity &&
                         prev <
-                        product.masterVariant?.availability?.availableQuantity
+                          product.masterVariant?.availability?.availableQuantity
                       )
                         return prev + 1;
                       return prev;
