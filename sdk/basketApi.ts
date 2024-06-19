@@ -203,17 +203,32 @@ export const isExistProductMyCart = (productId: string, cart: Cart) => {
   return product !== undefined;
 };
 
-export const getActivePromoCodes = async (
-  apiRoot: ByProjectKeyRequestBuilder
+export const applyPromoCodeToCart = async (
+  apiRoot: ByProjectKeyRequestBuilder,
+  cartId: string,
+  version: number,
+  promoCode: string
 ) => {
   try {
-    const response = await apiRoot.discountCodes().get().execute();
-    if (response.statusCode === 200) {
-      return response.body.results.filter((code) => code.isActive);
-    }
-    return [];
+    const response = await apiRoot
+      .carts()
+      .withId({ ID: cartId })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: promoCode,
+            },
+          ],
+        },
+      })
+      .execute();
+
+    return response.body;
   } catch (error) {
-    console.error('Error fetching promo codes:', error);
-    return [];
+    console.error('Error applying promo code to cart:', error);
+    return null;
   }
 };

@@ -14,8 +14,7 @@ import {
   isExistProductMyCart,
 } from '../../../sdk/basketApi';
 import { UserContext } from '../../../src/context/userContext';
-import { CircularProgress } from '@mui/material';
-
+import CircularProgress from '@mui/material/CircularProgress';
 function BasketButton(props: {
   product: ProductProjection;
 }): React.JSX.Element {

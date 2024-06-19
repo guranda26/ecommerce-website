@@ -5,6 +5,7 @@ import { routes } from '../../modules/routes';
 
 import React, { useContext, useEffect, useState } from 'react';
 import {
+  applyPromoCodeToCart,
   getMyCart,
   removeProductFromCart,
   updateProductQuantity,
@@ -14,13 +15,17 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CartItem } from '../../Interfaces/cartsInterface';
 import { UserContext } from '../../context/userContext';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const BasketPage: React.FC = () => {
-  const { apiRoot, cart, setCart } = useContext(UserContext); // Access apiRoot and cart from context
+  const { apiRoot, cart, setCart } = useContext(UserContext);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [totalCost, setTotalCost] = useState<number>(0);
+  const [promoCode, setPromoCode] = useState<string>('');
+  const [promoCodeError, setPromoCodeError] = useState<string | null>(null);
+  const [promoCodeApplied, setPromoCodeApplied] = useState<boolean>(false);
 
   useEffect(() => {
     const loadCart = async () => {
@@ -35,6 +40,7 @@ const BasketPage: React.FC = () => {
           setCart(myCart);
           const items = myCart.lineItems.map(formatCartItem);
           setCartItems(items);
+          setTotalCost(myCart.totalPrice.centAmount / 100);
         }
       } catch (err) {
         console.error('Error loading cart items:', (err as Error)?.message);
@@ -77,6 +83,7 @@ const BasketPage: React.FC = () => {
           setCart(updatedCart);
           const updatedItems = updatedCart.lineItems.map(formatCartItem);
           setCartItems(updatedItems);
+          setTotalCost(updatedCart.totalPrice.centAmount / 100); // Update total cost
         }
       } else {
         setError('Failed to remove item from cart.');
@@ -108,6 +115,7 @@ const BasketPage: React.FC = () => {
         setCart(updatedCart);
         const updatedItems = updatedCart.lineItems.map(formatCartItem);
         setCartItems(updatedItems);
+        setTotalCost(updatedCart.totalPrice.centAmount / 100); // Update total cost
       } else {
         setError('Failed to update item quantity.');
       }
@@ -133,8 +141,43 @@ const BasketPage: React.FC = () => {
     }
   };
 
+  const handleApplyPromoCode = async () => {
+    if (!apiRoot || !cart) {
+      setPromoCodeError('No apiRoot or cart found.');
+      return;
+    }
+
+    try {
+      const updatedCart = await applyPromoCodeToCart(
+        apiRoot,
+        cart.id,
+        cart.version,
+        promoCode
+      );
+      if (updatedCart) {
+        setCart(updatedCart);
+        const updatedItems = updatedCart.lineItems.map(formatCartItem);
+        setCartItems(updatedItems);
+        setTotalCost(updatedCart.totalPrice.centAmount / 100);
+        setPromoCodeApplied(true);
+        setPromoCodeError(null);
+      } else {
+        setPromoCodeError(
+          'Not valid promo code (For reviewers: please enter BOGO)'
+        );
+      }
+    } catch (err) {
+      console.error('Error applying promo code:', err);
+      setPromoCodeError('Failed to apply promo code.');
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPromoCode(event.target.value);
+  };
+
   if (loading) {
-    return <p>Loading cart items...</p>;
+    return <CircularProgress />;
   }
 
   if (error) {
@@ -205,9 +248,47 @@ const BasketPage: React.FC = () => {
             </div>
           </div>
         ))}
+        {!promoCodeApplied && (
+          <div className="apply-promo-code">
+            <input
+              type="text"
+              placeholder="Enter promo code"
+              className="promo-input"
+              value={promoCode}
+              onChange={handleInputChange}
+            />
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                void handleApplyPromoCode();
+              }}
+              className="remove-cart apply-promo-code"
+            >
+              Apply
+            </button>
+            {promoCodeError && (
+              <p className="promo-code-error">
+                <span className="error-icon">⚠️</span> {error}
+                {promoCodeError}
+              </p>
+            )}
+          </div>
+        )}
         <div className="total-cost">
           <h3>Total:</h3>
-          <p>${totalCost.toFixed(2)}</p>
+          {!promoCodeApplied ? (
+            <span>${totalCost.toFixed(2)}</span>
+          ) : (
+            <>
+              <span className="original-cost">${totalCost.toFixed(2)}</span>
+              <span className="discounted-cost">
+                $
+                {cart?.totalPrice?.centAmount
+                  ? cart.totalPrice.centAmount / 100
+                  : '0.00'}
+              </span>
+            </>
+          )}
         </div>
       </div>
     </section>
