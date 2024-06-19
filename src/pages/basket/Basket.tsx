@@ -83,7 +83,7 @@ const BasketPage: React.FC = () => {
           setCart(updatedCart);
           const updatedItems = updatedCart.lineItems.map(formatCartItem);
           setCartItems(updatedItems);
-          setTotalCost(updatedCart.totalPrice.centAmount / 100); // Update total cost
+          setTotalCost(updatedCart.totalPrice.centAmount / 100);
         }
       } else {
         setError('Failed to remove item from cart.');
@@ -115,7 +115,7 @@ const BasketPage: React.FC = () => {
         setCart(updatedCart);
         const updatedItems = updatedCart.lineItems.map(formatCartItem);
         setCartItems(updatedItems);
-        setTotalCost(updatedCart.totalPrice.centAmount / 100); // Update total cost
+        setTotalCost(updatedCart.totalPrice.centAmount / 100);
       } else {
         setError('Failed to update item quantity.');
       }
@@ -162,9 +162,7 @@ const BasketPage: React.FC = () => {
         setPromoCodeApplied(true);
         setPromoCodeError(null);
       } else {
-        setPromoCodeError(
-          'Not valid promo code (For reviewers: please enter BOGO)'
-        );
+        setPromoCodeError('Not valid promo code');
       }
     } catch (err) {
       console.error('Error applying promo code:', err);
