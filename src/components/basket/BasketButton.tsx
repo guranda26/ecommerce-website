@@ -49,6 +49,7 @@ function BasketButton(props: {
         const response = await deleteProductInCart(product, cart, apiRoot);
         if (response?.statusCode === 200) {
           setDisabled(false);
+          setCart(response.body);
         }
         else {
           setErrorMessage(true);
