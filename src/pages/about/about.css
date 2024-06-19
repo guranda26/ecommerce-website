@@ -1,0 +1,132 @@
+/* Desktop Styles */
+.school-section {
+  color: white;
+  background-color: #ffda1f;
+  margin-bottom: 20px;
+  padding: 20px 0;
+  position: relative;
+}
+
+.school-section a {
+  display: inline-block;
+}
+
+.rs-school-logo {
+  height: auto;
+  left: 20px;
+  position: absolute;
+  top: 15px;
+  width: 100px;
+}
+
+.team-section,
+.collaboration-section,
+.conclusion-section {
+  background: #fff;
+  font-family: auto;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.collaboration-section p,
+.conclusion-section p {
+  margin-top: 15px;
+  text-align: left;
+}
+
+.team-member {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.team-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: contain;
+}
+
+.team-member:nth-of-type(2) .team-photo {
+  object-fit: cover;
+}
+
+.team-info {
+  max-width: 800px;
+}
+
+.team-info h3 {
+  margin: 0 0 10px 0;
+}
+
+.team-info .role {
+  font-style: italic;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.team-info .bio {
+  margin: 10px 0;
+}
+
+.github-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #4caf50;
+  text-decoration: none;
+}
+
+.github-link:hover {
+  text-decoration: underline;
+}
+
+/* Tablet Styles */
+@media (max-width: 768px) {
+  .team-member {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .team-photo {
+    margin: 0 0 10px 0;
+  }
+
+  .team-info {
+    max-width: 100%;
+  }
+
+  .rs-school-logo {
+    width: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 480px) {
+  .team-section,
+  .collaboration-section,
+  .conclusion-section {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .team-photo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .rs-school-logo {
+    width: 60px;
+    top: 20px;
+  }
+
+  .github-link {
+    font-size: 14px;
+  }
+}

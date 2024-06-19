@@ -45,24 +45,6 @@ export const getMyCart = async (
   return myCart;
 };
 
-// export const getCart = async (id: string) => {
-//     console.log("getCart...");
-//     const apiRoot = clientMaker();
-//     try {
-//         const response = await apiRoot
-//             .me()
-//             .carts()
-//             .withId({
-//                 ID: id
-//             })
-//             .get()
-//             .execute();
-//         return response.body;
-//     } catch (error) {
-//         console.error('Error fetching product :', error);
-//     }
-// }
-
 export const getCart = async (
   id: string,
   apiRoot: ByProjectKeyRequestBuilder

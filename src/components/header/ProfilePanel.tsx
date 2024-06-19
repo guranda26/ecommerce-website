@@ -17,6 +17,7 @@ function ProfilePanel(props: {
     setIsLogin(false);
     localStorage.removeItem('myCache');
     const newApiRoot = clientMaker();
+    console.log('NewApiRoot:', newApiRoot);
     setApiRoot(newApiRoot);
     navigate(routes.home);
   };
