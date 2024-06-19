@@ -35,8 +35,7 @@ function BasketButton(props: {
     if (response?.statusCode === 200) {
       setDisabled(true);
       setCart(response.body);
-    }
-    else {
+    } else {
       setErrorMessage(true);
     }
     setLoading(false);
@@ -50,91 +49,92 @@ function BasketButton(props: {
         if (response?.statusCode === 200) {
           setDisabled(false);
           setCart(response.body);
-        }
-        else {
+        } else {
           setErrorMessage(true);
         }
         setLoading(false);
       })();
     }
-
   };
 
   useEffect(() => {
     if (errorMessage === true) {
       setTimeout(() => {
         setErrorMessage(false);
-      }, 500)
+      }, 500);
     }
   }, [errorMessage]);
 
   return (
     <>
-      {
-        loading ? <CircularProgress /> :
-          (
-            errorMessage ? <p className='basket-error'>There are some error</p> :
-              <div className="basket">
-                {product.masterVariant.availability?.availableQuantity &&
-                  !isDisabled ? (
-                  <div className="basket-wrap">
-                    <div className="num-wrap">
-                      <button
-                        className="num-btn"
-                        title={`Remove one pcs ${product.name['en-US']}`}
-                        onClick={() =>
-                          setNumber((prev) => {
-                            if (prev > 1) return prev - 1;
-                            return prev;
-                          })
-                        }
-                      >
-                        {<FontAwesomeIcon className="num-image" icon={faMinus} />}
-                      </button>
-                      <p className="num">{number}</p>
-                      <button
-                        className="num-btn"
-                        title={`Add one pcs ${product.name['en-US']}`}
-                        onClick={() =>
-                          setNumber((prev) => {
-                            if (
-                              product.masterVariant?.availability?.availableQuantity &&
-                              prev <
-                              product.masterVariant?.availability?.availableQuantity
-                            )
-                              return prev + 1;
-                            return prev;
-                          })
-                        }
-                      >
-                        {<FontAwesomeIcon className="num-image" icon={faPlus} />}
-                      </button>
-                    </div>
-                    <button
-                      className="basket-btn"
-                      title={`Add ${number} pcs ${product.name['en-US']} to basket`}
-                      onClick={() => void handleBasket(product)}
-                    >
-                      <FontAwesomeIcon className="basket-image" icon={faCartPlus} />
-                    </button>
-                  </div>
-                ) : !product.masterVariant.availability?.availableQuantity ? (
-                  <button
-                    className="basket-btn disabled"
-                    title={`Cannot add ${product.name['en-US']} to basket`}
-                  >
-                    <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
-                  </button>
-                ) : (
-                  <button
-                    className="basket-btn disabled"
-                    title={`Remove ${product.name['en-US']} from basket`}
-                    onClick={() => deleteProduct(product)}
-                  >
-                    <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
-                  </button>
-                )}
-              </div>)}
+      {loading ? (
+        <CircularProgress />
+      ) : errorMessage ? (
+        <p className="basket-error">There are some error</p>
+      ) : (
+        <div className="basket">
+          {product.masterVariant.availability?.availableQuantity &&
+          !isDisabled ? (
+            <div className="basket-wrap">
+              <div className="num-wrap">
+                <button
+                  className="num-btn"
+                  title={`Remove one pcs ${product.name['en-US']}`}
+                  onClick={() =>
+                    setNumber((prev) => {
+                      if (prev > 1) return prev - 1;
+                      return prev;
+                    })
+                  }
+                >
+                  {<FontAwesomeIcon className="num-image" icon={faMinus} />}
+                </button>
+                <p className="num">{number}</p>
+                <button
+                  className="num-btn"
+                  title={`Add one pcs ${product.name['en-US']}`}
+                  onClick={() =>
+                    setNumber((prev) => {
+                      if (
+                        product.masterVariant?.availability
+                          ?.availableQuantity &&
+                        prev <
+                          product.masterVariant?.availability?.availableQuantity
+                      )
+                        return prev + 1;
+                      return prev;
+                    })
+                  }
+                >
+                  {<FontAwesomeIcon className="num-image" icon={faPlus} />}
+                </button>
+              </div>
+              <button
+                className="basket-btn"
+                title={`Add ${number} pcs ${product.name['en-US']} to basket`}
+                onClick={() => void handleBasket(product)}
+              >
+                <FontAwesomeIcon className="basket-image" icon={faCartPlus} />
+              </button>
+            </div>
+          ) : !product.masterVariant.availability?.availableQuantity ? (
+            <button
+              className="basket-btn disabled"
+              title={`Cannot add ${product.name['en-US']} to basket`}
+            >
+              <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
+            </button>
+          ) : (
+            <button
+              className="basket-btn disabled"
+              title={`Remove ${product.name['en-US']} from basket`}
+              onClick={() => deleteProduct(product)}
+            >
+              <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
+            </button>
+          )}
+        </div>
+      )}
     </>
   );
 }
