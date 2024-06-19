@@ -105,19 +105,36 @@ const refreshOption: RefreshAuthMiddlewareOptions = {
     fetch,
 }
 
+const refreshOptionLogin: RefreshAuthMiddlewareOptions = {
+    host: authUrl,
+    projectKey: projectKey,
+    credentials: {
+        clientId: clientId,
+        clientSecret: clientSecret,
+    },
+    refreshToken: getRefreshToken() || '',
+    tokenCache: tokenStoreForLogin,
+    fetch,
+}
+
 export const clientMaker = () => {
     let client: Client;
 
-    if (!isExist() && !isExistAnonymToken()) {
+    if (isExist()) {
+        const authorization: string = `Bearer ${getToken()}`;
+        const existTokenOptions: ExistingTokenMiddlewareOptions = {
+            force: true,
+        };
         client = new ClientBuilder()
             .withProjectKey(projectKey)
-            .withClientCredentialsFlow(authMiddlewareOptions)
-            .withAnonymousSessionFlow(withAnonymousSessionFlowOptions)
+            .withRefreshTokenFlow(refreshOptionLogin)
+            .withExistingTokenFlow(authorization, existTokenOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
             .withLoggerMiddleware()
             .build();
     }
-    else {
+
+    if (isExistAnonymToken()) {
         const authorization: string = `Bearer ${getToken()}`;
         const existTokenOptions: ExistingTokenMiddlewareOptions = {
             force: true,
@@ -126,6 +143,15 @@ export const clientMaker = () => {
             .withProjectKey(projectKey)
             .withRefreshTokenFlow(refreshOption)
             .withExistingTokenFlow(authorization, existTokenOptions)
+            .withHttpMiddleware(httpMiddlewareOptions)
+            .withLoggerMiddleware()
+            .build();
+    }
+    else {
+        client = new ClientBuilder()
+            .withProjectKey(projectKey)
+            .withClientCredentialsFlow(authMiddlewareOptions)
+            .withAnonymousSessionFlow(withAnonymousSessionFlowOptions)
             .withHttpMiddleware(httpMiddlewareOptions)
             .withLoggerMiddleware()
             .build();
