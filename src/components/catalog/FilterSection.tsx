@@ -117,7 +117,7 @@ function FilterSection(props: ProductsInterface): React.JSX.Element {
               ref={checkboxRef}
               type="checkbox"
               name="discount"
-              id="discout"
+              id="discount"
             />
           </label>
           <div className="price-wrapper">
