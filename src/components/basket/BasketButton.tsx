@@ -2,12 +2,9 @@ import { ProductProjection } from '@commercetools/platform-sdk';
 import React, { useContext, useEffect, useState } from 'react';
 import './basket.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCartPlus,
-  faCartShopping,
-  faMinus,
-  faPlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { BsCartCheckFill } from 'react-icons/bs';
+
 import {
   addProductToCart,
   deleteProductInCart,
@@ -121,7 +118,7 @@ function BasketButton(props: {
               className="basket-btn disabled"
               title={`Cannot add ${product.name['en-US']} to basket`}
             >
-              <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
+              <BsCartCheckFill className="basket-image" />
             </button>
           ) : (
             <button
@@ -129,7 +126,7 @@ function BasketButton(props: {
               title={`Remove ${product.name['en-US']} from basket`}
               onClick={() => deleteProduct(product)}
             >
-              <FontAwesomeIcon className="basket-image" icon={faCartShopping} />
+              <BsCartCheckFill className="basket-image" />
             </button>
           )}
         </div>
