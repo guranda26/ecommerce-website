@@ -1,4 +1,5 @@
-.basket {
+.basket,
+.basket-error {
   position: absolute;
   bottom: 15px;
   right: 40px;
@@ -62,7 +63,8 @@
   padding: 10px;
 }
 
-.price-basket .basket {
+.price-basket .basket,
+.price-basket .basket-error {
   position: static;
   margin-left: auto;
 }
@@ -80,4 +82,9 @@
 
 .price-basket-content .num {
   font-size: 32px;
+}
+
+.basket-error {
+  font-size: 11px;
+  color: var(--accent-color);
 }
