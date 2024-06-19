@@ -19,9 +19,9 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType>({
   apiRoot: null,
-  setApiRoot: () => { },
+  setApiRoot: () => {},
   cart: null,
-  setCart: () => { },
+  setCart: () => {},
 });
 
 interface UserProviderProps {
@@ -29,7 +29,6 @@ interface UserProviderProps {
 }
 
 const initialValue = clientMaker();
-
 
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [apiRoot, setApiRoot] = useState(initialValue);
@@ -39,8 +38,6 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     await apiRoot.get().execute();
     const myCart = await getMyCart(apiRoot);
     if (myCart) setCart(myCart);
-
-
   }, [apiRoot]);
 
   useEffect(() => {

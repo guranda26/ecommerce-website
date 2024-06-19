@@ -1,4 +1,4 @@
-import { Cart, ProductProjection } from '@commercetools/platform-sdk';
+import { Cart, CartUpdateAction, ProductProjection } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 import { isExist, isExistAnonymToken } from './myToken';
 
@@ -232,3 +232,40 @@ export const applyPromoCodeToCart = async (
     return null;
   }
 };
+
+export const clearBasket = async (
+  apiRoot: ByProjectKeyRequestBuilder,
+  cart: Cart,
+) => {
+  const { lineItems, id, version } = cart;
+  const actions = lineItems.map((lineItem) => {
+    return {
+      action: 'removeLineItem',
+      lineItemId: lineItem?.id,
+      quantity: lineItem?.quantity,
+      externalPrice: {
+        currencyCode: 'EUR',
+        centAmount: lineItem?.price.value.centAmount || 0,
+      },
+    }
+  }
+  ) as CartUpdateAction[];
+
+  try {
+    const response = await apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions,
+        },
+      })
+      .execute();
+
+    if (response.statusCode === 200) return response.body;
+  } catch (error) {
+    console.error('Error clear basket:', error);
+  }
+  return null;
+}

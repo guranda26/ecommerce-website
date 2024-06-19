@@ -1,4 +1,4 @@
-import { LineItem } from '@commercetools/platform-sdk';
+import { Cart, LineItem } from '@commercetools/platform-sdk';
 import { CartItem } from '../../../Interfaces/cartsInterface';
 
 export const calculateDiscountedPrice = (item: LineItem): number => {
@@ -22,3 +22,15 @@ export const formatCartItem = (item: LineItem): CartItem => ({
   totalPrice: calculateDiscountedPrice(item) * (item.quantity || 0),
   lineItemId: item.id,
 });
+
+export const setFormat = (
+  myCart: Cart,
+  setCart: (newCart: Cart) => void,
+  setCartItems: (value: React.SetStateAction<CartItem[]>) => void,
+  setTotalCost: (value: React.SetStateAction<number>) => void
+) => {
+  setCart(myCart);
+  const items = myCart.lineItems.map(formatCartItem);
+  setCartItems(items);
+  setTotalCost(myCart.totalPrice.centAmount / 100);
+};

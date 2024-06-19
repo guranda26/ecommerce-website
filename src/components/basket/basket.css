@@ -90,3 +90,11 @@
   font-size: 11px;
   color: var(--accent-color);
 }
+
+.clear-basket .progress,
+.clear-basket .basket-error {
+  font-size: 18px;
+  position: relative;
+  bottom: auto;
+  right: auto;
+}
