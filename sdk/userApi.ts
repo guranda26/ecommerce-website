@@ -23,6 +23,7 @@ export const authenticateUser = async (
 
         if (response.statusCode === 200) {
             const newApiRoot = clientWithPassword(email, password);
+            console.log("NewApi:", newApiRoot);
             setApiRoot(newApiRoot);
             return true;
         } else {

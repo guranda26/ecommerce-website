@@ -16,6 +16,13 @@ export class MyTokenCache implements TokenCache {
         this.cacheName = cacheName;
     }
 
+    public refreshTokenStore() {
+        this.myCache = {
+            token: '',
+            expirationTime: 0,
+            refreshToken: undefined,
+        }
+    }
 
     saveToken() {
         if (this.cacheName === cacheName.AnonymUser) {
