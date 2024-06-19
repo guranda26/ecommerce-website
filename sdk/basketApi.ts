@@ -220,3 +220,18 @@ export const isExistProductMyCart = (productId: string, cart: Cart) => {
   const product = findLineItem(productId, cart);
   return product !== undefined;
 };
+
+export const getActivePromoCodes = async (
+  apiRoot: ByProjectKeyRequestBuilder
+) => {
+  try {
+    const response = await apiRoot.discountCodes().get().execute();
+    if (response.statusCode === 200) {
+      return response.body.results.filter((code) => code.isActive);
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching promo codes:', error);
+    return [];
+  }
+};
