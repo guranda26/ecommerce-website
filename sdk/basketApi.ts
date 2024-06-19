@@ -19,18 +19,20 @@ export const createCart = async (
   return response.body;
 };
 
-export const getMyCart = async (apiRoot: ByProjectKeyRequestBuilder) => {
+export const getMyCart = async (
+  apiRoot: ByProjectKeyRequestBuilder
+): Promise<Cart | null> => {
   let myCart: Cart | null = null;
-
-  if (isExist()) {
-    const response = await apiRoot.me().activeCart().get().execute();
-    myCart = response.body;
-  }
   try {
     if (isExistAnonymToken()) {
       const response = await apiRoot.me().carts().get().execute();
       if (response.statusCode === 200 && response.body.results.length > 0) {
         myCart = response.body.results[0];
+      }
+    } else if (isExist()) {
+      const response = await apiRoot.me().activeCart().get().execute();
+      if (response.statusCode === 200) {
+        myCart = response.body;
       }
     }
 
@@ -199,4 +201,34 @@ export const updateProductQuantity = async (
 export const isExistProductMyCart = (productId: string, cart: Cart) => {
   const product = findLineItem(productId, cart);
   return product !== undefined;
+};
+
+export const applyPromoCodeToCart = async (
+  apiRoot: ByProjectKeyRequestBuilder,
+  cartId: string,
+  version: number,
+  promoCode: string
+) => {
+  try {
+    const response = await apiRoot
+      .carts()
+      .withId({ ID: cartId })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: promoCode,
+            },
+          ],
+        },
+      })
+      .execute();
+
+    return response.body;
+  } catch (error) {
+    console.error('Error applying promo code to cart:', error);
+    return null;
+  }
 };

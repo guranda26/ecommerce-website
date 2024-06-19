@@ -20,6 +20,7 @@ const TextInput: React.FC<TextInputProps> = ({
       onChange={onChange}
       className={className}
       required
+      autoComplete="off"
     />
   );
 };

@@ -1,4 +1,3 @@
-// PasswordInput.tsx
 import React from 'react';
 import visibilityIcon from '../../assets/images/visibility_icon.png';
 import notVisibilityIcon from '../../assets/images/not-visible.png';
@@ -23,6 +22,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
           placeholder="Password"
           onChange={(e) => onPasswordChange(e.target.value)}
           className={error ? 'error-input' : 'normal-input'}
+          autoComplete="new-password"
         />
         <div onClick={() => setVisible(!visible)} className="icon-container">
           <img
