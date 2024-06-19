@@ -42,6 +42,11 @@
   letter-spacing: 0;
 }
 
+.promo-text {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
 @media screen and (max-width: 1200px) {
   .features {
     padding: 50px;

@@ -9,6 +9,10 @@ function Features(): React.JSX.Element {
       <div className="content">
         <h2 className="content-header">New Arrival</h2>
         <p className="content-text__bold">Discover Our New Collection </p>
+        <p className="content-text promo-text">
+          Only today! Apply promo code: &quot;MOGO&quot; and get special
+          discounts!
+        </p>
         <p className="section-text content-text">
           Buying new furniture allows you to create your own unique style and
           ambiance in your home, whether you prefer a modern, minimalist,
