@@ -9,6 +9,7 @@ import {
   faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
 import { routes } from '../../modules/routes';
+import ProductNumber from './ProductNumber';
 
 function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
   return (
@@ -46,7 +47,8 @@ function Navbar(props: { handleBurgerBtn: VoidFunction }): React.JSX.Element {
             About us
           </NavLink>
         </li>
-        <li className="nav-item">
+        <li className="nav-item basket-item-link">
+          <ProductNumber />
           <NavLink
             title="Basket"
             className="nav-link"

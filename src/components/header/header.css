@@ -32,6 +32,22 @@
   margin-right: 5px;
 }
 
+.basket-item-link {
+  position: relative;
+}
+
+.basket-items-num {
+  position: absolute;
+  top: -5px;
+  left: 6px;
+  font-size: 11px;
+  line-height: 11px;
+  color: var(--bg-color);
+  background-color: var(--brand-color);
+  padding: 2px;
+  border-radius: 50%;
+}
+
 .profile-btn {
   display: block;
   width: 34px;
