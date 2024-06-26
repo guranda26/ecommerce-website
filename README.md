@@ -13,12 +13,14 @@ Welcome to our eCommerce application! This platform replicates real-world shoppi
 - Product categorization and sorting
 - Responsive design for various devices 📲 (Minimum resolution: 390px)
 
+## (Deployment Link)[https://sprint-w2jh.onrender.com/]
+
 ## Technology Stack 💻📚
 
 - React.js with TypeScript
 - CommerceTools API for backend
 - ESLint, Prettier, Husky for code quality
-- Jest for testing
+- Vitest for testing
 
 ## Sprint Overviews 🏁📅
 
@@ -40,14 +42,14 @@ The fourth sprint will focus on improving the Detailed Product page, building th
 
 ## Key Pages
 
-- **Login Page:** The user's entry point to the application. [More details...]()
-- **Registration Page:** Allows new users to sign up for the application. [More details...]()
-- **Main Page:** Provides links to all other essential pages. [More details...]()
-- **Catalog Product Page:** Displays a list of products in a specific category. [More details...]()
-- **Detailed Product Page:** View detailed information about a specific product. [More details...]()
-- **User Profile Page:** Displays the personal information of the user. [More details...]()
-- **Basket Page:** Allows users to view and manage the products in their basket. [More details...]()
-- **About Us Page:** Gives a brief introduction to the development team. [More details...]()
+- **Login Page:** The user's entry point to the application. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%232.md)
+- **Registration Page:** Allows new users to sign up for the application. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%232.md)
+- **Main Page:** Provides links to all other essential pages. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%232.md)
+- **Catalog Product Page:** Displays a list of products in a specific category. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%233.md)
+- **Detailed Product Page:** View detailed information about a specific product. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%233.md)
+- **User Profile Page:** Displays the personal information of the user. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%233.md)
+- **Basket Page:** Allows users to view and manage the products in their basket. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%234.md)
+- **About Us Page:** Gives a brief introduction to the development team. [More details...](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/eCommerce-Application/Sprints/Sprint%234.md)
 
 # Getting Started with Create React App
 
