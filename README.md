@@ -13,7 +13,7 @@ Welcome to our eCommerce application! This platform replicates real-world shoppi
 - Product categorization and sorting
 - Responsive design for various devices 📲 (Minimum resolution: 390px)
 
-## (Deployment Link)[https://sprint-w2jh.onrender.com/]
+## [Deployment Link](https://sprint-w2jh.onrender.com/)
 
 ## Technology Stack 💻📚
 
